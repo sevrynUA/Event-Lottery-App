@@ -1,5 +1,6 @@
 package com.example.celery_sticks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -41,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        // OPEN LOGIN SCREEN AUTOMATICALLY (will check device details in future)
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        // intent.putExtra("name of string data", string variable) // how to pass str info in case needed
+        startActivity(intent);
     }
 
     @Override
