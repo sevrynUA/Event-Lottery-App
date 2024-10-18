@@ -1,6 +1,7 @@
-package com.example.celery_sticks.ui.gallery;
+package com.example.celery_sticks.ui.myprofile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.celery_sticks.databinding.FragmentGalleryBinding;
+import com.example.celery_sticks.databinding.FragmentMyProfileBinding;
 
-public class GalleryFragment extends Fragment {
+public class MyProfileFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+    private FragmentMyProfileBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        GalleryViewModel galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+        MyProfileViewModel myProfileViewModel =
+                new ViewModelProvider(this).get(MyProfileViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentMyProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textMyProfile;
+        myProfileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

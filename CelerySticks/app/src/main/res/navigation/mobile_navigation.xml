@@ -3,23 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/my_events">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.celery_sticks.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/my_events"
+        android:name="com.example.celery_sticks.ui.myevents.MyEventsFragment"
+        android:label="My Events"
+        tools:layout="@layout/fragment_my_events" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.celery_sticks.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/event_finder"
+        android:name="com.example.celery_sticks.ui.eventfinder.EventFinderFragment"
+        android:label="Event Finder"
+        tools:layout="@layout/fragment_event_finder" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.celery_sticks.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/my_profile"
+        android:name="com.example.celery_sticks.ui.myprofile.MyProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_my_profile" />
+
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.celery_sticks.ui.settings.SettingsFragment"
+        android:label="Settings" />
+
+    <fragment
+        android:id="@+id/facility_information"
+        android:name="com.example.celery_sticks.ui.facilityinformation.FacilityInformationFragment"
+        android:label="Facility Information" />
 </navigation>
