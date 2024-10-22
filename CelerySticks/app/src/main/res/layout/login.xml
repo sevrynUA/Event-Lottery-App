@@ -7,16 +7,29 @@
 
     <TextView
         android:id="@+id/text_project_title"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="CELERY STICKS"
-        android:textColor="@color/projectGreen"
+        android:text="Celery Sticks"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.16000003" />
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="96dp"
+        android:background="@drawable/rounded_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/text_project_title"
+        app:layout_constraintEnd_toEndOf="@+id/text_project_title"
+        app:layout_constraintStart_toStartOf="@+id/text_project_title"
+        app:layout_constraintTop_toTopOf="@+id/text_project_title">
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/text_introduction"
@@ -31,24 +44,31 @@
         app:layout_constraintTop_toBottomOf="@+id/text_project_title"
         app:layout_constraintVertical_bias="0.110000014" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/entrant_button"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/projectRed"
-        android:text="Entrant"
+        android:layout_height="50dp"
+        android:background="@drawable/login_user_type_button_selected"
+        android:text="   Entrant"
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_introduction" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/organizer_button"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:backgroundTint="@color/projectRed"
-        android:text="Organizer"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/login_user_type_button_unselected"
+        android:textAllCaps="false"
+        android:text="   Organizer"
+        android:textSize="20dp"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entrant_button" />
 
