@@ -2,75 +2,206 @@ package com.example.celery_sticks;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+/**
+ * This is a class that defines an event.
+ */
 public class Event {
-    private String event_name;
-    private String event_id;
-    private ArrayList<Entrant> waitlist;
-    // implement after lottery
-    private ArrayList<Entrant> entrants;
-    private Date event_date;
-    private QRCode details_qrcode;
-    private QRCode signup_qrcode;
+    private String eventID;
 
-    public Event(String event_name, String event_id) {
-        this.event_name = event_name;
-        this.event_id = event_id;
-        this.waitlist = new ArrayList<Entrant>();
+    private Waitlist tentativeEntrants;
+    private ArrayList<Entrant> finalEntrants;
+
+    private String eventName;
+    private String description;
+    private Date eventDate;
+    private String location;
+    private int maxCapacity; // Optional max capacity
+    private String posterImage; // Path to the event poster image
+
+    private QRCode detailsQRCode;
+    private QRCode signupQRCcode;
+
+    /**
+     * Instantiates an Event object
+     * @param eventName
+     * @param eventID
+     */
+    public Event(String eventName, String eventID) {
+        this.eventName = eventName;
+        this.eventID = eventID;
+        this.tentativeEntrants = new Waitlist();
     }
 
+    /**
+     * Gets event date
+     * @return
+     * returns event date
+     */
     public Date getEventDate() {
-        return event_date;
+        return eventDate;
     }
 
+    /**
+     * Allows you to set or change event date
+     */
     public void setEventDate(Date date) {
-        this.event_date = date;
+        this.eventDate = date;
     }
 
+    /**
+     * Gets event name
+     * @return
+     * returns event name
+     */
     public String getEventName() {
-        return event_name;
+        return eventName;
     }
 
+
+    /**
+     * Allows you to set or change event name
+     */
     public void setEventName(String string) {
-        this.event_name = string;
+        this.eventName = string;
     }
 
+    /**
+     * Gets event description
+     * @return
+     * returns event description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Allows you to set or change event description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Gets event location
+     * @return
+     * returns event location
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Allows you to set or change event location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * Gets optional max capacity for event
+     * @return
+     * returns optional max capacity for event
+     */
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    /**
+     * Allows you to set or change optional event max capacity
+     */
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    /**
+     * Gets events poster image
+     * @return
+     * returns Event poster image
+     */
+    public String getPosterImage() {
+        return posterImage;
+    }
+
+    /**
+     * Allows you to set or change event poster image
+     */
+    public void setPosterImage(String posterImage) {
+        this.posterImage = posterImage;
+    }
+
+    /**
+     * Gets events ID
+     * @return
+     * returns Event poster image
+     */
     public String getEventId() {
-        return event_id;
+        return eventID;
     }
 
+    /**
+     * Sets event ID
+     */
     public void setEventId(String string) {
-        this.event_id = string;
+        this.eventID = string;
     }
 
+
+    /**
+     * Gets QR code details for event
+     * @return
+     * returns event QR code details
+     */
     public QRCode getDetailsQRCode() {
-        return details_qrcode;
+        return detailsQRCode;
     }
 
+
+    /**
+     * Allows you to set QR details for event
+     */
     public void setDetailsQRCode(QRCode qrcode) {
-        this.details_qrcode = qrcode;
+        this.detailsQRCode = qrcode;
     }
 
+    /**
+     * Gets QR code for event
+     * @return
+     * returns event QR code
+     */
     public QRCode getSignupQRCode() {
-        return signup_qrcode;
+        return signupQRCcode;
     }
 
+    /**
+     * Allows you to set or change QR code for event
+     */
     public void setSignupQRCode(QRCode qrcode) {
-        this.signup_qrcode = qrcode;
+        this.signupQRCcode = qrcode;
     }
 
-    public ArrayList<Entrant> getWaitlist() {
-        return waitlist;
+    /**
+     * Gets event Waitlist
+     * @return
+     * returns waitlist
+     */
+    public List<Entrant> getWaitlistEntrants() {
+        return tentativeEntrants.getEntrants();
     }
 
+    /**
+     * Allows users to be added to waitlist
+     */
     public void addToWaitlist(Entrant entrant) {
-        if (! waitlist.contains(entrant)) {
-            waitlist.add(entrant);
-        }
+        tentativeEntrants.addEntrant(entrant);
     }
 
+    /**
+     * Allows users to be removed from waitlist
+     */
     public void removeFromWaitlist(Entrant entrant) {
-        waitlist.remove(entrant);
+        tentativeEntrants.removeEntrant(entrant);
     }
 
 }
