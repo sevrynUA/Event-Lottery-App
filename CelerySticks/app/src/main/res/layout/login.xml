@@ -48,7 +48,7 @@
         android:id="@+id/entrant_button"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:background="@drawable/login_user_type_button_unselected"
+        android:background="@drawable/login_user_type_button_selected"
         android:text="   Entrant"
         android:textAlignment="textStart"
         android:textAllCaps="false"

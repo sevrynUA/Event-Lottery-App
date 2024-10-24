@@ -13,52 +13,71 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <RelativeLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingBottom="5dp">
+        android:layout_height="204dp"
+        android:layout_gravity="center">
+
+
+        <RelativeLayout
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignTop="@+id/icon_initials"
+            android:layout_alignBottom="@+id/icon_initials"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/rounded_rectangle_filled"
+            app:layout_constraintBottom_toBottomOf="@+id/icon_initials"
+            app:layout_constraintEnd_toEndOf="@+id/icon_initials"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="@+id/icon_initials"
+            app:layout_constraintTop_toTopOf="@+id/icon_initials">
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/icon_initials"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+            android:layout_width="145dp"
+            android:layout_height="123dp"
             android:padding="5sp"
             android:scaleType="fitXY"
             android:text="US"
             android:textAlignment="center"
-            android:textSize="40sp" />
+            android:textColor="@color/black"
+            android:textSize="80sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/icon_background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/gallery_thumb" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="horizontal">
+
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="102dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="center"
             app:srcCompat="@android:drawable/ic_dialog_email" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
 
             <TextView
                 android:id="@+id/text_welcome_back"
@@ -67,7 +86,8 @@
                 android:paddingStart="10dp"
                 android:text="Welcome back,"
                 android:textAlignment="center"
-                android:textColor="#ABABAB" />
+                android:textColor="@color/white" />
+
 
             <TextView
                 android:id="@+id/text_user_first_name"
@@ -77,10 +97,54 @@
                 android:text="User"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#b4f0ee"
                 android:textSize="20sp" />
         </LinearLayout>
 
+
     </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="fill_parent"
+        android:layout_height="133dp"
+        android:layout_gravity="center">
+
+        <android.widget.Button
+            android:id="@+id/entrant_button_nav_header"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/login_user_type_button_selected"
+            android:text="   Entrant"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/organizer_button_nav_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </android.widget.Button>
+
+
+
+        <android.widget.Button
+            android:id="@+id/organizer_button_nav_header"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/login_user_type_button_unselected"
+            android:text="   Organizer"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/entrant_button_nav_header">
+        </android.widget.Button>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>
