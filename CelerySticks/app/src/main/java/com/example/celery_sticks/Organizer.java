@@ -90,5 +90,3 @@ public class Organizer {
     public Profile getFacilityProfile() {
         return facilityProfile;
     }
-
-}
