@@ -11,7 +11,7 @@ public class User {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private ArrayList<String> roles;
+    private String role;
 
     /**
      * Constructs a User object with the specified first name, last name, and email.
@@ -43,12 +43,12 @@ public class User {
      * Gets the roles of the user
      * @return
      */
-    public ArrayList<String> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles() {
-
+    public void setRole(String role) {
+        this.role = role;
     }
 
     /**
