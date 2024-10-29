@@ -110,11 +110,34 @@
         android:layout_height="133dp"
         android:layout_gravity="center">
 
+        <RelativeLayout
+            android:id="@+id/entrant_button_nav_header_background"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/login_user_type_button_selected"
+            app:layout_constraintBottom_toBottomOf="@+id/entrant_button_nav_header"
+            app:layout_constraintEnd_toEndOf="@+id/entrant_button_nav_header"
+            app:layout_constraintStart_toStartOf="@+id/entrant_button_nav_header"
+            app:layout_constraintTop_toTopOf="@+id/entrant_button_nav_header">
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/entrant_button_nav_header_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/checkmark"
+            app:layout_constraintBottom_toBottomOf="@+id/entrant_button_nav_header"
+            app:layout_constraintEnd_toEndOf="@+id/entrant_button_nav_header"
+            app:layout_constraintTop_toTopOf="@+id/entrant_button_nav_header">
+        </RelativeLayout>
+
+
         <android.widget.Button
             android:id="@+id/entrant_button_nav_header"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:background="@drawable/login_user_type_button_selected"
+            android:background="@android:color/transparent"
             android:text="   Entrant"
             android:textAlignment="textStart"
             android:textAllCaps="false"
@@ -127,12 +150,34 @@
         </android.widget.Button>
 
 
+        <RelativeLayout
+            android:id="@+id/organizer_button_nav_header_background"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/login_user_type_button_unselected"
+            app:layout_constraintBottom_toBottomOf="@+id/organizer_button_nav_header"
+            app:layout_constraintEnd_toEndOf="@+id/organizer_button_nav_header"
+            app:layout_constraintStart_toStartOf="@+id/organizer_button_nav_header"
+            app:layout_constraintTop_toTopOf="@+id/organizer_button_nav_header">
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/organizer_button_nav_header_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/x_mark"
+            app:layout_constraintBottom_toBottomOf="@+id/organizer_button_nav_header_background"
+            app:layout_constraintEnd_toEndOf="@+id/organizer_button_nav_header_background"
+            app:layout_constraintTop_toTopOf="@+id/organizer_button_nav_header_background">
+        </RelativeLayout>
+
 
         <android.widget.Button
             android:id="@+id/organizer_button_nav_header"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:background="@drawable/login_user_type_button_unselected"
+            android:background="@android:color/transparent"
             android:text="   Organizer"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
@@ -142,6 +187,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/entrant_button_nav_header">
         </android.widget.Button>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
