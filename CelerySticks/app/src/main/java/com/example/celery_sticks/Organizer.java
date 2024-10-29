@@ -13,12 +13,12 @@ public class Organizer {
     private ArrayList<Event> postings = new ArrayList<>();
 
     // This is the facility profile
-    private Profile facilityProfile = new Profile();
+    //private Profile facilityProfile = new Profile();
 
     /**
      * This creates a new Organizer
-     * @param user
-     * This is the user's device
+     *
+     * @param user This is the user's device
      */
     public Organizer(String user) {
         this.user = user;
@@ -26,8 +26,8 @@ public class Organizer {
 
     /**
      * This returns the Organizer's device
-     * @return
-     * The Organizer's device
+     *
+     * @return The Organizer's device
      */
     public String getUser() {
         return user;
@@ -35,30 +35,30 @@ public class Organizer {
 
     /**
      * This adds an Event to the organizers postings
-     * @param event
-     * The event to be added
+     *
+     * @param event The event to be added
      */
-    public void addEvent(Event event){
+    public void addEvent(Event event) {
         postings.add(event);
     }
 
     /**
      * This removes an Event to the organizers postings
-     * @param event
-     * The event to be removed
+     *
+     * @param event The event to be removed
      */
-    public void deleteEvent(Event event){
+    public void deleteEvent(Event event) {
         if (postings.contains(event)) {
             postings.remove(event);
-        }else{
+        } else {
             throw new IllegalArgumentException();
         }
     }
 
     /**
      * This returns the postings of the Organizer
-     * @return
-     * The list of events the organizer has created
+     *
+     * @return The list of events the organizer has created
      */
     public ArrayList<Event> getPostings() {
         return postings;
@@ -66,29 +66,28 @@ public class Organizer {
 
     /**
      * This updates the facility's name in the profile
-     * @param name
-     * The facility's name
+     *
+     * @param name The facility's name
      */
-    public void updateName(String name){
-        facilityProfile.setName(name);
-    }
+    //public void updateName(String name) {
+      //  facilityProfile.setName(name);
+    //}
 
     /**
      * This updates the facility's email in the profile
-     * @param email
-     * The facility's email
+     *
+     * @param email The facility's email
      */
-    public void updateEmail(String email){
-        facilityProfile.setEmail(email);
-    }
+    //public void updateEmail(String email) {
+      //  facilityProfile.setEmail(email);
+    //}
 
     /**
      * This returns the facility's profile
-     * @return
-     * The facility's profile
+     *
+     * @return The facility's profile
      */
-    public Profile getFacilityProfile() {
-        return facilityProfile;
-    }
-
+    //public Profile getFacilityProfile() {
+     //   return facilityProfile;
+    //}
 }
