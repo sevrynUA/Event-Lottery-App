@@ -159,4 +159,4 @@ public class Entrant {
     public boolean isNotifications() {
         return notifications;
     }
-
+}
