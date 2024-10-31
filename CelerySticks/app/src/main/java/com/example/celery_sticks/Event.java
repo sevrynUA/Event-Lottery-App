@@ -1,5 +1,7 @@
 package com.example.celery_sticks;
 
+import com.google.firebase.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +29,22 @@ public class Event {
      * Instantiates an Event object
      * @param eventName
      * @param eventID
+     * @param eventDescription
+     * @param eventImage
+     * @param eventDate
+     * @param eventClose
+     * @param eventOpen
+     * @param eventDetailsQR
+     * @param eventSignUpQR
+     * @param eventLocation
      */
-    public Event(String eventName, String eventID) {
+    public Event(String eventName, String eventID, String eventDescription, String eventImage, Timestamp eventDate, Timestamp eventClose, Timestamp eventOpen, String eventDetailsQR, String eventSignUpQR, String eventLocation) {
         this.eventName = eventName;
         this.eventID = eventID;
+        this.description = eventDescription;
+        this.posterImage = eventImage;
+        this.eventDate = eventDate.toDate();
+        this.location = eventLocation;
         this.tentativeEntrants = new Waitlist();
     }
 

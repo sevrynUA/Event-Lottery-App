@@ -24,8 +24,9 @@ public class MyEventsFragment extends Fragment {
         binding = FragmentMyEventsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textMyEvents;
-        myEventsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // No default text
+        //final TextView textView = binding.textMyEvents;
+        //myEventsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
