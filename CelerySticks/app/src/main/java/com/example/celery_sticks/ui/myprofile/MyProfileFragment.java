@@ -25,7 +25,6 @@ public class MyProfileFragment extends Fragment {
         binding = FragmentMyProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // No default text
         //final TextView textView = binding.textMyProfile;
         //myProfileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
