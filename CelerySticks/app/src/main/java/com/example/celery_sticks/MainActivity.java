@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
+    /**
+     * Checks if the user exists in the database and faciliates the user to sign up if not.
+     */
     private void checkUser() {
         db.collection("users").document(userID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

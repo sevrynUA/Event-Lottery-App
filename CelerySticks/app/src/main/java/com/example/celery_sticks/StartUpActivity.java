@@ -14,12 +14,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
+/**
+ * Represents the activity for a user to sign up for the app by providing basic personal information.
+ */
 public class StartUpActivity extends AppCompatActivity {
 
     private EditText editFirstName, editLastName, editEmail, editPhoneNumber;
     private Button signupButton;
     private FirebaseFirestore db;
 
+    /**
+     * Initializes the activity and sets up the layout and database connection.
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +45,16 @@ public class StartUpActivity extends AppCompatActivity {
     }
 
     // TODO: Add input validation
+
+    /**
+     * Saves user data to database
+     */
     private void saveUserData() {
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String email = editEmail.getText().toString();
         String phoneNumber = editPhoneNumber.getText().toString();
-
+        // Input validation for empty required fields
         if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please fill in all required information", Toast.LENGTH_SHORT).show();
             return;
