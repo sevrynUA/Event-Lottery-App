@@ -1,13 +1,19 @@
 package com.example.celery_sticks;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,13 +22,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.databinding.ActivityMainBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.MemoryCacheSettings;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private FirebaseFirestore db;
+    private String userID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize database
         db = FirebaseFirestore.getInstance();
+
+        // Get device ID
+        userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
@@ -47,12 +63,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-        // OPEN LOGIN SCREEN AUTOMATICALLY (will check device details in future)
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        // intent.putExtra("name of string data", string variable) // how to pass str info in case needed
-        startActivity(intent);
+        // Check if user exists in database
+        checkUser();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,10 +75,39 @@ public class MainActivity extends AppCompatActivity {
         return false; // disable 3 dot menu
     }
 
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+    private void checkUser() {
+        db.collection("users").document(userID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists() && document != null) {
+                                // User exists
+                                Log.d("MainActivity", "User found: " + document.getData());
+
+                            } else {
+                                // User does not exist
+                                Log.d("MainActivity", "User not found, starting StartUpActivity");
+                                Intent intent = new Intent(getApplicationContext(), StartUpActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } else {
+                            Log.e("MainActivity", "Error getting user data", task.getException());
+                        }
+                    }
+                });
+    }
+
+
 }
