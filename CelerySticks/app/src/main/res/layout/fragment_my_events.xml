@@ -31,9 +31,8 @@ tools:context=".ui.myevents.MyEventsFragment">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20px">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20px"></ListView>
 
 
 
@@ -47,10 +46,10 @@ tools:context=".ui.myevents.MyEventsFragment">
     </TextView>
 
     <ListView
+        android:id="@+id/registered_list"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20px">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20px"></ListView>
 
 
 
@@ -65,9 +64,8 @@ tools:context=".ui.myevents.MyEventsFragment">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20px">
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20px"></ListView>
 
 
 
@@ -81,10 +79,10 @@ tools:context=".ui.myevents.MyEventsFragment">
     </TextView>
 
     <ListView
+        android:id="@+id/accepted_list"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20px">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20px"></ListView>
 
 
 </LinearLayout>
