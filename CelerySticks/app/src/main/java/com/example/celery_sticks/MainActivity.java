@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("MainActivity", "User not found, starting StartUpActivity");
                                 Intent intent = new Intent(getApplicationContext(), StartUpActivity.class);
                                 startActivity(intent);
-                                finish();
                             }
                         } else {
                             Log.e("MainActivity", "Error getting user data", task.getException());
