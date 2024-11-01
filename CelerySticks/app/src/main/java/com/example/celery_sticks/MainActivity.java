@@ -3,14 +3,19 @@ package com.example.celery_sticks;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.ListView;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+
+import com.example.celery_sticks.ui.myevents.EventsArrayAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -22,10 +27,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.databinding.ActivityMainBinding;
+
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.MemoryCacheSettings;
+
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userID;
 
+
+    private ArrayList<Event> registeredList = new ArrayList<>();
+    private ListView registeredListView;
+    private EventsArrayAdapter registeredAdapter;
+
+    private ArrayList<Event> acceptedList = new ArrayList<>();
+    private ListView acceptedListView;
+    private EventsArrayAdapter acceptedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +85,48 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+      
         // Check if user exists in database
         checkUser();
+
+        registeredListView = findViewById(R.id.registered_list);
+        registeredAdapter = new EventsArrayAdapter(this, registeredList);
+        registeredListView.setAdapter(registeredAdapter);
+
+        acceptedListView = findViewById(R.id.accepted_list);
+        acceptedAdapter = new EventsArrayAdapter(this, acceptedList);
+        acceptedListView.setAdapter(acceptedAdapter);
+
+        CollectionReference events = db.collection("events");
+        events.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document: task.getResult()) {
+                        Timestamp eventDate = document.getTimestamp("date");
+                        Timestamp eventClose = document.getTimestamp("close");
+                        Timestamp eventOpen = document.getTimestamp("open");
+                        String eventName = document.getString("name");
+                        String eventID = document.getId();
+                        String eventDescription = document.getString("description");
+                        String eventImage = document.getString("image");
+                        String eventDetailsQR = document.getString("qrcode");
+                        String eventSignUpQR = document.getString("signupqrcode");
+                        String eventLocation = document.getString("location");
+                        Boolean registered = document.getBoolean("registered");
+                        Boolean accepted = document.getBoolean("accepted");
+                        if (registered && !accepted) {
+                            registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
+                            registeredAdapter.notifyDataSetChanged();
+                        } else if (registered && accepted) {
+                            acceptedList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
+                            acceptedAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
 
