@@ -12,6 +12,7 @@ public class User {
     private String email;
     private String phoneNumber;
     private String role;
+    private String userID;
 
     /**
      * Constructs a User object with the specified first name, last name, and email.
@@ -19,10 +20,11 @@ public class User {
      * @param lastName  the last name of the user
      * @param email     the email address of the user
      */
-    public User(String firstName, String lastName, String email) {
+    public User(String firstName, String lastName, String email, String userID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.userID = userID;
     }
 
     /**
@@ -32,11 +34,28 @@ public class User {
      * @param email         the email address of the user
      * @param phoneNumber   the phone number of the user
      */
-    public User(String firstName, String lastName, String email, String phoneNumber) {
+    public User(String firstName, String lastName, String email, String phoneNumber, String userID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.userID = userID;
+    }
+
+    /**
+     * Gets the ID of the user
+     * @return the ID of the user
+     */
+    public String getUserID() {
+        return userID;
+    }
+
+    /**
+     * Sets the ID of the user
+     * @param userID the ID to set
+     */
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     /**
