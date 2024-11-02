@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "464502972036",
+    "project_id": "celery-sticks-19186",
+    "storage_bucket": "celery-sticks-19186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464502972036:android:a060a77f105206e52aecd1",
+        "android_client_info": {
+          "package_name": "com.example.celery_sticks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvC44PH1-NAE64yBcowmrMDfeafByhksU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
