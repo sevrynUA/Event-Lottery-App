@@ -17,6 +17,5 @@
     <color name="projectRed">#FF386A</color>
     <color name="vomitGreen">#268740</color>
     <color name="unSelectedRed">#6e303d</color>
-
-
+    <color name="defaultGray">#808080</color>
 </resources>
