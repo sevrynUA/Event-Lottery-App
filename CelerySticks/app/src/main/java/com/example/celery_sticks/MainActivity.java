@@ -9,8 +9,10 @@ import android.view.View;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ListView;
+import android.widget.AdapterView;
 
 
+import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -57,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
     private ListView acceptedListView;
     private EventsArrayAdapter acceptedAdapter;
 
+    private ArrayList<Event> invitationList = new ArrayList<>();
+    private ListView invitationListView;
+    private EventsArrayAdapter invitationAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         acceptedAdapter = new EventsArrayAdapter(this, acceptedList);
         acceptedListView.setAdapter(acceptedAdapter);
 
+        invitationListView = findViewById(R.id.invitation_list);
+        invitationAdapter = new EventsArrayAdapter(this, invitationList);
+        invitationListView.setAdapter(invitationAdapter);
+
         CollectionReference events = db.collection("events");
         events.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -121,12 +131,35 @@ public class MainActivity extends AppCompatActivity {
                         } else if (registered && accepted) {
                             acceptedList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
                             acceptedAdapter.notifyDataSetChanged();
+                        } else if (!registered && !accepted) {
+                            invitationList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
+                            invitationAdapter.notifyDataSetChanged();
                         }
                     }
                 }
             }
         });
+        registeredListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventClicked(adapterView, view, i, l, "registered");
+            }
+        });
+        acceptedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventClicked(adapterView, view, i, l, "accepted");
+            }
+        });
+        invitationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventClicked(adapterView, view, i, l, "invitation");
+            }
+        });
+    }
+    public void eventClicked(AdapterView<?> adapterView, View view, int i, long l, String eventCategory) {
+        Intent intent = new Intent(getApplicationContext(), EventDetailsViewModel.class);
 
+        //intent.putExtra("field", data); // use this to add in info about the event
+        startActivity(intent);
     }
 
 

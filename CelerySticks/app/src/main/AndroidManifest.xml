@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".StartUpActivity"></activity>
+        <activity android:name=".ui.myevents.EventDetailsViewModel"></activity>
     </application>
 
 </manifest>
