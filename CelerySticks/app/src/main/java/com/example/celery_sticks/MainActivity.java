@@ -8,10 +8,13 @@ import android.provider.Settings;
 import android.view.View;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView;
 
 
+import com.example.celery_sticks.databinding.CreateEventBinding;
+import com.example.celery_sticks.ui.eventadd.AddEventFragment;
 import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView invitationListView;
     private EventsArrayAdapter invitationAdapter;
 
+    private Button CreateEventButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         invitationListView = findViewById(R.id.invitation_list);
         invitationAdapter = new EventsArrayAdapter(this, invitationList);
         invitationListView.setAdapter(invitationAdapter);
+
+        CreateEventButton = findViewById(R.id.create_event_button);
+
 
         CollectionReference events = db.collection("events");
         events.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -154,6 +162,13 @@ public class MainActivity extends AppCompatActivity {
                 eventClicked(adapterView, view, i, l, "invitation");
             }
         });
+
+        CreateEventButton.setOnClickListener(view ->{
+            Intent createEventIntent = new Intent(getApplicationContext(), AddEventFragment.class);
+            startActivity(createEventIntent);
+        });
+
+
     }
     public void eventClicked(AdapterView<?> adapterView, View view, int i, long l, String eventCategory) {
         Intent intent = new Intent(getApplicationContext(), EventDetailsViewModel.class);

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    tools:context=".ui.myprofile.MyProfileFragment">
+
+    <ScrollView
+        android:layout_width = "match_parent"
+        android:layout_height = "620dp"
+        android:scrollbars = "vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:scrollbars = "vertical">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="fill_parent"
+                android:layout_height="204dp"
+                android:layout_gravity="center">
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:cardCornerRadius="20dp">
+
+                    <ImageView
+                        android:id="@+id/event_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/place_holder_image_event"/>
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <EditText
+                android:id="@+id/event_title_input"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Title of Event"
+                android:layout_marginTop="15dp"
+                android:textSize="24sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_date_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Date"
+                android:inputType="date"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_time_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Time"
+                android:inputType="time"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_location_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Location"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_participation_limit_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:hint="Participation limit (optional)">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_cost_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:hint="Cost (optional)">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_description_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:hint="Description (optional)">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_date_open_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Closing Date (optional)"
+                android:inputType="datetime"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_date_close_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Opening Date (optional)"
+                android:inputType="datetime"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Geolocation_button_event_create_constraint"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_height="50dp">
+
+                <RelativeLayout
+                    android:id="@+id/geolocation_button_event_create_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/login_user_type_button_selected"
+                    app:layout_constraintEnd_toEndOf="@+id/Geolocation_button_event_create_constraint"
+                    app:layout_constraintStart_toStartOf="@+id/Geolocation_button_event_create_constraint">
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/geolocation_button_event_create_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/checkmark"
+                    app:layout_constraintEnd_toEndOf="@+id/geolocation_button_event_create_background"
+                    app:layout_constraintTop_toTopOf="@+id/Geolocation_button_event_create_constraint"
+                    app:layout_constraintBottom_toBottomOf="@+id/Geolocation_button_event_create_constraint">
+                </RelativeLayout>
+
+                <android.widget.Button
+                    android:id="@+id/geolocation_button_event_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:text="Geolocation"
+                    android:paddingLeft = "10dp"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="@+id/Geolocation_button_event_create_constraint"
+                    app:layout_constraintStart_toStartOf="@+id/Geolocation_button_event_create_constraint">
+                </android.widget.Button>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="15dp">
+
+        <android.widget.Button
+            android:id="@+id/create_event_confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/login_user_type_button_selected"
+            android:text="Create Event"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="25sp" />
+
+        <android.widget.Button
+            android:id="@+id/create_event_cancel_button"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="35dp"
+            android:background="@drawable/login_user_type_button_unselected"
+            android:text="Cancel"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</FrameLayout>
