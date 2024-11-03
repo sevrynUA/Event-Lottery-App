@@ -68,10 +68,11 @@
     </TextView>
 
     <EditText
+        android:id="@+id/edit_first_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/light_grey_rounded_background"
-        android:text="John"
+        android:text=""
         android:textSize="24sp"
         android:padding="10dp">
     </EditText>
@@ -88,10 +89,11 @@
     </TextView>
 
     <EditText
+        android:id="@+id/edit_last_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/light_grey_rounded_background"
-        android:text="Doe"
+        android:text=""
         android:textSize="24sp"
         android:padding="10dp">
     </EditText>
@@ -108,10 +110,11 @@
     </TextView>
 
     <EditText
+        android:id="@+id/edit_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/light_grey_rounded_background"
-        android:text="placeholder@gmail.ca"
+        android:text=""
         android:textSize="18sp"
         android:padding="10dp">
     </EditText>
@@ -128,6 +131,7 @@
     </TextView>
 
     <EditText
+        android:id="@+id/edit_phone_number"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/light_grey_rounded_background"
@@ -141,7 +145,7 @@
 </LinearLayout>
 
 <android.widget.Button
-    android:id="@+id/entrant_button"
+    android:id="@+id/save_button"
     android:layout_width="match_parent"
     android:layout_gravity="bottom"
     android:layout_marginLeft="10dp"
