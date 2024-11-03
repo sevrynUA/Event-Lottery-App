@@ -70,19 +70,6 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/light_grey_rounded_background"
                 android:hint="Date"
-                android:inputType="date"
-                android:textSize="18sp"
-                android:padding="10dp">
-            </EditText>
-
-            <EditText
-                android:id="@+id/event_time_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/light_grey_rounded_background"
-                android:hint="Time"
-                android:inputType="time"
                 android:textSize="18sp"
                 android:padding="10dp">
             </EditText>
@@ -94,6 +81,28 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/light_grey_rounded_background"
                 android:hint="Location"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_date_open_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Closing Date"
+                android:textSize="18sp"
+                android:padding="10dp">
+            </EditText>
+
+            <EditText
+                android:id="@+id/event_date_close_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_grey_rounded_background"
+                android:hint="Opening Date"
                 android:textSize="18sp"
                 android:padding="10dp">
             </EditText>
@@ -129,30 +138,6 @@
                 android:textSize="18sp"
                 android:padding="10dp"
                 android:hint="Description (optional)">
-            </EditText>
-
-            <EditText
-                android:id="@+id/event_date_open_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/light_grey_rounded_background"
-                android:hint="Closing Date (optional)"
-                android:inputType="datetime"
-                android:textSize="18sp"
-                android:padding="10dp">
-            </EditText>
-
-            <EditText
-                android:id="@+id/event_date_close_input"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/light_grey_rounded_background"
-                android:hint="Opening Date (optional)"
-                android:inputType="datetime"
-                android:textSize="18sp"
-                android:padding="10dp">
             </EditText>
 
 

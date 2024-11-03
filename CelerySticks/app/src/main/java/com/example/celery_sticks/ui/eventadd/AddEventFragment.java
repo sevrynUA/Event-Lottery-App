@@ -16,16 +16,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.celery_sticks.R;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+
 
 
 public class AddEventFragment extends AppCompatActivity {
 
     private EditText title;
     private EditText date;
-    private EditText time;
     private EditText participationLimit;
     private EditText cost;
     private EditText description;
@@ -42,6 +46,8 @@ public class AddEventFragment extends AppCompatActivity {
 
     private boolean geolocationStatus;
 
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +55,6 @@ public class AddEventFragment extends AppCompatActivity {
 
         title = findViewById(R.id.event_title_input);
         date = findViewById(R.id.event_date_input);
-        time = findViewById(R.id.event_time_input);
         participationLimit = findViewById(R.id.event_participation_limit_input);
         cost = findViewById(R.id.event_cost_input);
         description = findViewById(R.id.event_description_input);
@@ -86,12 +91,23 @@ public class AddEventFragment extends AppCompatActivity {
             finish();
         });
 
+
+    }
+
+    public Date getDateFromString(String stringDate){
+
+        try {
+            Date date = format.parse(stringDate);
+            return date ;
+        } catch (ParseException e){
+            return null ;
+        }
+
     }
 
     private void saveEventData() {
         String title = this.title.getText().toString();
         String date = this.date.getText().toString();
-        String time = this.time.getText().toString();
         String participationLimit = this.participationLimit.getText().toString();
         String cost = this.cost.getText().toString();
         String description = this.description.getText().toString();
@@ -99,10 +115,13 @@ public class AddEventFragment extends AppCompatActivity {
         String closeDate = this.closeDate.getText().toString();
         String location = this.location.getText().toString();
 
+        Date formatedDate = getDateFromString(date);
+        Date formatedOpen = getDateFromString(openDate);
+        Date formatedClose = getDateFromString(closeDate);
 
 
         // Input validation for empty required fields
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(date) || TextUtils.isEmpty(time) || TextUtils.isEmpty(location)) {
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(date) || TextUtils.isEmpty(location) || formatedOpen == null || formatedDate == null || formatedClose == null) {
             Toast.makeText(this, "Please fill in all required information", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -126,7 +145,6 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("registered", false);
         eventData.put("signupqrcode", false);
         eventData.put("geolocation", geolocationStatus);
-        eventData.put("time", time);
         eventData.put("pariticpation limit", participationLimit);
         eventData.put("cost", cost);
         eventData.put("organizerID", organizerID);
