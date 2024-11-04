@@ -1,11 +1,13 @@
 package com.example.celery_sticks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,10 +84,12 @@ public class StartUpActivity extends AppCompatActivity {
         userData.put("phoneNumber", phoneNumber);
         userData.put("role", "entrant");
 
-
-
         db.collection("users").document(userID).set(userData)
                 .addOnSuccessListener(aVoid -> {
+                    Intent completedIntent = new Intent();
+                    completedIntent.putExtra("firstName", firstName);
+                    completedIntent.putExtra("lastName", lastName);
+                    setResult(RESULT_OK, completedIntent);
                     finish();
                 })
                 .addOnFailureListener(e -> {

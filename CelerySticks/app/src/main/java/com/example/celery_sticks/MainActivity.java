@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userID;
 
+    private ActivityResultLauncher<Intent> loginActivityLauncher;
 
 
 
@@ -67,12 +70,16 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // Set initials when new profile is created
+        loginActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                updateNameAndInitials(data.getStringExtra("firstName"), data.getStringExtra("lastName"));
+            }
+        });
 
         // Check if user exists in database
         checkUser();
-
-
-
     }
 
 
@@ -92,6 +99,19 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    private void updateNameAndInitials(String firstName, String lastName) {
+        // Update sidebar details
+        TextView text_user_first_name = findViewById(R.id.text_user_first_name);
+        TextView sidebar_icon_initials = findViewById(R.id.sidebar_icon_initials);
+
+        String initials = "";
+        initials += firstName.charAt(0);
+        initials += lastName.charAt(0);
+
+        text_user_first_name.setText(firstName);
+        sidebar_icon_initials.setText(initials.toUpperCase());
+    }
+
     /**
      * Checks if the user exists in the database and faciliates the user to sign up if not.
      */
@@ -105,25 +125,12 @@ public class MainActivity extends AppCompatActivity {
                             if (document.exists() && document != null) {
                                 // User exists
                                 Log.d("MainActivity", "User found: " + document.getData());
-
-                                // Update sidebar details
-                                TextView text_user_first_name = findViewById(R.id.text_user_first_name);
-                                TextView sidebar_icon_initials = findViewById(R.id.sidebar_icon_initials);
-
-                                String firstName = document.getString("firstName");
-                                String lastName = document.getString("lastName");
-                                String initials = "";
-                                initials += firstName.charAt(0);
-                                initials += lastName.charAt(0);
-
-                                text_user_first_name.setText(firstName);
-                                sidebar_icon_initials.setText(initials.toUpperCase());
-
+                                updateNameAndInitials(document.getString("firstName"), document.getString("lastName"));
                             } else {
                                 // User does not exist
                                 Log.d("MainActivity", "User not found, starting StartUpActivity");
                                 Intent intent = new Intent(getApplicationContext(), StartUpActivity.class);
-                                startActivity(intent);
+                                loginActivityLauncher.launch(intent);
                             }
                         } else {
                             Log.e("MainActivity", "Error getting user data", task.getException());
@@ -131,6 +138,4 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 }
