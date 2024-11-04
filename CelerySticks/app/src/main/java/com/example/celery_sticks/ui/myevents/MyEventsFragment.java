@@ -54,6 +54,8 @@ public class MyEventsFragment extends Fragment {
     private ListView invitationListView;
     private EventsArrayAdapter invitationAdapter;
 
+    private String userID = null;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MyEventsViewModel myEventsViewModel =
@@ -130,12 +132,25 @@ public class MyEventsFragment extends Fragment {
 
         createEventButton.setOnClickListener(view -> {
                 createEventClicked();
-            });
+        });
 
 
-
+        // Recieve userID and set to variable
+        if (getArguments().getString("userID") != null) {
+            userID = getArguments().getString("userID");
+        }
 
         return root;
+    }
+
+
+
+    public void onStart() {
+        super.onStart();
+        if (userID != null) {
+            // Display only entrant UI if user is only an entrant
+            updateOrganizerUIVisibility(userID);
+        }
     }
 
     public interface EventDataCallback {
@@ -221,6 +236,34 @@ public class MyEventsFragment extends Fragment {
             }
         });
         return eventData;
+    }
+
+    private void updateOrganizerUIVisibility(String userID) {
+        TextView createdByMeTitle = requireActivity().findViewById(R.id.created_by_me_title);
+        ListView createdByMeList = requireActivity().findViewById(R.id.created_by_me_list);
+        Button createEventButton = requireActivity().findViewById(R.id.create_event_button);
+        DocumentReference ref = db.collection("users").document(userID);
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    String role = document.getString("role");
+                    if (role != null) {
+                        if (role.equals("entrant")) {
+                            Log.d("food", "hiding");
+                            createdByMeTitle.setVisibility(View.GONE);
+                            createdByMeList.setVisibility(View.GONE);
+                            createEventButton.setVisibility(View.GONE);
+                        } else {
+                            createdByMeTitle.setVisibility(View.VISIBLE);
+                            createdByMeList.setVisibility(View.VISIBLE);
+                            createEventButton.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public void createEventClicked() {

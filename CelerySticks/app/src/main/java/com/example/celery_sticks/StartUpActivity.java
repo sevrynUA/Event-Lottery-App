@@ -76,19 +76,22 @@ public class StartUpActivity extends AppCompatActivity {
         // Get device ID
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+        String TEMP_ROLE = "entrant"; // REMOVE WITH FACILITY IMPLEMENTATION
+
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("userID", userID);
         userData.put("firstName", firstName);
         userData.put("lastName", lastName);
         userData.put("email", email);
         userData.put("phoneNumber", phoneNumber);
-        userData.put("role", "entrant");
+        userData.put("role", TEMP_ROLE);
 
         db.collection("users").document(userID).set(userData)
                 .addOnSuccessListener(aVoid -> {
                     Intent completedIntent = new Intent();
                     completedIntent.putExtra("firstName", firstName);
                     completedIntent.putExtra("lastName", lastName);
+                    completedIntent.putExtra("userID", userID);
                     setResult(RESULT_OK, completedIntent);
                     finish();
                 })
