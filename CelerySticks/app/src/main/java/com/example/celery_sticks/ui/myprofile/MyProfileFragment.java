@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.celery_sticks.User;
+import com.example.celery_sticks.R;
 import com.example.celery_sticks.databinding.FragmentMyProfileBinding;
 
 import java.util.HashMap;
@@ -50,6 +50,13 @@ public class MyProfileFragment extends Fragment {
                 binding.editFirstName.setText(user.getFirstName());
                 binding.editLastName.setText(user.getLastName());
                 binding.editEmail.setText(user.getEmail());
+
+                String initials = "";
+                initials += user.getFirstName().charAt(0);
+                initials += user.getLastName().charAt(0);
+                TextView text_user_first_name = requireActivity().findViewById(R.id.text_user_first_name);
+                text_user_first_name.setText(user.getFirstName());
+                binding.iconInitials.setText(initials.toUpperCase());
 
                 if (!TextUtils.isEmpty(user.getPhoneNumber())) {
                     binding.editPhoneNumber.setText(user.getPhoneNumber());
@@ -89,6 +96,16 @@ public class MyProfileFragment extends Fragment {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Updated Profile", Toast.LENGTH_SHORT).show();
                     Log.d("MyProfileFragment", "Profile updated successfully for userID: " + userID);
+
+                    // Update sidebar details as well
+                    TextView text_user_first_name = requireActivity().findViewById(R.id.text_user_first_name);
+                    TextView sidebar_icon_initials = requireActivity().findViewById(R.id.sidebar_icon_initials);
+                    String initials = "";
+                    initials += firstName.charAt(0);
+                    initials += lastName.charAt(0);
+                    text_user_first_name.setText(firstName);
+                    sidebar_icon_initials.setText(initials.toUpperCase());
+                    binding.iconInitials.setText(initials.toUpperCase());
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save changes", Toast.LENGTH_SHORT).show();
