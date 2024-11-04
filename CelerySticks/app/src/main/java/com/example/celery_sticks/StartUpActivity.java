@@ -3,7 +3,7 @@ package com.example.celery_sticks;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.view.View;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,7 +44,19 @@ public class StartUpActivity extends AppCompatActivity {
         signupButton.setOnClickListener(v -> saveUserData());
     }
 
-    // TODO: Add input validation
+    private boolean inputValidation(String firstName, String lastName, String email, String phoneNumber) {
+        if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(lastName)) {
+            return false;
+        } else if (firstName.matches(".*\\d.*") || lastName.matches(".*\\d.*")) {
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // From https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext by user1737884, Downloaded 2024-11-04
+            return false;
+        } else if (!phoneNumber.matches("\\d{10}")) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Saves user data to database
@@ -55,7 +67,7 @@ public class StartUpActivity extends AppCompatActivity {
         String email = editEmail.getText().toString();
         String phoneNumber = editPhoneNumber.getText().toString();
         // Input validation for empty required fields
-        if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(email)) {
+        if (!inputValidation(firstName, lastName, email, phoneNumber)) {
             Toast.makeText(this, "Please fill in all required information", Toast.LENGTH_SHORT).show();
             return;
         }
