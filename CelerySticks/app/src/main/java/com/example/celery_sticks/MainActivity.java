@@ -51,17 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private String userID;
 
 
-    private ArrayList<Event> registeredList = new ArrayList<>();
-    private ListView registeredListView;
-    private EventsArrayAdapter registeredAdapter;
 
-    private ArrayList<Event> acceptedList = new ArrayList<>();
-    private ListView acceptedListView;
-    private EventsArrayAdapter acceptedAdapter;
-
-    private ArrayList<Event> invitationList = new ArrayList<>();
-    private ListView invitationListView;
-    private EventsArrayAdapter invitationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,76 +81,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-      
+
         // Check if user exists in database
         checkUser();
-
-        registeredListView = findViewById(R.id.registered_list);
-        registeredAdapter = new EventsArrayAdapter(this, registeredList);
-        registeredListView.setAdapter(registeredAdapter);
-
-        acceptedListView = findViewById(R.id.accepted_list);
-        acceptedAdapter = new EventsArrayAdapter(this, acceptedList);
-        acceptedListView.setAdapter(acceptedAdapter);
-
-        invitationListView = findViewById(R.id.invitation_list);
-        invitationAdapter = new EventsArrayAdapter(this, invitationList);
-        invitationListView.setAdapter(invitationAdapter);
-
-        CollectionReference events = db.collection("events");
-        events.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document: task.getResult()) {
-                        Timestamp eventDate = document.getTimestamp("date");
-                        Timestamp eventClose = document.getTimestamp("close");
-                        Timestamp eventOpen = document.getTimestamp("open");
-                        String eventName = document.getString("name");
-                        String eventID = document.getId();
-                        String eventDescription = document.getString("description");
-                        String eventImage = document.getString("image");
-                        String eventDetailsQR = document.getString("qrcode");
-                        String eventSignUpQR = document.getString("signupqrcode");
-                        String eventLocation = document.getString("location");
-                        Boolean registered = document.getBoolean("registered");
-                        Boolean accepted = document.getBoolean("accepted");
-                        if (registered && !accepted) {
-                            registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
-                            registeredAdapter.notifyDataSetChanged();
-                        } else if (registered && accepted) {
-                            acceptedList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
-                            acceptedAdapter.notifyDataSetChanged();
-                        } else if (!registered && !accepted) {
-                            invitationList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventDetailsQR, eventSignUpQR, eventLocation));
-                            invitationAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            }
-        });
-        registeredListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                eventClicked(adapterView, view, i, l, "registered");
-            }
-        });
-        acceptedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                eventClicked(adapterView, view, i, l, "accepted");
-            }
-        });
-        invitationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                eventClicked(adapterView, view, i, l, "invitation");
-            }
-        });
     }
-    public void eventClicked(AdapterView<?> adapterView, View view, int i, long l, String eventCategory) {
-        Intent intent = new Intent(getApplicationContext(), EventDetailsViewModel.class);
 
-        //intent.putExtra("field", data); // use this to add in info about the event
-        startActivity(intent);
-    }
 
 
     @Override

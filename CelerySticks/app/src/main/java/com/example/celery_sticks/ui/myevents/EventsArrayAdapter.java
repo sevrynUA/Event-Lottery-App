@@ -49,7 +49,6 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         time.setText(String.format("%s - %s", dayOfWeek, timeStr));
         date.setText(String.format("%s %s", monthName, dayNum));
         location.setText(event.getLocation());
-        Log.d("test", "works");
         // set image to imageview here
 
         return view;
