@@ -10,7 +10,7 @@ public class EventFinderViewModel extends ViewModel {
 
     public EventFinderViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is for the QR code scanner (Event Finder)");
+        mText.setValue("Point the camera at a QR code");
     }
 
     public LiveData<String> getText() {

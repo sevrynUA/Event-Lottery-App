@@ -63,11 +63,13 @@ public class StartUpActivity extends AppCompatActivity {
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         HashMap<String, Object> userData = new HashMap<>();
+        userData.put("userID", userID);
         userData.put("firstName", firstName);
         userData.put("lastName", lastName);
         userData.put("email", email);
         userData.put("phoneNumber", phoneNumber);
-        userData.put("userID", userID);
+        userData.put("role", "entrant");
+
 
 
         db.collection("users").document(userID).set(userData)

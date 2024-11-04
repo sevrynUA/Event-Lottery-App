@@ -6,17 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.eventfinder.EventFinderFragment">
 
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/barcode_scanner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+    </com.journeyapps.barcodescanner.DecoratedBarcodeView>
+
+        <FrameLayout
+            android:id="@+id/center_window"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_border"
+            android:layout_margin="0dp">
+        </FrameLayout>
+
     <TextView
         android:id="@+id/text_event_finder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:layout_marginTop="375dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/barcode_scanner"
+        tools:layout_editor_absoluteX="8dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
