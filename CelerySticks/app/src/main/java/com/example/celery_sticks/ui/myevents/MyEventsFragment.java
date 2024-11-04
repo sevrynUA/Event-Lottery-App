@@ -249,15 +249,17 @@ public class MyEventsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     String role = document.getString("role");
-                    if (role.equals("entrant")) {
-                        Log.d("food", "hiding");
-                        createdByMeTitle.setVisibility(View.GONE);
-                        createdByMeList.setVisibility(View.GONE);
-                        createEventButton.setVisibility(View.GONE);
-                    } else {
-                        createdByMeTitle.setVisibility(View.VISIBLE);
-                        createdByMeList.setVisibility(View.VISIBLE);
-                        createEventButton.setVisibility(View.VISIBLE);
+                    if (role != null) {
+                        if (role.equals("entrant")) {
+                            Log.d("food", "hiding");
+                            createdByMeTitle.setVisibility(View.GONE);
+                            createdByMeList.setVisibility(View.GONE);
+                            createEventButton.setVisibility(View.GONE);
+                        } else {
+                            createdByMeTitle.setVisibility(View.VISIBLE);
+                            createdByMeList.setVisibility(View.VISIBLE);
+                            createEventButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
