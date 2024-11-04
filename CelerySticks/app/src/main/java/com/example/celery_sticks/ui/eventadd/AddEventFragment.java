@@ -250,10 +250,13 @@ public class AddEventFragment extends AppCompatActivity {
             stampCloseDate = new Timestamp(closeDateConverted, 0);
 
         } catch (ParseException e) {
-            System.out.println("error didn't parse");
+            Toast.makeText(this, "Please fill in all required information", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(location)) {
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(location) || TextUtils.isEmpty(dateMonthButton.getText()) ||
+                TextUtils.isEmpty(dateTimeButton.getText()) || TextUtils.isEmpty(openDateMonthButton.getText()) ||
+                TextUtils.isEmpty(openDateTimeButton.getText()) || TextUtils.isEmpty(closeDateMonthButton.getText()) || TextUtils.isEmpty(closeDateTimeButton.getText())) {
             Toast.makeText(this, "Please fill in all required information", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -285,7 +288,7 @@ public class AddEventFragment extends AppCompatActivity {
 
 
         db.collection("events").document(title).set(eventData)
-                .addOnSuccessListener(aVoid -> {
+                .addOnSuccessListener(avoid -> {
                     finish();
                 })
                 .addOnFailureListener(e -> {
