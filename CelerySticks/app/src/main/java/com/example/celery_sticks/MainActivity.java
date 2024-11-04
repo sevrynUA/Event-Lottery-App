@@ -1,23 +1,17 @@
 package com.example.celery_sticks;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.provider.Settings;
-import android.view.View;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.ListView;
-import android.widget.AdapterView;
+import android.widget.TextView;
 
 
-import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 
-import com.example.celery_sticks.ui.myevents.EventsArrayAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -31,16 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.celery_sticks.databinding.ActivityMainBinding;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.MemoryCacheSettings;
 
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -119,6 +105,19 @@ public class MainActivity extends AppCompatActivity {
                             if (document.exists() && document != null) {
                                 // User exists
                                 Log.d("MainActivity", "User found: " + document.getData());
+
+                                // Update sidebar details
+                                TextView text_user_first_name = findViewById(R.id.text_user_first_name);
+                                TextView sidebar_icon_initials = findViewById(R.id.sidebar_icon_initials);
+
+                                String firstName = document.getString("firstName");
+                                String lastName = document.getString("lastName");
+                                String initials = "";
+                                initials += firstName.charAt(0);
+                                initials += lastName.charAt(0);
+
+                                text_user_first_name.setText(firstName);
+                                sidebar_icon_initials.setText(initials.toUpperCase());
 
                             } else {
                                 // User does not exist

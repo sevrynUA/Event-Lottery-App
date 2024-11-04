@@ -23,22 +23,22 @@
         <RelativeLayout
             android:layout_width="145dp"
             android:layout_height="145dp"
-            android:layout_alignTop="@+id/icon_initials"
-            android:layout_alignBottom="@+id/icon_initials"
+            android:layout_alignTop="@+id/sidebar_icon_initials"
+            android:layout_alignBottom="@+id/sidebar_icon_initials"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:background="@drawable/rounded_rectangle_filled"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_initials"
-            app:layout_constraintEnd_toEndOf="@+id/icon_initials"
+            app:layout_constraintBottom_toBottomOf="@+id/sidebar_icon_initials"
+            app:layout_constraintEnd_toEndOf="@+id/sidebar_icon_initials"
             app:layout_constraintHorizontal_bias="0.483"
-            app:layout_constraintStart_toStartOf="@+id/icon_initials"
-            app:layout_constraintTop_toTopOf="@+id/icon_initials">
+            app:layout_constraintStart_toStartOf="@+id/sidebar_icon_initials"
+            app:layout_constraintTop_toTopOf="@+id/sidebar_icon_initials">
 
         </RelativeLayout>
 
 
         <TextView
-            android:id="@+id/icon_initials"
+            android:id="@+id/sidebar_icon_initials"
             android:layout_width="145dp"
             android:layout_height="123dp"
             android:padding="5sp"
@@ -69,6 +69,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="center"
+            android:visibility="gone"
             app:srcCompat="@android:drawable/ic_dialog_email" />
 
 
@@ -76,6 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
 
@@ -83,7 +85,6 @@
                 android:id="@+id/text_welcome_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
                 android:text="Welcome back,"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
@@ -93,7 +94,6 @@
                 android:id="@+id/text_user_first_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
                 android:text="User"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
