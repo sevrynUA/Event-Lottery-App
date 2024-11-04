@@ -25,9 +25,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".QRCodeScanner"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".StartUpActivity"></activity>
         <activity android:name=".ui.myevents.EventDetailsViewModel"></activity>
+        <activity android:name=".ui.eventadd.AddEventFragment"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.celery_sticks.Event;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.databinding.FragmentMyEventsBinding;
+import com.example.celery_sticks.ui.eventadd.AddEventFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -76,6 +78,8 @@ public class MyEventsFragment extends Fragment {
         invitationAdapter = new EventsArrayAdapter(getContext(), invitationList);
         invitationListView.setAdapter(invitationAdapter);
 
+        Button createEventButton = root.findViewById(R.id.create_event_button);
+
         CollectionReference events = db.collection("events");
         events.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -123,6 +127,13 @@ public class MyEventsFragment extends Fragment {
                 eventClicked(adapterView, view, i, l, "invitation");
             }
         });
+
+        createEventButton.setOnClickListener(view -> {
+                createEventClicked();
+            });
+
+
+
 
         return root;
     }
@@ -211,6 +222,13 @@ public class MyEventsFragment extends Fragment {
         });
         return eventData;
     }
+
+    public void createEventClicked() {
+        Intent intent = new Intent(getContext(), AddEventFragment.class);
+
+        startActivity(intent);
+    }
+
 
     @Override
     public void onDestroyView() {
