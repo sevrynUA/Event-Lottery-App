@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if user exists in database
         checkUser();
+
+
+
     }
 
 

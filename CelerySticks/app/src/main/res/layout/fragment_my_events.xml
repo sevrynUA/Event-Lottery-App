@@ -2,13 +2,13 @@
 
 
 <FrameLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:theme="@style/ThemeOverlay.AppCompat.Dark"
-tools:context=".ui.myevents.MyEventsFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    tools:context=".ui.myevents.MyEventsFragment">
 
 
 <LinearLayout
@@ -89,7 +89,7 @@ tools:context=".ui.myevents.MyEventsFragment">
 </LinearLayout>
 
 <android.widget.Button
-    android:id="@+id/entrant_button"
+    android:id="@+id/create_event_button"
     android:layout_width="match_parent"
     android:layout_gravity="bottom"
     android:layout_marginLeft="10dp"
