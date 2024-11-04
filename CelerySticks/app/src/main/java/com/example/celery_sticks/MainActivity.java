@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.AdapterView;
 
 
-import com.example.celery_sticks.databinding.CreateEventBinding;
 import com.example.celery_sticks.ui.eventadd.AddEventFragment;
 import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
