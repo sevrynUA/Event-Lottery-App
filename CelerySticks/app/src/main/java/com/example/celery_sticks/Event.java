@@ -34,11 +34,10 @@ public class Event {
      * @param eventDate
      * @param eventClose
      * @param eventOpen
-     * @param eventDetailsQR
-     * @param eventSignUpQR
+     * @param eventQR
      * @param eventLocation
      */
-    public Event(String eventName, String eventID, String eventDescription, String eventImage, Timestamp eventDate, Timestamp eventClose, Timestamp eventOpen, String eventDetailsQR, String eventSignUpQR, String eventLocation) {
+    public Event(String eventName, String eventID, String eventDescription, String eventImage, Timestamp eventDate, Timestamp eventClose, Timestamp eventOpen, String eventQR, String eventLocation) {
         this.eventName = eventName;
         this.eventID = eventID;
         this.description = eventDescription;
