@@ -18,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.celery_sticks.Event;
@@ -69,6 +70,7 @@ public class MyEventsFragment extends Fragment {
     private EventsArrayAdapter temporaryAdapter;
 
     private ActivityResultLauncher<Intent> createEventLauncher; // used for refreshing list
+    private ActivityResultLauncher<Intent> eventDetailsLauncher;
     private String userID = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -79,6 +81,39 @@ public class MyEventsFragment extends Fragment {
         binding = FragmentMyEventsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        initialize(root);
+
+        createEventLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                createEvent(data.getStringExtra("eventID"));
+            }
+        });
+        eventDetailsLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                initialize(root);
+            }
+        });
+
+        // Recieve userID and set to variable
+        if (getArguments().getString("userID") != null) {
+            userID = getArguments().getString("userID");
+        }
+
+        return root;
+    } // end of onCreateView
+
+
+
+    public void onStart() {
+        super.onStart();
+        if (userID != null) {
+            // Display only entrant UI if user is only an entrant
+            updateOrganizerUIVisibility(userID);
+        }
+    }
+
+    public void initialize(View root) {
         registeredList.clear();
         invitationList.clear();
         acceptedList.clear();
@@ -130,7 +165,14 @@ public class MyEventsFragment extends Fragment {
                         if (organizerID != null && organizerID.equals(userID)) {
                             createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                         } else {
-                            temporaryList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                            checkIfUserRegistered(eventID, isUserRegistered -> {
+                                if (isUserRegistered) {
+                                    registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                                } else {
+                                    temporaryList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                                }
+                                refreshLists();
+                            });
                         }
 //                        if (registered && !accepted) {
 //                            registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
@@ -143,6 +185,7 @@ public class MyEventsFragment extends Fragment {
 //                            invitationAdapter.notifyDataSetChanged();
 //                        }
                     }
+
                     refreshLists();
                 }
             }
@@ -175,37 +218,47 @@ public class MyEventsFragment extends Fragment {
         });
 
         createEventButton.setOnClickListener(view -> {
-                createEventClicked();
+            createEventClicked();
         });
-
-
-        createEventLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == RESULT_OK) {
-                Intent data = result.getData();
-                createEvent(data.getStringExtra("eventID"));
-            }
-        });
-
-        // Recieve userID and set to variable
-        if (getArguments().getString("userID") != null) {
-            userID = getArguments().getString("userID");
-        }
-
-        return root;
-    } // end of onCreate
-
-
-
-    public void onStart() {
-        super.onStart();
-        if (userID != null) {
-            // Display only entrant UI if user is only an entrant
-            updateOrganizerUIVisibility(userID);
-        }
     }
 
     public interface EventDataCallback {
         void onDataRecieved(Map<String, Object> eventData);
+    }
+
+    public interface RegistrationCallback {
+        void onDataRecieved(ArrayList<String> eventData);
+    }
+    public interface RegistrationWaitCallback {
+        void onDataReturned(Boolean isRegistered);
+    }
+
+    public Boolean checkIfUserRegistered(String eventID, EventDetailsViewModel.RegistrationWaitCallback callback) {
+        getRegistrants(eventID, new EventDetailsViewModel.EventDetailsCallback() {
+            @Override
+            public void onDataRecieved(ArrayList<String> eventData) {
+                Boolean isUserRegistered = eventData.contains(userID);
+                callback.onDataReturned(isUserRegistered);
+            }
+        });
+        return null;
+    }
+    public ArrayList<String> getRegistrants(String eventID, EventDetailsViewModel.EventDetailsCallback callback) {
+        DocumentReference ref = db.collection("events").document(eventID);
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<String> registrants = null;
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        registrants = (ArrayList<String>) document.get("registrants");
+                    }
+                    callback.onDataRecieved(registrants);
+                }
+            }
+        });
+        return null;
     }
 
     public void eventClicked(AdapterView<?> adapterView, View view, int i, long l, String eventCategory) {
@@ -254,8 +307,11 @@ public class MyEventsFragment extends Fragment {
                     intent.putExtra("accepted", (Boolean) eventData.get("accepted"));
                     intent.putExtra("availability", (String) eventData.get("availability"));
                     intent.putExtra("price", (String) eventData.get("price"));
+                    intent.putExtra("eventID", (String) eventData.get("eventID"));
+                    intent.putExtra("category", eventCategory);
+                    intent.putExtra("userID", userID);
 
-                    startActivity(intent);
+                    eventDetailsLauncher.launch(intent);
                 }
             }
         });
@@ -284,6 +340,7 @@ public class MyEventsFragment extends Fragment {
                         eventData.put("price", document.getString("price"));
                         eventData.put("registered", document.getBoolean("registered"));
                         eventData.put("accepted", document.getBoolean("accepted"));
+                        eventData.put("eventID", document.getId());
 
                     }
                     callback.onDataRecieved(eventData);
@@ -335,7 +392,6 @@ public class MyEventsFragment extends Fragment {
                     String eventLocation = (String) eventData.get("location");
                     createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                     createdAdapter.notifyDataSetChanged();
-                    Log.d("food", String.valueOf(createdList.size()));
                 }
             }
         });

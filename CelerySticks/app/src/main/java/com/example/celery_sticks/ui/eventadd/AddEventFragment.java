@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -67,7 +68,7 @@ public class AddEventFragment extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
-    private boolean geolocationStatus;
+    private boolean geolocationStatus = true; // defaults to true for UI purposes
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
@@ -283,6 +284,7 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("availability", participationLimit); // titled "availability" in db
         eventData.put("price", cost); // titled "price" in db
         eventData.put("organizerID", organizerID);
+        eventData.put("registrants", new ArrayList<>());
 
 
 
