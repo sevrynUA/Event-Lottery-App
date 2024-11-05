@@ -279,16 +279,19 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("open", stampOpenDate);
         eventData.put("qrcode", "");
         eventData.put("registered", false);
-        eventData.put("signupqrcode", "");
         eventData.put("geolocation", geolocationStatus);
-        eventData.put("pariticpation limit", participationLimit);
-        eventData.put("cost", cost);
+        eventData.put("availability", participationLimit); // titled "availability" in db
+        eventData.put("price", cost); // titled "price" in db
         eventData.put("organizerID", organizerID);
 
 
 
-        db.collection("events").document(title).set(eventData)
-                .addOnSuccessListener(avoid -> {
+        db.collection("events").add(eventData)
+                .addOnSuccessListener(documentReference -> {
+                    String eventID = documentReference.getId();
+                    Intent completedIntent = new Intent();
+                    completedIntent.putExtra("eventID", eventID);
+                    setResult(RESULT_OK, completedIntent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
