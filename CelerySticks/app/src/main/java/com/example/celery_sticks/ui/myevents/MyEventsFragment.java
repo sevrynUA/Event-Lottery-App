@@ -1,5 +1,7 @@
 package com.example.celery_sticks.ui.myevents;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,11 +35,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class MyEventsFragment extends Fragment {
 
@@ -54,6 +60,15 @@ public class MyEventsFragment extends Fragment {
     private ListView invitationListView;
     private EventsArrayAdapter invitationAdapter;
 
+    private ArrayList<Event> createdList = new ArrayList<>();
+    private ListView createdListView;
+    private EventsArrayAdapter createdAdapter;
+
+    private ArrayList<Event> temporaryList = new ArrayList<>();
+    private ListView temporaryListView;
+    private EventsArrayAdapter temporaryAdapter;
+
+    private ActivityResultLauncher<Intent> createEventLauncher; // used for refreshing list
     private String userID = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -67,6 +82,8 @@ public class MyEventsFragment extends Fragment {
         registeredList.clear();
         invitationList.clear();
         acceptedList.clear();
+        createdList.clear();
+        temporaryList.clear();
 
         registeredListView = root.findViewById(R.id.registered_list);
         registeredAdapter = new EventsArrayAdapter(getContext(), registeredList);
@@ -79,6 +96,15 @@ public class MyEventsFragment extends Fragment {
         invitationListView = root.findViewById(R.id.invitation_list);
         invitationAdapter = new EventsArrayAdapter(getContext(), invitationList);
         invitationListView.setAdapter(invitationAdapter);
+
+        createdListView = root.findViewById(R.id.created_by_me_list);
+        createdAdapter = new EventsArrayAdapter(getContext(), createdList);
+        createdListView.setAdapter(createdAdapter);
+
+        // TEMPORARY LIST FOR TESTING PURPOSES
+        temporaryListView = root.findViewById(R.id.temporary_list);
+        temporaryAdapter = new EventsArrayAdapter(getContext(), temporaryList);
+        temporaryListView.setAdapter(temporaryAdapter);
 
         Button createEventButton = root.findViewById(R.id.create_event_button);
 
@@ -99,17 +125,25 @@ public class MyEventsFragment extends Fragment {
                         String eventLocation = document.getString("location");
                         Boolean registered = document.getBoolean("registered");
                         Boolean accepted = document.getBoolean("accepted");
-                        if (registered && !accepted) {
-                            registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
-                            registeredAdapter.notifyDataSetChanged();
-                        } else if (registered && accepted) {
-                            acceptedList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
-                            acceptedAdapter.notifyDataSetChanged();
-                        } else if (!registered && !accepted && eventName != "test") {
-                            invitationList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
-                            invitationAdapter.notifyDataSetChanged();
+                        String organizerID = document.getString("organizerID");
+
+                        if (organizerID != null && organizerID.equals(userID)) {
+                            createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                        } else {
+                            temporaryList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                         }
+//                        if (registered && !accepted) {
+//                            registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+//                            registeredAdapter.notifyDataSetChanged();
+//                        } else if (registered && accepted) {
+//                            acceptedList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+//                            acceptedAdapter.notifyDataSetChanged();
+//                        } else if (!registered && !accepted && eventName != "test") {
+//                            invitationList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+//                            invitationAdapter.notifyDataSetChanged();
+//                        }
                     }
+                    refreshLists();
                 }
             }
         });
@@ -129,11 +163,28 @@ public class MyEventsFragment extends Fragment {
                 eventClicked(adapterView, view, i, l, "invitation");
             }
         });
+        createdListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventClicked(adapterView, view, i, l, "created");
+            }
+        });
+        temporaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventClicked(adapterView, view, i, l, "temporary");
+            }
+        });
 
         createEventButton.setOnClickListener(view -> {
                 createEventClicked();
         });
 
+
+        createEventLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                createEvent(data.getStringExtra("eventID"));
+            }
+        });
 
         // Recieve userID and set to variable
         if (getArguments().getString("userID") != null) {
@@ -141,7 +192,7 @@ public class MyEventsFragment extends Fragment {
         }
 
         return root;
-    }
+    } // end of onCreate
 
 
 
@@ -167,6 +218,10 @@ public class MyEventsFragment extends Fragment {
             eventID = acceptedList.get(i).getEventId();
         } else if (eventCategory == "invitation") {
             eventID = invitationList.get(i).getEventId();
+        } else if (eventCategory == "created") {
+            eventID = createdList.get(i).getEventId();
+        } else if (eventCategory == "temporary") {
+            eventID = temporaryList.get(i).getEventId();
         }
         getEventData(eventID, new EventDataCallback() {
             @Override
@@ -251,7 +306,6 @@ public class MyEventsFragment extends Fragment {
                     String role = document.getString("role");
                     if (role != null) {
                         if (role.equals("entrant")) {
-                            Log.d("food", "hiding");
                             createdByMeTitle.setVisibility(View.GONE);
                             createdByMeList.setVisibility(View.GONE);
                             createEventButton.setVisibility(View.GONE);
@@ -266,10 +320,38 @@ public class MyEventsFragment extends Fragment {
         });
     }
 
+    public void createEvent(String eventID) {
+        getEventData(eventID, new EventDataCallback() {
+            @Override
+            public void onDataRecieved(Map<String, Object> eventData) {
+                if (!eventData.isEmpty()) {
+                    String eventName = (String) eventData.get("name");
+                    String eventDescription = (String) eventData.get("description");
+                    String eventImage = (String) eventData.get("image");
+                    Timestamp eventDate = (Timestamp) eventData.get("date");
+                    Timestamp eventClose = (Timestamp) eventData.get("close");
+                    Timestamp eventOpen = (Timestamp) eventData.get("open");
+                    String eventQR = (String) eventData.get("qrcode");
+                    String eventLocation = (String) eventData.get("location");
+                    createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                    createdAdapter.notifyDataSetChanged();
+                    Log.d("food", String.valueOf(createdList.size()));
+                }
+            }
+        });
+    }
+
+    public void refreshLists() {
+        registeredAdapter.notifyDataSetChanged();
+        invitationAdapter.notifyDataSetChanged();
+        acceptedAdapter.notifyDataSetChanged();
+        createdAdapter.notifyDataSetChanged();
+        temporaryAdapter.notifyDataSetChanged();
+    }
+
     public void createEventClicked() {
         Intent intent = new Intent(getContext(), AddEventFragment.class);
-
-        startActivity(intent);
+        createEventLauncher.launch(intent);
     }
 
 
