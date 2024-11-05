@@ -50,7 +50,7 @@
                 android:layout_height="123dp"
                 android:padding="5sp"
                 android:scaleType="fitXY"
-                android:text=""
+                android:text="F"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="80sp"

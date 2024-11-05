@@ -77,7 +77,8 @@ public class StartUpActivity extends AppCompatActivity {
         // Get device ID
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        String TEMP_ROLE = "entrant"; // REMOVE WITH FACILITY IMPLEMENTATION
+        // every user is an entrant by default
+        String role = "entrant";
 
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("userID", userID);
@@ -85,7 +86,7 @@ public class StartUpActivity extends AppCompatActivity {
         userData.put("lastName", lastName);
         userData.put("email", email);
         userData.put("phoneNumber", phoneNumber);
-        userData.put("role", TEMP_ROLE);
+        userData.put("role", role);
 
         db.collection("users").document(userID).set(userData)
                 .addOnSuccessListener(aVoid -> {
