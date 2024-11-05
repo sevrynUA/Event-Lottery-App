@@ -74,12 +74,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // explicitly pass userID on app startup
+        // explicitly pass userID to MyEventsFragment on app startup
         Bundle explicitBundle = new Bundle();
-        explicitBundle.putString("userID", userID); // Assuming userID is defined in your MainActivity
+        explicitBundle.putString("userID", userID);
         navController.navigate(R.id.my_events, explicitBundle);
 
-
+        // Use to pass string value to other Activities in sidebar menu (not currently needed)
+//        binding.navView.setNavigationItemSelectedListener(item -> {
+//            Bundle idBundle = new Bundle();
+//            if (item.getItemId() == R.id.my_profile) {
+//                idBundle.putString("userID", userID);
+//                navController.navigate(R.id.my_profile, idBundle);
+//            }
+//            return false;
+//        });
 
 
         // Set initials when new profile is created
