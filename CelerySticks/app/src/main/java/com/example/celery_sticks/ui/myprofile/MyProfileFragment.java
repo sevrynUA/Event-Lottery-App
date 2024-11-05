@@ -1,5 +1,6 @@
 package com.example.celery_sticks.ui.myprofile;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -34,16 +35,16 @@ public class MyProfileFragment extends Fragment {
         return root;
     }
 
-    @Override
     /**
      * Initializes the view and sets up the layout and database connection.
      * @param view the view
      *  @param savedInstanceState the saved instance state
      */
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // get device ID
-        String userID = Settings.Secure.getString(requireContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        @SuppressLint("HardwareIds") String userID = Settings.Secure.getString(requireContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         myProfileViewModel = new ViewModelProvider(this).get(MyProfileViewModel.class);
         // populate fields with user data
         myProfileViewModel.getUser(userID).observe(getViewLifecycleOwner(), user -> {
@@ -124,7 +125,7 @@ public class MyProfileFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save changes", Toast.LENGTH_SHORT).show();
-                    Log.e("MyProfileFragment", "Error updating profile", e);
+                    Log.e("MyProfileFragment", "Profile update failed for userID: " + userID, e);
                 });
     }
 
