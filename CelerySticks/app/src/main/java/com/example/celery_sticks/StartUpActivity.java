@@ -45,7 +45,6 @@ public class StartUpActivity extends AppCompatActivity {
     }
 
     // TODO: Add input validation
-
     /**
      * Saves user data to database
      */

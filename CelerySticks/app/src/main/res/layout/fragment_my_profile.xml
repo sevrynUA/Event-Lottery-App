@@ -49,7 +49,7 @@
             android:layout_height="123dp"
             android:padding="5sp"
             android:scaleType="fitXY"
-            android:text="US"
+            android:text=""
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="80sp"

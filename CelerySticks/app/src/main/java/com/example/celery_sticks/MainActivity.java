@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private String userID;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -93,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Checks if the user exists in the database and faciliates the user to sign up if not.
+     * Checks if the user exists in the database and facilitates the user to sign up if not.
      */
     private void checkUser() {
         db.collection("users").document(userID).get()
@@ -131,6 +128,4 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 }
