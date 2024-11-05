@@ -22,17 +22,19 @@
 
 
     <TextView
+        android:id="@+id/created_by_me_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Created by me"
-        android:textSize="22sp"
-        android:textColor="#b4f0ee">
-    </TextView>
+        android:textColor="#b4f0ee"
+        android:textSize="22sp"></TextView>
 
     <ListView
+        android:id="@+id/created_by_me_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"></ListView>
+        android:layout_marginBottom="20px"
+        android:visibility="visible"></ListView>
 
 
 
@@ -81,6 +83,23 @@
 
     <ListView
         android:id="@+id/accepted_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20px">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/temp_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Temporary List of Events (Testing)"
+        android:textColor="#b4f0ee"
+        android:textSize="22sp"></TextView>
+
+    <ListView
+        android:id="@+id/temporary_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20px"></ListView>

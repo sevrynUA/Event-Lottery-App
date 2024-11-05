@@ -133,7 +133,6 @@
                 android:textSize="16sp" />
 
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -159,7 +158,6 @@
                 android:textSize="16sp" />
 
 
-
         </LinearLayout>
 
         <Button
@@ -172,4 +170,18 @@
             app:icon="@drawable/ic_menu_camera" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/vomitGreen"
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

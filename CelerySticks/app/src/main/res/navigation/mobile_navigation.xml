@@ -9,7 +9,11 @@
         android:id="@+id/my_events"
         android:name="com.example.celery_sticks.ui.myevents.MyEventsFragment"
         android:label="My Events"
-        tools:layout="@layout/fragment_my_events" />
+        tools:layout="@layout/fragment_my_events">
+        <argument
+            android:name="userID"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/event_finder"
