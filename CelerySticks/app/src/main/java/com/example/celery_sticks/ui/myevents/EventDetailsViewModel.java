@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,13 +44,19 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
         Button registerButton = findViewById(R.id.register_button);
         String eventCategory = intent.getStringExtra("category");
-        if (Objects.equals(eventCategory, "registered")) {
-            registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unSelectedRed)));
-            registerButton.setText("Unregister");
+        if (Objects.equals(eventCategory, "created")) {
+            registerButton.setVisibility(View.GONE);
         } else {
-            registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.vomitGreen)));
-            registerButton.setText("Register");
+            registerButton.setVisibility(View.VISIBLE);
+            if (Objects.equals(eventCategory, "registered")) {
+                registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unSelectedRed)));
+                registerButton.setText("Unregister");
+            } else {
+                registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.vomitGreen)));
+                registerButton.setText("Register");
+            }
         }
+
 
         TextView eventTitleText = findViewById(R.id.event_title_text);
         TextView eventDescriptionText = findViewById(R.id.event_description_text);
