@@ -67,7 +67,7 @@ public class AddEventFragment extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
-    private boolean geolocationStatus;
+    private boolean geolocationStatus = true; // defaults to true for UI purposes
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
