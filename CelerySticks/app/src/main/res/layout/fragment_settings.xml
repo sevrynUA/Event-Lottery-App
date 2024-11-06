@@ -33,11 +33,11 @@
             android:id="@+id/settings_notify_win_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:backgroundTint="#5C7846"
+            android:backgroundTint="@color/vomitGreen"
             android:drawableRight="@drawable/checkmark"
             android:text="Notify me of successful lottery draws (&quot;wins&quot;)"
             android:textAlignment="viewStart"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/settings_notify_lose_button"
