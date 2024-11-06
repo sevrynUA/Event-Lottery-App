@@ -9,6 +9,9 @@
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="180dp">
 
         <ImageView
@@ -208,7 +211,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
                 app:layout_constraintStart_toStartOf="@+id/relativeLayout"
                 app:layout_constraintTop_toTopOf="@+id/relativeLayout"
-                tools:srcCompat="@drawable/QR_code_icon" />
+                tools:srcCompat="@drawable/code_qr_icon" />
 
 
             <TextView
