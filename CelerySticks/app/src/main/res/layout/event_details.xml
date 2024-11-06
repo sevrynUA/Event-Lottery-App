@@ -5,50 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <ImageView
+            android:id="@+id/event_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/landscape_event_placeholder_image" />
+
+        <Button
+            android:id="@+id/event_details_back"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:icon="?attr/homeAsUpIndicator" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/event_image_view"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="11dp"
+            app:icon="@android:drawable/ic_menu_edit" />
+
+    </RelativeLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="490dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="172dp">
-
-            <ImageView
-                android:id="@+id/event_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="173dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@android:drawable/sym_def_app_icon" />
-
-            <Button
-                android:id="@+id/event_details_back"
-                android:layout_width="53dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:icon="?attr/homeAsUpIndicator" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="61dp"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/event_image_view"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="11dp"
-                android:layout_marginBottom="11dp"
-                app:icon="@android:drawable/ic_menu_edit" />
-
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/event_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="Title of Event"
             android:textSize="20sp"
@@ -58,7 +64,6 @@
             android:id="@+id/event_description_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:text="This is the description of the event, which will contain many exciting things!"
@@ -66,69 +71,81 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="40dp"
             android:layout_marginTop="5dp"
             android:gravity="left"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:srcCompat="@android:drawable/ic_menu_my_calendar" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:cropToPadding="true"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/calendar_icon" />
 
             <TextView
                 android:id="@+id/event_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:text="Tuesday, December 10 - 3:00am"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:srcCompat="@drawable/location_icon" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:cropToPadding="true"
+                android:padding="4dp"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/location_icon_white" />
 
             <TextView
                 android:id="@+id/event_location_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:text="Edmonton, AB - Walterdale Bridge"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:srcCompat="@android:drawable/ic_menu_myplaces" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:cropToPadding="true"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/group_icon" />
 
             <TextView
                 android:id="@+id/event_availability_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:text="Entrant Availability - 10"
                 android:textSize="16sp" />
 
@@ -137,37 +154,85 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:cropToPadding="true"
+                android:padding="5dp"
+                android:scaleType="fitXY"
                 tools:srcCompat="@android:drawable/ic_dialog_info" />
 
             <TextView
                 android:id="@+id/event_price_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:text="$10"
                 android:textSize="16sp" />
 
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="QR Code"
-            app:icon="@drawable/ic_menu_camera" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:background="@drawable/light_grey_rounded_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageViewQR"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:cropToPadding="true"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+                tools:srcCompat="@drawable/QR_code_icon" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QR Code"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+                app:layout_constraintStart_toEndOf="@+id/imageViewQR"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout">
+
+            </TextView>
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
