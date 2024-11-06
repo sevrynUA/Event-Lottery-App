@@ -37,6 +37,7 @@
         </activity>
         <activity android:name=".ui.myevents.EventDetailsViewModel"></activity>
         <activity android:name=".ui.eventadd.AddEventFragment"></activity>
+        <activity android:name=".ui.myevents.EventQRCodeView"></activity>
     </application>
 
 </manifest>
