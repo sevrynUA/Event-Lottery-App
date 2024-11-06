@@ -79,6 +79,13 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
             finish();
         });
 
+        Button qrButton = findViewById(R.id.button3);
+        qrButton.setOnClickListener(view -> {
+            Intent qrView = new Intent(EventDetailsViewModel.this, EventQRCodeView.class);
+            qrView.putExtra("eventID", eventID);
+            startActivity(qrView);
+        });
+
         registerButton.setOnClickListener(view -> {
             checkIfUserRegistered(isUserRegistered -> {
                 if (isUserRegistered) { // user is unregistering
