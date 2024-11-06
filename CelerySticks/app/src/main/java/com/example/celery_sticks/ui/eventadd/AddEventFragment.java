@@ -262,10 +262,7 @@ public class AddEventFragment extends AppCompatActivity {
             return;
         }
 
-        // add QR code generation
-
         //get organizer id
-
         String organizerID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         HashMap<String, Object> eventData = new HashMap<>();
