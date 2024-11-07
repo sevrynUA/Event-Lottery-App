@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/primary"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/waitlist_selected_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </ListView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/notify_all_selected_button"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_corners"
+            android:backgroundTint="#33625C"
+            android:paddingStart="10sp"
+            android:text="Notify all selected entrants"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/notify_RSVP_button"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_corners"
+            android:backgroundTint="#33625C"
+            android:paddingStart="10sp"
+            android:text="Notify all entrants who still need to RSVP"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/notify_all_declined_button"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/light_grey_rounded_background"
+            android:backgroundTint="#33625C"
+            android:paddingStart="10sp"
+            android:text="Notify all declined entrants"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/list_accepts_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/light_grey_rounded_background"
+            android:backgroundTint="@color/vomitGreen"
+            android:drawableEnd="@drawable/checkmark"
+            android:text="List of Accepts"
+            android:textAllCaps="false"
+            android:textSize="30sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/list_declines_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/light_grey_rounded_background"
+            android:backgroundTint="@color/unSelectedRed"
+            android:drawableEnd="@drawable/x_mark"
+            android:text="List of Declines"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+</FrameLayout>

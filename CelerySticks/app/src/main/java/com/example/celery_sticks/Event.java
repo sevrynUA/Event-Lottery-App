@@ -24,6 +24,7 @@ public class Event {
 
     private QRCode detailsQRCode;
     private QRCode signupQRCcode;
+    private Boolean lotteryStatus;
 
     /**
      * Instantiates an Event object
@@ -45,6 +46,7 @@ public class Event {
         this.eventDate = eventDate.toDate();
         this.location = eventLocation;
         this.tentativeEntrants = new Waitlist();
+        lotteryStatus = false;
     }
 
     /**
@@ -217,4 +219,21 @@ public class Event {
         tentativeEntrants.removeEntrant(entrant);
     }
 
+    /**
+     * Gets whether or not the lottery process has started
+     * @return
+     * Whether the lottery process has started or not
+     */
+    public Boolean getLotteryStatus() {
+        return lotteryStatus;
+    }
+
+    /**
+     * This updates the status of the lottery
+     * @param lotteryStatus
+     * The status of the lottery
+     */
+    public void setLotteryStatus(Boolean lotteryStatus) {
+        this.lotteryStatus = lotteryStatus;
+    }
 }
