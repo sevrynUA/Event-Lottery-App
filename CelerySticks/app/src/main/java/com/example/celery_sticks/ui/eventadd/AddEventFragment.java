@@ -265,7 +265,6 @@ public class AddEventFragment extends AppCompatActivity {
 
 
         //get organizer id
-
         String organizerID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         HashMap<String, Object> eventData = new HashMap<>();
