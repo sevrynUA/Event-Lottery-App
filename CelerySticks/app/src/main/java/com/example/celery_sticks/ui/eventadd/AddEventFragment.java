@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +21,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.celery_sticks.QRCodeGenerator;
 import com.example.celery_sticks.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Blob;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
@@ -95,7 +102,6 @@ public class AddEventFragment extends AppCompatActivity {
         openDateTime = findViewById(R.id.event_open_date_time);
         closeDateTime = findViewById(R.id.event_close_date_time);
         dateTime = findViewById(R.id.event_date_time);
-
 
         // everything else
         title = findViewById(R.id.event_title_input);
@@ -214,14 +220,9 @@ public class AddEventFragment extends AppCompatActivity {
         String cost = this.cost.getText().toString();
         String description = this.description.getText().toString();
         String location = this.location.getText().toString();
-
-
         String dateString = dateMonth.getYear() + "-" + convertToSingleDigit(dateMonth.getMonth()) + "-" + convertToSingleDigit(dateMonth.getDayOfMonth()) + "-" + convertToSingleDigit(dateTime.getHour()) + "-" + convertToSingleDigit(dateTime.getMinute());
         String closeDateString = closeDateMonth.getYear() + "-" + convertToSingleDigit(closeDateMonth.getMonth()) + "-" + convertToSingleDigit(closeDateMonth.getDayOfMonth()) + "-" + convertToSingleDigit(closeDateTime.getHour()) + "-" + convertToSingleDigit(closeDateTime.getMinute());
         String openDateString = openDateMonth.getYear() + "-" + convertToSingleDigit(openDateMonth.getMonth()) + "-" + convertToSingleDigit(openDateMonth.getDayOfMonth()) + "-" + convertToSingleDigit(openDateTime.getHour()) + "-" + convertToSingleDigit(openDateTime.getMinute());
-
-
-        // Input validation for empty required fields
 
 
         // convert dates to timestamps
@@ -262,6 +263,7 @@ public class AddEventFragment extends AppCompatActivity {
             return;
         }
 
+
         //get organizer id
         String organizerID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -283,11 +285,22 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("organizerID", organizerID);
         eventData.put("registrants", new ArrayList<>());
 
-
-
         db.collection("events").add(eventData)
                 .addOnSuccessListener(documentReference -> {
                     String eventID = documentReference.getId();
+                    QRCodeGenerator generator;
+                    String qrCode;
+                    generator = new QRCodeGenerator(eventID);
+                    qrCode = generator.generate();
+                    DocumentReference eventRef = db.collection("events").document(eventID);
+                    eventRef
+                            .update("qrcode", qrCode)
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("AddEventFragment", "Error updating", e);
+                                }
+                            });
                     Intent completedIntent = new Intent();
                     completedIntent.putExtra("eventID", eventID);
                     setResult(RESULT_OK, completedIntent);
@@ -296,8 +309,5 @@ public class AddEventFragment extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed to save event data", Toast.LENGTH_SHORT).show();
                 });
-
-
-
     }
 }
