@@ -6,6 +6,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class EventFinderFragment extends Fragment {
     private DecoratedBarcodeView barcodeScannerView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityResultLauncher<Intent> eventDetailsLauncher;
+    String userID = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
 
     /**
      * Handles the result of the camera permission request.
@@ -123,7 +125,7 @@ public class EventFinderFragment extends Fragment {
                         intent.putExtra("price", (String) eventData.get("price"));
                         intent.putExtra("eventID", (String) eventData.get("eventID"));
                         intent.putExtra("category", "invitation");
-                        intent.putExtra("userID", "03c96e4930418242");
+                        intent.putExtra("userID", userID);
 
                         startActivity(intent);
                     }
