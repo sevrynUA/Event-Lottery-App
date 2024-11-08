@@ -1,8 +1,12 @@
 package com.example.celery_sticks.ui.eventfinder;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +21,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.celery_sticks.databinding.FragmentEventFinderBinding;
+import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
+import com.example.celery_sticks.ui.myevents.MyEventsFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a fragment that provides a UI for scanning QR codes using the device camera.
@@ -29,6 +44,8 @@ public class EventFinderFragment extends Fragment {
 
     private FragmentEventFinderBinding binding;
     private DecoratedBarcodeView barcodeScannerView;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ActivityResultLauncher<Intent> eventDetailsLauncher;
 
     /**
      * Handles the result of the camera permission request.
@@ -43,6 +60,70 @@ public class EventFinderFragment extends Fragment {
                 }
             });
 
+    public Map<String, Object> getEventData(String eventID) {
+        DocumentReference ref = db.collection("events").document(eventID);
+        Map<String, Object> eventData = new HashMap<>();
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Intent intent = new Intent(getContext(), EventDetailsViewModel.class);
+
+                        eventData.put("date", document.getTimestamp("date"));
+                        eventData.put("close", document.getTimestamp("close"));
+                        eventData.put("open", document.getTimestamp("open"));
+                        eventData.put("name", document.getString("name"));
+                        eventData.put("description", document.getString("description"));
+                        eventData.put("image", document.getString("image"));
+                        eventData.put("qrcode", document.getString("qrcode"));
+                        eventData.put("location", document.getString("location"));
+                        eventData.put("availability", document.getString("availability"));
+                        eventData.put("price", document.getString("price"));
+                        eventData.put("registered", document.getBoolean("registered"));
+                        eventData.put("accepted", document.getBoolean("accepted"));
+                        eventData.put("eventID", document.getId());
+
+                        String dateDOW = (String) DateFormat.format("EEEE", ((Timestamp) eventData.get("date")).toDate());
+                        String dateMonth = (String) DateFormat.format("MMMM", ((Timestamp) eventData.get("date")).toDate());
+                        String dateDayNum = (String) DateFormat.format("dd", ((Timestamp) eventData.get("date")).toDate());
+                        String dateTimeStr = (String) DateFormat.format("hh:mm a", ((Timestamp) eventData.get("date")).toDate());
+
+                        String closeDOW = (String) DateFormat.format("EEEE", ((Timestamp) eventData.get("close")).toDate());
+                        String closeMonth = (String) DateFormat.format("MMMM", ((Timestamp) eventData.get("close")).toDate());
+                        String closeDayNum = (String) DateFormat.format("dd", ((Timestamp) eventData.get("close")).toDate());
+                        String closeTimeStr = (String) DateFormat.format("hh:mm a", ((Timestamp) eventData.get("close")).toDate());
+
+                        String openDOW = (String) DateFormat.format("EEEE", ((Timestamp) eventData.get("open")).toDate());
+                        String openMonth = (String) DateFormat.format("MMMM", ((Timestamp) eventData.get("open")).toDate());
+                        String openDayNum = (String) DateFormat.format("dd", ((Timestamp) eventData.get("open")).toDate());
+                        String openTimeStr = (String) DateFormat.format("hh:mm a", ((Timestamp) eventData.get("open")).toDate());
+
+                        intent.putExtra("date", String.format("%s, %s %s - %s", dateDOW, dateMonth, dateDayNum, dateTimeStr));
+                        intent.putExtra("close", String.format("%s, %s %s - %s", closeDOW, closeMonth, closeDayNum, closeTimeStr));
+                        intent.putExtra("open", String.format("%s, %s %s - %s", openDOW, openMonth, openDayNum, openTimeStr));
+                        intent.putExtra("name", (String) eventData.get("name"));
+                        intent.putExtra("description", (String) eventData.get("description"));
+                        intent.putExtra("image", (String) eventData.get("image"));
+                        intent.putExtra("qrcode", (String) eventData.get("qrcode"));
+                        intent.putExtra("location", (String) eventData.get("location"));
+                        intent.putExtra("registered", (Boolean) eventData.get("registered"));
+                        intent.putExtra("accepted", (Boolean) eventData.get("accepted"));
+                        intent.putExtra("availability", (String) eventData.get("availability"));
+                        intent.putExtra("price", (String) eventData.get("price"));
+                        intent.putExtra("eventID", (String) eventData.get("eventID"));
+                        intent.putExtra("category", "invitation");
+                        intent.putExtra("userID", "03c96e4930418242");
+
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+        return eventData;
+    }
     /**
      * Initializes the fragment view and sets up the QR code scanner.
      * @param inflater
@@ -98,6 +179,7 @@ public class EventFinderFragment extends Fragment {
             @Override
             public void barcodeResult(BarcodeResult result) {
                 String qrData = result.getText();
+                getEventData(qrData);
                 if (qrData != null) {
                     Toast.makeText(getContext(), "QR Code: " + qrData, Toast.LENGTH_SHORT).show();
                     // Pause the scanner to prevent further detections
