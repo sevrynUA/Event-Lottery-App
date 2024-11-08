@@ -1,6 +1,8 @@
 package com.example.celery_sticks;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -11,6 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import android.Manifest;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -24,6 +30,8 @@ public class StartUpActivity extends AppCompatActivity {
     private EditText editFirstName, editLastName, editEmail, editPhoneNumber;
     private Button signupButton;
     private FirebaseFirestore db;
+
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
 
     /**
      * Initializes the activity and sets up the layout and database connection.
@@ -44,6 +52,7 @@ public class StartUpActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
 
         signupButton.setOnClickListener(v -> saveUserData());
+        checkNotificationPermission(); // Check and request notification permission if needed
     }
 
     /**
@@ -110,4 +119,39 @@ public class StartUpActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Checks if the application has permission to post notifications.
+     */
+    private void checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Check if permission is already granted
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Request permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        REQUEST_NOTIFICATION_PERMISSION);
+            }
+        }
+    }
+
+    /**
+     * Method that handles the result of the permission request for posting notifications.
+     * @param requestCode  Request code passed when requesting permission.
+     * @param permissions  Requested permissions (POST_NOTIFICATIONS).
+     * @param grantResults Grant results for the corresponding permissions, either PERMISSION_GRANTED or PERMISSION_DENIED.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
+            // Check if the permission was granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
