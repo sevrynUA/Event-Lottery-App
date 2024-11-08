@@ -79,7 +79,7 @@ public class MyProfileFragment extends Fragment {
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // From https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext by user1737884, Downloaded 2024-11-04
             return false;
-        } else if (!phoneNumber.matches("\\d{10}")) {
+        } else if (!phoneNumber.matches("\\d{10}") && !TextUtils.isEmpty(phoneNumber)) {
             return false;
         }
         return true;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,13 +61,25 @@ public class FacilityInformationFragment extends Fragment {
         binding.facilityButton.setOnClickListener(v -> saveFacilityChanges(ownerID));
     }
 
+    private boolean inputValidation(String facilityName, String email, String phoneNumber) {
+        if (TextUtils.isEmpty(facilityName) || TextUtils.isEmpty(email)) {
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // From https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext by user1737884, Downloaded 2024-11-04
+            return false;
+        } else if (!phoneNumber.matches("\\d{10}") && !TextUtils.isEmpty(phoneNumber)) {
+            return false;
+        }
+        return true;
+    }
+
     private void saveFacilityChanges(String ownerID) {
         String facilityName = binding.editFacilityName.getText().toString();
         String email = binding.editEmail.getText().toString();
         String phoneNumber = binding.editPhoneNumber.getText().toString();
 
-        if (TextUtils.isEmpty(facilityName) || TextUtils.isEmpty(email)) {
-            Toast.makeText(getContext(), "Facility name and email are required", Toast.LENGTH_SHORT).show();
+        if (!inputValidation(facilityName, email, phoneNumber)) {
+            Toast.makeText(getContext(), "Valid name and email are required", Toast.LENGTH_SHORT).show();
             return;
         }
 

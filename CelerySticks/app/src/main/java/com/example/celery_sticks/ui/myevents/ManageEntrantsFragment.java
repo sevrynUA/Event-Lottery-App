@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class ManageEntrantsFragment extends AppCompatActivity implements LotteryFragment.LotteryDialogueListener {
@@ -57,7 +58,11 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
         Intent intent = getIntent();
         eventID = intent.getStringExtra("eventID");
-        availability = Integer.parseInt(intent.getStringExtra("availability"));
+        if (intent.getStringExtra("availability") == null || Objects.equals(intent.getStringExtra("availability"), "")) {
+            availability = 999999; // no upper limit on participants
+        } else {
+            availability = Integer.parseInt(intent.getStringExtra("availability"));
+        }
 
         backButton = findViewById(R.id.manage_entrants_back_button);
         mapButton = findViewById(R.id.map_button);
