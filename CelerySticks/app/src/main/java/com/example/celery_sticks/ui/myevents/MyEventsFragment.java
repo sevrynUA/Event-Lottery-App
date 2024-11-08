@@ -259,7 +259,7 @@ public class MyEventsFragment extends Fragment {
 
         // set height based on total height
         ViewGroup.LayoutParams par = listView.getLayoutParams();
-        par.height = totalHeight + (listView.getDividerHeight() * (viewAdapter.getCount() - 1));
+        par.height = totalHeight + (listView.getDividerHeight() * (viewAdapter.getCount() + 2));
 
         // set the layout to the specified parameters
         listView.setLayoutParams(par);

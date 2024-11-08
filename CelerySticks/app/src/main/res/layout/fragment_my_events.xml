@@ -130,11 +130,9 @@
                 android:dividerHeight="10.0sp">
             </ListView>
 
-
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="80dp">
-
             </Space>
 
     </LinearLayout>
