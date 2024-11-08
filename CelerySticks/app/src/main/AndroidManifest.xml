@@ -28,11 +28,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QRCodeScanner"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity
             android:name=".StartUpActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
