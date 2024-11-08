@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"
-                        app:srcCompat="@drawable/place_holder_image_event"/>
+                        android:src="@drawable/place_holder_image_event"/>
                 </com.google.android.material.card.MaterialCardView>
 
 

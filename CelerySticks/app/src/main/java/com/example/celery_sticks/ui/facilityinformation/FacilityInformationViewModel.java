@@ -16,18 +16,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Map;
 
 /**
- * Represents the FacilityInformation activity; mostly default AndroidStudio implementation from sidebar
+ * This is the class for the model which manages all the views for the user
  */
 public class FacilityInformationViewModel extends ViewModel {
 
     private final MutableLiveData<Facility> facility;
     private FirebaseFirestore db;
 
+    /**
+     * constructor for the class
+     */
     public FacilityInformationViewModel() {
         facility = new MutableLiveData<>();
         db = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * Loads the facility information given the ID of the owner
+     * @param ownerID ID of the facility owner
+     */
     private void loadFacilityData(String ownerID) {
         db.collection("facilities").document(ownerID).get()
                 .addOnCompleteListener(task -> {
@@ -48,6 +55,12 @@ public class FacilityInformationViewModel extends ViewModel {
                 });
     }
 
+    /**
+     * Updates the facility document in the database and refreshes the model
+     * @param ownerID ID of the facility owner
+     * @param updatedData data to update the document with
+     * @return the firestore firebase collection
+     */
     public Task<Void> updateFacilityData(String ownerID, Map<String, Object> updatedData) {
         return db.collection("facilities").document(ownerID).update(updatedData)
                 .addOnSuccessListener(aVoid -> {
@@ -55,6 +68,12 @@ public class FacilityInformationViewModel extends ViewModel {
                 });
     }
 
+    /**
+     *
+     * @param ownerID
+     * @param newData
+     * @return
+     */
     public Task<Void> createFacilityData(String ownerID, Map<String, Object> newData) {
         return db.collection("facilities").document(ownerID).set(newData)
                 .addOnSuccessListener(aVoid -> {

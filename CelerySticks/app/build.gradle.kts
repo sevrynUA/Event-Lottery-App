@@ -41,6 +41,7 @@ dependencies {
     implementation ("com.google.zxing:core:3.5.0")
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
