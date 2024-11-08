@@ -278,7 +278,6 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("name", title);
         eventData.put("open", stampOpenDate);
         eventData.put("qrcode", "");
-        eventData.put("notificationSetting", true);
         //eventData.put("registered", false);
         eventData.put("geolocation", geolocationStatus);
         eventData.put("availability", participationLimit); // titled "availability" in db
