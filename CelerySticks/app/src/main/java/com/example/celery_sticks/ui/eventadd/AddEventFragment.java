@@ -283,7 +283,11 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("availability", participationLimit); // titled "availability" in db
         eventData.put("price", cost); // titled "price" in db
         eventData.put("organizerID", organizerID);
+
         eventData.put("registrants", new ArrayList<>());
+        eventData.put("selected", new ArrayList<>());
+        eventData.put("accepted", new ArrayList<>());
+        eventData.put("cancelled", new ArrayList<>());
 
         db.collection("events").add(eventData)
                 .addOnSuccessListener(documentReference -> {
