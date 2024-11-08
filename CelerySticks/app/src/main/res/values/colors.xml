@@ -18,4 +18,5 @@
     <color name="vomitGreen">#5C7846</color>
     <color name="unSelectedRed">#6e303d</color>
     <color name="defaultGray">#808080</color>
+    <color name="lighter_gray_hint">#C0C0C0</color>
 </resources>
