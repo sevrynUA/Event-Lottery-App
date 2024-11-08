@@ -18,7 +18,9 @@ import com.example.celery_sticks.User;
 import java.util.ArrayList;
 import java.util.Date;
 
-
+/**
+ * Adapter which manages the ListView displaying users in an event's "Manage Entrants" activity
+ */
 public class UserArrayAdapter extends ArrayAdapter<User> {
     public UserArrayAdapter(Context context, ArrayList<User> users) {super (context, 0, users); }
     @NonNull

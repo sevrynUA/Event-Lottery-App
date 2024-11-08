@@ -21,6 +21,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
+/**
+ * Represents the Settings activity, used to change settings for the user
+ */
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -73,6 +77,10 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Toggles notification setting to true
+     * @param button the button clicked to toggle setting
+     */
     public void setNotifSettingTrue(Button button) {
         notificationToggle = true;
         button.setBackgroundColor(getResources().getColor(R.color.vomitGreen));
@@ -80,6 +88,10 @@ public class SettingsFragment extends Fragment {
         users.document(userID).update("notificationSetting", true);
     }
 
+    /**
+     * Toggles notification setting to false
+     * @param button the button clicked to toggle setting
+     */
     public void setNotifSettingFalse(Button button) {
         notificationToggle = false;
         button.setBackgroundColor(getResources().getColor(R.color.unSelectedRed));
@@ -88,6 +100,9 @@ public class SettingsFragment extends Fragment {
 
     }
 
+    /**
+     * Function runs when activity is destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

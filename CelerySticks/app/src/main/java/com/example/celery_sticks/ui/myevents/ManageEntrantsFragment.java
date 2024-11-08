@@ -30,7 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
+/**
+ * Represents the activity displayed when organizers select "Manage Entrants" on the details screen for their event; manages entrants and can start lottery
+ */
 public class ManageEntrantsFragment extends AppCompatActivity implements LotteryFragment.LotteryDialogueListener {
     private Button backButton;
     private Button mapButton;
@@ -99,10 +101,21 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
     }
 
+    /**
+     * Interface used for asynchronously accessing data for event details
+     */
     public interface DataCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param data is the data accessed asynchronously
+         */
         void onDataRecieved(ArrayList<String> data);
     }
 
+    /**
+     * Starts the lottery, checking for a valid number of draws, then setting the database to reflect results
+     * @param input is the number of draws requested by the organizer
+     */
     public void startLottery(Editable input) {
         DocumentReference event = db.collection("events").document(eventID);
         Integer quantity = Integer.parseInt(input.toString());
@@ -152,6 +165,9 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     }
 
 
+    /**
+     * Refreshes the UI by clearing and filling the ArrayLists with updated data from the database
+     */
     public void initialize() {
         final Integer[] numberOfRegistrants = new Integer[1];
         final Integer[] numberOfSelected = new Integer[1];
@@ -216,6 +232,11 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     }
 
 
+    /**
+     * Gets the userIDs of the entrants in a given array within the database for the current event
+     * @param arrayType is which array in the database for the event to get userIDs from
+     * @param callback is used for asynchronous data access, returning arrayList through onDataRecieved
+     */
     public void getUsers(String arrayType, DataCallback callback) {
         final ArrayList<String>[] users = new ArrayList[1];
         CollectionReference events = db.collection("events");
@@ -227,6 +248,11 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         });
     }
 
+    /**
+     * Gets user data for a given userID
+     * @param userID of the user whose data is to be fetched
+     * @param callback is used for asynchronous data access, returning user data through onDataRecieved
+     */
     public void getRegistrantData(String userID, DataCallback callback) {
         final ArrayList<String>[] userData = new ArrayList[]{new ArrayList<>()};
         CollectionReference users = db.collection("users");

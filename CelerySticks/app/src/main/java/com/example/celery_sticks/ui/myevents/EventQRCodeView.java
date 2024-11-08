@@ -26,6 +26,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.Map;
 
+/**
+ * Represents the activity opened by clicking on "QR Code" in an event details page, which displays the QR code for that event.
+ */
 public class EventQRCodeView extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -231,7 +231,6 @@ public class AddEventFragment extends AppCompatActivity {
         });
     }
 
-
     /**
      * Takes a integer input and places a zero in front if necessary (converts to two digits)
      * @param input the integer to convert to two digits

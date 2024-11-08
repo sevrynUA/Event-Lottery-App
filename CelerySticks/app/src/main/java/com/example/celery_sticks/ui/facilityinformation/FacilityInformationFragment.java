@@ -22,7 +22,6 @@ import com.example.celery_sticks.ui.facilityinformation.FacilityInformationViewM
 
 import java.util.HashMap;
 
-
 /**
  * This class manages the fragment responsible for editing the facility information of an organizer
  */
