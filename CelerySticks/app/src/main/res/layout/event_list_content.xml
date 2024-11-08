@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/entrant_name_text"
+        app:layout_constraintStart_toEndOf="@+id/event_date_text"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="5dp"
             android:paddingLeft="5dp">
 
             <ImageView
