@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userID;
 
-    private ActivityResultLauncher<Intent> loginActivityLauncher;
+    private ActivityResultLauncher<Intent> startUpActivityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         // Get device ID
         userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+        // Check if user exists in database
+        checkUser();
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
@@ -102,15 +104,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Set initials when new profile is created
-        loginActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        startUpActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
                 Intent data = result.getData();
                 updateNameAndInitials(data.getStringExtra("firstName"), data.getStringExtra("lastName"), data.getStringExtra("userID"));
             }
         });
-
-        // Check if user exists in database
-        checkUser();
     }
 
 
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                                 // User does not exist
                                 Log.d("MainActivity", "User not found, starting StartUpActivity");
                                 Intent intent = new Intent(getApplicationContext(), StartUpActivity.class);
-                                loginActivityLauncher.launch(intent);
+                                startUpActivityLauncher.launch(intent);
                             }
                         } else {
                             Log.e("MainActivity", "Error getting user data", task.getException());
