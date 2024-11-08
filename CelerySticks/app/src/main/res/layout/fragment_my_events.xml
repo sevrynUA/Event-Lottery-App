@@ -11,115 +11,148 @@
     tools:context=".ui.myevents.MyEventsFragment">
 
 
-<LinearLayout
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
-    android:gravity="top"
-    android:orientation="vertical"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:fillViewport="true"
+    android:gravity="top">
 
 
-    <TextView
-        android:id="@+id/created_by_me_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Created by me"
-        android:textColor="#b4f0ee"
-        android:textSize="22sp"></TextView>
-
-    <ListView
-        android:id="@+id/created_by_me_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"
-        android:visibility="visible"></ListView>
+        android:background="@color/primary"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Registered"
-        android:textSize="22sp"
-        android:textColor="#b4f0ee">
-    </TextView>
-
-    <ListView
-        android:id="@+id/registered_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"></ListView>
+            <TextView
+                android:id="@+id/created_by_me_title"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_height="wrap_content"
+                android:text="Created by me"
+                android:textColor="#b4f0ee"
+                android:textSize="22sp">
+            </TextView>
 
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Invitations"
-        android:textSize="22sp"
-        android:textColor="#b4f0ee">
-    </TextView>
-
-    <ListView
-        android:id="@+id/invitation_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"></ListView>
+            <ListView
+                android:id="@+id/created_by_me_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:visibility="visible"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10.0sp">
+            </ListView>
 
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Accepted"
-        android:textSize="22sp"
-        android:textColor="#b4f0ee">
-    </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Registered"
+                android:textSize="22sp"
+                android:textColor="#b4f0ee">
+            </TextView>
 
-    <ListView
-        android:id="@+id/accepted_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20px">
-
-    </ListView>
-
-    <TextView
-        android:id="@+id/temp_list_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Temporary List of Events (Testing)"
-        android:textColor="#b4f0ee"
-        android:textSize="22sp"></TextView>
-
-    <ListView
-        android:id="@+id/temporary_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"></ListView>
+            <ListView
+                android:id="@+id/registered_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10.0sp">
+            </ListView>
 
 
-</LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Invitations"
+                android:textSize="22sp"
+                android:textColor="#b4f0ee">
+            </TextView>
 
-<android.widget.Button
-    android:id="@+id/create_event_button"
-    android:layout_width="match_parent"
-    android:layout_gravity="bottom"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="15dp"
-    android:layout_height="50dp"
-    android:background="@drawable/create_new_event_button_background"
-    android:text="Create New Events"
-    android:textAlignment="center"
-    android:textAllCaps="false"
-    android:textSize="25sp" />
+            <ListView
+                android:id="@+id/invitation_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10.0sp">
+            </ListView>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Accepted"
+                android:textSize="22sp"
+                android:layout_marginBottom="15dp"
+                android:textColor="#b4f0ee">
+            </TextView>
+
+            <ListView
+                android:id="@+id/accepted_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10.0sp">
+            </ListView>
+
+
+            <TextView
+                android:id="@+id/temp_list_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Temporary List of Events (Testing)"
+                android:textColor="#b4f0ee"
+                android:textSize="22sp">
+            </TextView>
+
+            <ListView
+                android:id="@+id/temporary_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10.0sp">
+            </ListView>
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+            </Space>
+
+    </LinearLayout>
+</ScrollView>
+
+        <android.widget.Button
+            android:id="@+id/create_event_button"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="50dp"
+            android:background="@drawable/create_new_event_button_background"
+            android:text="Create New Events"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="25sp" />
 
 </FrameLayout>
 
