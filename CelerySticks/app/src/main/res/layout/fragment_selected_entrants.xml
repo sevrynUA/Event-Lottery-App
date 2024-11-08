@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,11 +17,24 @@
         android:gravity="top"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/selected_entrants_back_button"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:icon="?attr/homeAsUpIndicator"/>
+
         <ListView
             android:id="@+id/waitlist_selected_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp">
 
         </ListView>
 

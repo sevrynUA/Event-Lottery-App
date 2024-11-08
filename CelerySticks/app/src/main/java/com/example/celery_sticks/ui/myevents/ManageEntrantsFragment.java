@@ -12,12 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.GeolocationMap;
 import com.example.celery_sticks.Notifications;
 import com.example.celery_sticks.R;
+import com.example.celery_sticks.StartUpActivity;
 import com.example.celery_sticks.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -96,7 +98,9 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         });
 
         selectedButton.setOnClickListener(view -> {
-            // selected entrants fragment
+            Intent selectedEntrants = new Intent(ManageEntrantsFragment.this, SelectedEntrantsFragment.class);
+            selectedEntrants.putExtra("eventID", eventID);
+            startActivity(selectedEntrants);
         });
 
         backButton.setOnClickListener(view -> {
