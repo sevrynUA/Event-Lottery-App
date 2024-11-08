@@ -39,7 +39,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/location_icon" />
+            android:src="@drawable/location_icon"/>
 
         <TextView
             android:id="@+id/entrant_location_text"
@@ -71,7 +71,7 @@
             android:background="@android:color/transparent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/remove_user_image"/>
+            android:src="@drawable/remove_user_image"/>
 
     </com.google.android.material.card.MaterialCardView>
 

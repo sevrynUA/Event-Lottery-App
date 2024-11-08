@@ -46,7 +46,14 @@ public class StartUpActivity extends AppCompatActivity {
         signupButton.setOnClickListener(v -> saveUserData());
     }
 
-    // TODO: Add input validation
+    /**
+     * Validates the inputs meet the required format
+     * @param firstName first name user input
+     * @param lastName last name user input
+     * @param email email user input
+     * @param phoneNumber phone number user input
+     * @return boolean representing whether or not the inputs are valid
+     */
     private boolean inputValidation(String firstName, String lastName, String email, String phoneNumber) {
         if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(lastName)) {
             return false;

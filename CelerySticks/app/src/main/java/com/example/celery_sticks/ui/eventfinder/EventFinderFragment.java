@@ -60,6 +60,11 @@ public class EventFinderFragment extends Fragment {
                 }
             });
 
+    /**
+     * This function will return the values associated with the specified event given an event ID (also passes these values to the viewModel)
+     * @param eventID the id of the event to retrieve information about
+     * @return A hashmap which contains all the event's details
+     */
     public Map<String, Object> getEventData(String eventID) {
         DocumentReference ref = db.collection("events").document(eventID);
         Map<String, Object> eventData = new HashMap<>();
@@ -70,6 +75,7 @@ public class EventFinderFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
+                        // passes values to intent EventDetailsViewModel
                         Intent intent = new Intent(getContext(), EventDetailsViewModel.class);
 
                         eventData.put("date", document.getTimestamp("date"));
@@ -86,6 +92,7 @@ public class EventFinderFragment extends Fragment {
                         eventData.put("accepted", document.getBoolean("accepted"));
                         eventData.put("eventID", document.getId());
 
+                        // format the dates given Timestamps
                         String dateDOW = (String) DateFormat.format("EEEE", ((Timestamp) eventData.get("date")).toDate());
                         String dateMonth = (String) DateFormat.format("MMMM", ((Timestamp) eventData.get("date")).toDate());
                         String dateDayNum = (String) DateFormat.format("dd", ((Timestamp) eventData.get("date")).toDate());
@@ -101,6 +108,7 @@ public class EventFinderFragment extends Fragment {
                         String openDayNum = (String) DateFormat.format("dd", ((Timestamp) eventData.get("open")).toDate());
                         String openTimeStr = (String) DateFormat.format("hh:mm a", ((Timestamp) eventData.get("open")).toDate());
 
+                        // pass the event details to the model
                         intent.putExtra("date", String.format("%s, %s %s - %s", dateDOW, dateMonth, dateDayNum, dateTimeStr));
                         intent.putExtra("close", String.format("%s, %s %s - %s", closeDOW, closeMonth, closeDayNum, closeTimeStr));
                         intent.putExtra("open", String.format("%s, %s %s - %s", openDOW, openMonth, openDayNum, openTimeStr));
@@ -129,7 +137,7 @@ public class EventFinderFragment extends Fragment {
      * @param inflater
      * @param container
      * @param savedInstanceState
-     * @return
+     * @return the view to be displayed
      * The root view of the fragment
      */
     @Override

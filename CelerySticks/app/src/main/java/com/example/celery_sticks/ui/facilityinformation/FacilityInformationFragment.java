@@ -23,11 +23,26 @@ import com.example.celery_sticks.ui.facilityinformation.FacilityInformationViewM
 import java.util.HashMap;
 
 
+/**
+ * This class manages the fragment responsible for editing the facility information of an organizer
+ */
 public class FacilityInformationFragment extends Fragment {
 
     private FragmentFacilityInformationBinding binding;
     private FacilityInformationViewModel facilityInformationViewModel;
 
+    /**
+     * Creates the view for the fragment
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return the root binding for the fragment
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -37,6 +52,12 @@ public class FacilityInformationFragment extends Fragment {
         return root;
     }
 
+    /**
+     * This function manages the fragment view (contains all the input, output, and processing tasks)
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -61,6 +82,13 @@ public class FacilityInformationFragment extends Fragment {
         binding.facilityButton.setOnClickListener(v -> saveFacilityChanges(ownerID));
     }
 
+    /**
+     * Performs input validation for all the required inputs
+     * @param facilityName facility name inputted by the user
+     * @param email email inputted by the user
+     * @param phoneNumber phone number inputted by the user
+     * @return boolean representing whether the inputs are valid
+     */
     private boolean inputValidation(String facilityName, String email, String phoneNumber) {
         if (TextUtils.isEmpty(facilityName) || TextUtils.isEmpty(email)) {
             return false;
@@ -70,9 +98,13 @@ public class FacilityInformationFragment extends Fragment {
         } else if (!phoneNumber.matches("\\d{10}") && !TextUtils.isEmpty(phoneNumber)) {
             return false;
         }
-        return true;
+        return true; // valid
     }
 
+    /**
+     * Saves the information inputted by the user to the firestore database
+     * @param ownerID the owner id which defines the document to store the user inputs
+     */
     private void saveFacilityChanges(String ownerID) {
         String facilityName = binding.editFacilityName.getText().toString();
         String email = binding.editEmail.getText().toString();
@@ -114,6 +146,9 @@ public class FacilityInformationFragment extends Fragment {
         }
     }
 
+    /**
+     * destroys the binding created in onCreateView()
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
