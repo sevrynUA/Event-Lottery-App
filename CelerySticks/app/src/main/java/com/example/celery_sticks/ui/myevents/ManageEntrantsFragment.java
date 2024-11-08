@@ -41,6 +41,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     private Integer selectedCount = 0;
 
     private String eventID;
+    private Integer availability;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
@@ -56,6 +57,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
         Intent intent = getIntent();
         eventID = intent.getStringExtra("eventID");
+        availability = Integer.parseInt(intent.getStringExtra("availability"));
 
         backButton = findViewById(R.id.manage_entrants_back_button);
         mapButton = findViewById(R.id.map_button);
@@ -93,9 +95,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         Integer quantity = Integer.parseInt(input.toString());
         Integer numberOfRegistrants = registrantCount;
 
-        if (quantity > numberOfRegistrants) {
+        if (quantity + selectedCount > availability) {
+            Toast.makeText(this, String.format("Only room for %s more!", String.valueOf(availability - selectedCount)), Toast.LENGTH_SHORT).show();
+        } else if (quantity > numberOfRegistrants) {
             Toast.makeText(this, "Not enough registrants!", Toast.LENGTH_SHORT).show();
-        } else if (quantity == 0) {
+        }
+        else if (quantity == 0) {
             Toast.makeText(this, "Lottery requires 1 minimum!", Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<String> userIDs = new ArrayList<>();
@@ -149,6 +154,9 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                     numberOfSelected[0] = data.size();
                     if (numberOfSelected[0] == 0) {
                         lotteryStatusText.setText("The selection process has not yet been initiated");
+                    } else if (numberOfSelected[0] == availability) {
+                        lotteryButton.setVisibility(View.GONE);
+                        lotteryStatusText.setText("Maximum availability has been filled");
                     } else {
                         lotteryStatusText.setText("The selection process has already started");
                     }
@@ -171,10 +179,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                 if (data != null) {
                     numberOfRegistrants[0] = data.size();
                     if (numberOfRegistrants[0] == 0) {
-                        lotteryStatusText.setText("Maximum number of registrants have been selected");
+                        lotteryStatusText.setText("The waitlist is currently empty");
                         lotteryButton.setVisibility(View.GONE);
                     } else {
-                        lotteryButton.setVisibility(View.VISIBLE);
+                        if (numberOfSelected[0] != availability) {
+                            lotteryButton.setVisibility(View.VISIBLE);
+                        }
                     }
                     for (String userID : data) {
                         getRegistrantData(userID, new DataCallback() {
