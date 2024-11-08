@@ -106,6 +106,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         manageEntrantsButton.setOnClickListener(view -> {
             Intent manageEntrantsIntent = new Intent(EventDetailsViewModel.this, ManageEntrantsFragment.class);
             manageEntrantsIntent.putExtra("eventID", eventID);
+            manageEntrantsIntent.putExtra("availability", intent.getStringExtra("availability"));
             startActivity(manageEntrantsIntent);
         });
     }
