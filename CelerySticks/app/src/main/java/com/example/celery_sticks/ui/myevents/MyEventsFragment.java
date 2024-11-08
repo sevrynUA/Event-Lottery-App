@@ -236,7 +236,7 @@ public class MyEventsFragment extends Fragment {
      * This function expands each list view so that the my events menu only needs one scroll bar for all lists derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
      * @param listView list view to expand
      */
-    public static void expandListViewHeight(ListView listView) {
+    public void expandListViewHeight(ListView listView) {
         ListAdapter viewAdapter = listView.getAdapter();
 
         if (viewAdapter == null) {
@@ -254,18 +254,25 @@ public class MyEventsFragment extends Fragment {
             // get item length
             listItem.measure(0, 0);
             // increases height
-            totalHeight += listItem.getMeasuredHeight();
+            totalHeight += 150; // height of content
         }
 
         // set height based on total height
         ViewGroup.LayoutParams par = listView.getLayoutParams();
-        par.height = totalHeight + (listView.getDividerHeight() * (viewAdapter.getCount() + 2));
+        // 10dp is the height of a divider
+        int heightDP = totalHeight + (10 * (viewAdapter.getCount() + 1));
+
+        // get conversion factor
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        // convert from dp to px and store
+        par.height = (int) (heightDP * scale);
 
         // set the layout to the specified parameters
         listView.setLayoutParams(par);
 
         // submit the changes
         listView.requestLayout();
+
     }
 
     /**
