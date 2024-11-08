@@ -22,7 +22,9 @@ import com.example.celery_sticks.ui.facilityinformation.FacilityInformationViewM
 
 import java.util.HashMap;
 
-
+/**
+ * Represents the Facility Information activity, used to set and edit facility information
+ */
 public class FacilityInformationFragment extends Fragment {
 
     private FragmentFacilityInformationBinding binding;
@@ -61,6 +63,13 @@ public class FacilityInformationFragment extends Fragment {
         binding.facilityButton.setOnClickListener(v -> saveFacilityChanges(ownerID));
     }
 
+    /**
+     * Validates input given by the user
+     * @param facilityName is the name of the facility provided by user
+     * @param email is the email address provided by user
+     * @param phoneNumber is the phone number (if any) provided by the user
+     * @returns false if invalid input, or true if input is valid
+     */
     private boolean inputValidation(String facilityName, String email, String phoneNumber) {
         if (TextUtils.isEmpty(facilityName) || TextUtils.isEmpty(email)) {
             return false;
@@ -73,6 +82,10 @@ public class FacilityInformationFragment extends Fragment {
         return true;
     }
 
+    /**
+     * Saves updated facility information to database
+     * @param ownerID is the userID of the user to which the database belongs
+     */
     private void saveFacilityChanges(String ownerID) {
         String facilityName = binding.editFacilityName.getText().toString();
         String email = binding.editEmail.getText().toString();
@@ -114,6 +127,9 @@ public class FacilityInformationFragment extends Fragment {
         }
     }
 
+    /**
+     * Function runs when activity is destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

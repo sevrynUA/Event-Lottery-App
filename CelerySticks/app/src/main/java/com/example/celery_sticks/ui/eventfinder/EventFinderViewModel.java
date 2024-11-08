@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * Represents the EventFinder activity; mostly default AndroidStudio implementation from sidebar
+ */
 public class EventFinderViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;

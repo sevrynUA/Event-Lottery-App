@@ -21,6 +21,9 @@ import com.example.celery_sticks.databinding.FragmentMyProfileBinding;
 
 import java.util.HashMap;
 
+/**
+ * Represents the MyProfile activity, used to change information about the user
+ */
 // TODO: Input validation, make EditText fields TextView until an edit button is pressed.
 public class MyProfileFragment extends Fragment {
 
@@ -71,6 +74,14 @@ public class MyProfileFragment extends Fragment {
         binding.saveButton.setOnClickListener(v -> saveChanges(userID));
     }
 
+    /**
+     * Validates input given by the user
+     * @param firstName is the firstName provided by user
+     * @param lastName is the lastName provided by user
+     * @param email is the email address provided by user
+     * @param phoneNumber is the phone number (if any) provided by the user
+     * @returns false if invalid input, or true if input is valid
+     */
     private boolean inputValidation(String firstName, String lastName, String email, String phoneNumber) {
         if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(lastName)) {
             return false;
@@ -129,6 +140,9 @@ public class MyProfileFragment extends Fragment {
                 });
     }
 
+    /**
+     * Function runs when activity is destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

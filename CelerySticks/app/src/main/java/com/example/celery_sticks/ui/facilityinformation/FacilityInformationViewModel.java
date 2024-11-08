@@ -15,6 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
+/**
+ * Represents the FacilityInformation activity; mostly default AndroidStudio implementation from sidebar
+ */
 public class FacilityInformationViewModel extends ViewModel {
 
     private final MutableLiveData<Facility> facility;

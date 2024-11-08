@@ -24,7 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**
+ * Represents the event details activity displayed by clicking on events in the MyEvents menu
+ */
 public class EventDetailsViewModel extends AppCompatActivity implements GeolocationWarningFragment.GeolocationDialogueListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -115,15 +117,31 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         });
     }
 
-    // Interfaces for database read/fetch information
+    /**
+     * Interface used for asynchronously accessing data for event details
+     */
     public interface EventDetailsCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param eventData is the data accessed asynchronously
+         */
         void onDataRecieved(ArrayList<String> eventData);
     }
+
+    /**
+     * Interface used for asynchronously returning data for registration
+     */
     public interface RegistrationWaitCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param isRegistered is a boolean indicating whether the user is registered
+         */
         void onDataReturned(Boolean isRegistered);
     }
 
-    // GeolocationDialogListener method
+    /**
+     * Registers the user in the current event
+     */
     public void register() {
         db.collection("events").document(eventID)
                 .update("registrants", FieldValue.arrayUnion(userID))
@@ -134,6 +152,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         setResult(RESULT_OK, completedIntent);
         finish();
     }
+
+    /**
+     * Unregisters the user from the current event
+     */
     public void unregister() {
         db.collection("events").document(eventID)
                 .update("registrants", FieldValue.arrayRemove(userID))
@@ -145,6 +167,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         finish();
     }
 
+    /**
+     * Checks if user is already registered in the current event
+     * @param callback is used to get result of asynchronous data access
+     */
     public Boolean checkIfUserRegistered(RegistrationWaitCallback callback) {
         getRegistrants(eventID, new EventDetailsCallback() {
             @Override
@@ -156,6 +182,12 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         return null;
     }
 
+    /**
+     * Gets the userIDs of the entrants that have registered in the current event
+     * @param eventID is the ID of the current event
+     * @param callback is used to get results of asynchronous data access
+     * @return an ArrayList containing userIDs of the entrants registered in the current event
+     */
     public ArrayList<String> getRegistrants(String eventID, EventDetailsCallback callback) {
         DocumentReference ref = db.collection("events").document(eventID);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

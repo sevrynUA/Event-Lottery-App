@@ -39,7 +39,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-
+/**
+ * Represents activity for creating events, initiated through the MyEvents activity
+ */
 public class AddEventFragment extends AppCompatActivity {
 
     private EditText title;
@@ -166,6 +168,13 @@ public class AddEventFragment extends AppCompatActivity {
 
     }
 
+    /**
+     * Changes UI visibility when date button is clicked (for setting date)
+     * @param pressed represents pressed button
+     * @param other represents other button
+     * @param selected represents the datepicker corresponding to the selected button
+     * @param confirm represents the confirm button which will save datepicker selection
+     */
     public void monthButtonPressed(Button pressed, Button other, DatePicker selected, Button confirm) {
         pressed.setVisibility(View.GONE);
         other.setVisibility(View.GONE);
@@ -184,6 +193,13 @@ public class AddEventFragment extends AppCompatActivity {
         });
     }
 
+    /**
+     * Changes UI visibility when time button is clicked (for setting time)
+     * @param pressed represents pressed button
+     * @param other represents other button
+     * @param selected represents the timepicker corresponding to the selected button
+     * @param confirm represents the confirm button which will save timepicker selection
+     */
     public void timeButtonPressed(Button pressed, Button other, TimePicker selected, Button confirm) {
         pressed.setVisibility(View.GONE);
         other.setVisibility(View.GONE);
@@ -201,7 +217,11 @@ public class AddEventFragment extends AppCompatActivity {
         });
     }
 
-    // makes sure that date has double digits (0 in front)
+    /**
+     * Ensures date has double digits (with a 0 in front)
+     * @param input is the input to ensure has double digits
+     * @return fixed input with double digits
+     */
     public String convertToSingleDigit(int input) {
         String fixed;
         if (Integer.toString(input).length() == 1) {
@@ -214,6 +234,9 @@ public class AddEventFragment extends AppCompatActivity {
     }
 
 
+    /**
+     * Creates new event in database with data provided by the user
+     */
     private void saveEventData() {
         String title = this.title.getText().toString();
         String participationLimit = this.participationLimit.getText().toString();
