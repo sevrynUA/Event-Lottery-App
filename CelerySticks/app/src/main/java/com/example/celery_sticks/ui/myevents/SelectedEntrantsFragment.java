@@ -52,11 +52,13 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         acceptedButton = findViewById(R.id.list_accepts_button);
         declinedButton = findViewById(R.id.list_declines_button);
         backButton = findViewById(R.id.selected_entrants_back_button);
-        //selectedListView = findViewById(R.id.waitlist_selected_list);
-        //selectedAdapter = new UserArrayAdapter(this, selectedList);
-        //selectedListView.setAdapter(selectedAdapter);
 
-        // initialize();
+        selectedListView = findViewById(R.id.waitlist_selected_list);
+        selectedAdapter = new UserArrayAdapter(this, selectedList);
+        selectedListView.setAdapter(selectedAdapter);
+
+        initialize();
+
         notifyAll.setOnClickListener(view -> {
             //notify all
         });
@@ -84,8 +86,11 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
     /**
      * Interface used for asynchronously accessing data for event details
      */
-    /**
     public interface DataCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param data is the data accessed asynchronously
+         */
         void onDataRecieved(ArrayList<String> data);
     }
 
@@ -120,7 +125,7 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         selectedList.clear();
         selectedCount = 0;
 
-        getUsers("selected", new SelectedEntrantsFragment() {
+        getUsers("selected", new DataCallback() {
             @Override
             public void onDataRecieved(ArrayList<String> data) {
                 if (data != null) {
@@ -137,8 +142,7 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
                 }
             }
         });
-    }
-     */
+     }
 
 }
 

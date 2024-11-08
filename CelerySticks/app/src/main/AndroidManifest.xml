@@ -42,6 +42,7 @@
         <activity android:name=".ui.myevents.EventQRCodeView"></activity>
         <activity android:name=".ui.myevents.ManageEntrantsFragment"></activity>
         <activity android:name=".GeolocationMap"></activity>
+        <activity android:name=".ui.myevents.SelectedEntrantsFragment"></activity>
     </application>
 
 </manifest>
