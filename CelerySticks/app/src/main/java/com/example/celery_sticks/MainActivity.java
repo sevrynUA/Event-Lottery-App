@@ -77,15 +77,16 @@ public class MainActivity extends AppCompatActivity {
         explicitBundle.putString("userID", userID);
         navController.navigate(R.id.my_events, explicitBundle);
 
-        // Use to pass string value to other Activities in sidebar menu (not currently needed)
-//        binding.navView.setNavigationItemSelectedListener(item -> {
-//            Bundle idBundle = new Bundle();
-//            if (item.getItemId() == R.id.my_profile) {
-//                idBundle.putString("userID", userID);
-//                navController.navigate(R.id.my_profile, idBundle);
-//            }
-//            return false;
-//        });
+        // Use to pass string value to other Activities in sidebar menu
+        binding.navView.setNavigationItemSelectedListener(item -> {
+            Bundle idBundle = new Bundle();
+            if (item.getItemId() == R.id.settings) {
+                idBundle.putString("userID", userID);
+                navController.navigate(R.id.settings, idBundle);
+            }
+            drawer.closeDrawer(GravityCompat.START);
+            return false;
+        });
 
 
         // Set initials when new profile is created

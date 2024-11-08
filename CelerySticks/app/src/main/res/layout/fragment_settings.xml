@@ -29,34 +29,15 @@
             android:textSize="22sp" />
 
         <Button
-            android:id="@+id/settings_notify_win_button"
+            android:id="@+id/settings_notify_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:backgroundTint="@color/vomitGreen"
             android:drawableRight="@drawable/checkmark"
-            android:text="Notify me of successful lottery draws (&quot;wins&quot;)"
+            android:text="I would like to recieve notifications from organizers and admins"
             android:textAlignment="viewStart"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/settings_notify_lose_button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:backgroundTint="@color/unSelectedRed"
-            android:drawableRight="@drawable/x_mark"
-            android:text="Notify me of unsuccessful lottery draws (&quot;loses&quot;)"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"/>
-
-        <Button
-            android:id="@+id/settings_notify_button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:backgroundTint="@color/unSelectedRed"
-            android:drawableRight="@drawable/x_mark"
-            android:text="Receive notifications from organizers and admins"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"/>
     </LinearLayout>
 
 </FrameLayout>
