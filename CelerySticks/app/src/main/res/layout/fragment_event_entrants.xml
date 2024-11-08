@@ -16,6 +16,18 @@
         android:gravity="top"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/manage_entrants_back_button"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:icon="?attr/homeAsUpIndicator" />
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="40dp">
