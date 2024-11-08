@@ -21,7 +21,6 @@ import java.util.ArrayList;
 /**
  * Represents the Selected Entrants page of the app
  */
-
 public class SelectedEntrantsFragment extends AppCompatActivity {
     private ArrayList<User> selectedList = new ArrayList<User>();
     private ListView selectedListView;
@@ -94,6 +93,11 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         void onDataRecieved(ArrayList<String> data);
     }
 
+    /**
+     * Gets the userIDs of the entrants in a given array within the database for the current event
+     * @param arrayType is which array in the database for the event to get userIDs from
+     * @param callback is used for asynchronous data access, returning arrayList through onDataRecieved
+     */
     public void getUsers(String arrayType, SelectedEntrantsFragment.DataCallback callback) {
         final ArrayList<String>[] users = new ArrayList[1];
         CollectionReference events = db.collection("events");
@@ -105,6 +109,11 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets user data for a given userID
+     * @param userID of the user whose data is to be fetched
+     * @param callback is used for asynchronous data access, returning user data through onDataRecieved
+     */
     public void getRegistrantData(String userID, SelectedEntrantsFragment.DataCallback callback) {
         final ArrayList<String>[] userData = new ArrayList[]{new ArrayList<>()};
         CollectionReference users = db.collection("users");
@@ -120,7 +129,9 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Refreshes the UI by clearing and filling the ArrayLists with updated data from the database
+     */
     public void initialize() {
         selectedList.clear();
         selectedCount = 0;
