@@ -43,11 +43,14 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         eventID = intent.getStringExtra("eventID");
 
         Button registerButton = findViewById(R.id.register_button);
+        Button manageEntrantsButton = findViewById(R.id.manage_entrants_button);
         String eventCategory = intent.getStringExtra("category");
         if (Objects.equals(eventCategory, "created")) {
             registerButton.setVisibility(View.GONE);
+            manageEntrantsButton.setVisibility(View.VISIBLE);
         } else {
             registerButton.setVisibility(View.VISIBLE);
+            manageEntrantsButton.setVisibility(View.GONE);
             if (Objects.equals(eventCategory, "registered")) {
                 registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unSelectedRed)));
                 registerButton.setText("Unregister");
@@ -98,6 +101,12 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                     }
                 }
             });
+        });
+
+        manageEntrantsButton.setOnClickListener(view -> {
+            Intent manageEntrantsIntent = new Intent(EventDetailsViewModel.this, ManageEntrantsFragment.class);
+            manageEntrantsIntent.putExtra("eventID", eventID);
+            startActivity(manageEntrantsIntent);
         });
     }
 

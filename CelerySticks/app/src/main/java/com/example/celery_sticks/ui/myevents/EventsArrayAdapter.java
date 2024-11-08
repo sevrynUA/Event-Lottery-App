@@ -2,7 +2,6 @@ package com.example.celery_sticks.ui.myevents;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +33,9 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
         TextView name = view.findViewById(R.id.event_name);
         TextView time = view.findViewById(R.id.event_time);
-        TextView date = view.findViewById(R.id.event_date);
-        TextView location = view.findViewById(R.id.event_location);
-        ImageView image = view.findViewById(R.id.event_image);
+        TextView date = view.findViewById(R.id.entrant_name_text);
+        TextView location = view.findViewById(R.id.entrant_location_text);
+        ImageView image = view.findViewById(R.id.entrant_image);
 
         Date eventDate = event.getEventDate();
 
