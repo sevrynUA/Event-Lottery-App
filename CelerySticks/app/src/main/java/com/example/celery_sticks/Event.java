@@ -12,9 +12,6 @@ import java.util.List;
 public class Event {
     private String eventID;
 
-    private Waitlist tentativeEntrants;
-    private ArrayList<Entrant> finalEntrants;
-
     private String eventName;
     private String description;
     private Date eventDate;
@@ -45,7 +42,6 @@ public class Event {
         this.posterImage = eventImage;
         this.eventDate = eventDate.toDate();
         this.location = eventLocation;
-        this.tentativeEntrants = new Waitlist();
         lotteryStatus = false;
     }
 
@@ -194,29 +190,6 @@ public class Event {
      */
     public void setSignupQRCode(QRCode qrcode) {
         this.signupQRCcode = qrcode;
-    }
-
-    /**
-     * Gets event Waitlist
-     * @return
-     * returns waitlist
-     */
-    public List<Entrant> getWaitlistEntrants() {
-        return tentativeEntrants.getEntrants();
-    }
-
-    /**
-     * Allows users to be added to waitlist
-     */
-    public void addToWaitlist(Entrant entrant) {
-        tentativeEntrants.addEntrant(entrant);
-    }
-
-    /**
-     * Allows users to be removed from waitlist
-     */
-    public void removeFromWaitlist(Entrant entrant) {
-        tentativeEntrants.removeEntrant(entrant);
     }
 
     /**
