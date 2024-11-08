@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.celery_sticks.GeolocationMap;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.User;
 import com.google.firebase.firestore.CollectionReference;
@@ -76,6 +77,13 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         registrantListView.setAdapter(registrantAdapter);
 
         initialize();
+
+        mapButton.setOnClickListener(view -> {
+            Intent geoMap = new Intent(ManageEntrantsFragment.this, GeolocationMap.class);
+            geoMap.putExtra("eventID", eventID);
+
+            startActivity(geoMap);
+        });
 
         lotteryButton.setOnClickListener(view -> {
             new LotteryFragment().show(getSupportFragmentManager(), "Lottery");
