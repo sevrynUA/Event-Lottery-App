@@ -13,6 +13,7 @@ public class User {
     private String phoneNumber;
     private String role;
     private String userID;
+    private String encodedImage;
 
     /**
      * Constructs a User object with the specified first name, last name, email, role, and ID.
@@ -119,4 +120,18 @@ public class User {
      * @param phoneNumber   the phone number to set
      */
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+
+    /**
+     * Gets the profile image of the user.
+     * @return  the encoded string
+     */
+    public String getEncodedImage() { return encodedImage; }
+
+    /**
+     * Sets the profile image of the user.
+     * @param data   the image string
+     */
+    public void setEncodedImage(String data) { this.encodedImage = data; }
+
 }

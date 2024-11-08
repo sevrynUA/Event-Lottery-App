@@ -1,7 +1,15 @@
 package com.example.celery_sticks.ui.myprofile;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,19 +21,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.databinding.FragmentMyProfileBinding;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
+import android.graphics.Bitmap;
+import android.util.Base64;
+import android.util.Log;
+
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.io.ByteArrayOutputStream;
+
 
 // TODO: Input validation, make EditText fields TextView until an edit button is pressed.
 public class MyProfileFragment extends Fragment {
 
     private FragmentMyProfileBinding binding;
     private MyProfileViewModel myProfileViewModel;
+    private String encodedUserImage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +70,8 @@ public class MyProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        encodedUserImage = "";
+
         // get device ID
         @SuppressLint("HardwareIds") String userID = Settings.Secure.getString(requireContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         myProfileViewModel = new ViewModelProvider(this).get(MyProfileViewModel.class);
@@ -63,13 +92,99 @@ public class MyProfileFragment extends Fragment {
                 if (!TextUtils.isEmpty(user.getPhoneNumber())) {
                     binding.editPhoneNumber.setText(user.getPhoneNumber());
                 }
+
+
             } else {
                 Toast.makeText(getContext(), "User not found", Toast.LENGTH_SHORT).show();
             }
         });
         // save changes to user data
         binding.saveButton.setOnClickListener(v -> saveChanges(userID));
+
+        binding.uploadUserImageButton.setOnClickListener(v -> {
+            getPicture();
+        });
     }
+
+    /**
+     * encodes image to a base 64 string
+     */
+    private String encodeImage(Uri imageUri) {
+
+        try {
+            InputStream stream = getContext().getContentResolver().openInputStream(imageUri);
+
+            ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+
+            int len = 0;
+            while ((len = stream.read(buffer)) != -1) {
+                byteBuffer.write(buffer, 0, len);
+            }
+
+            stream.close();
+            byteBuffer.close();
+
+            String image = Base64.encodeToString(byteBuffer.toByteArray(), Base64.DEFAULT);
+            return image;
+
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * decodes image to a base 64 string
+     * @param path to image
+     */
+    private static void loadUserImage(String path) {
+        try {
+            FileInputStream stream = new FileInputStream(path);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                stream.readAllBytes();
+                //byte[] data = Base64.decode(new String(stream.readAllBytes()));
+
+                FileOutputStream outputStream = new FileOutputStream(path);
+                //outputStream.write(data);
+                outputStream.close();
+                stream.close();
+            }
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+
+    private void getPicture() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null) {
+            Uri userImageUri = data.getData();
+            encodedUserImage = encodeImage(userImageUri);
+
+
+        }
+    }
+
+
+
 
     private boolean inputValidation(String firstName, String lastName, String email, String phoneNumber) {
         if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(lastName)) {
@@ -104,6 +219,7 @@ public class MyProfileFragment extends Fragment {
         userData.put("firstName", firstName);
         userData.put("lastName", lastName);
         userData.put("email", email);
+        userData.put("encodedImage", encodedUserImage);
         if (!TextUtils.isEmpty(phoneNumber)) {
             userData.put("phoneNumber", phoneNumber);
         }
@@ -125,7 +241,7 @@ public class MyProfileFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save changes", Toast.LENGTH_SHORT).show();
-                    Log.e("MyProfileFragment", "Profile update failed for userID: " + userID, e);
+                    Log.e("MyProfileFragment", "Profile update failed for userID (max image size is 1 Mb): " + userID, e);
                 });
     }
 

@@ -1,5 +1,6 @@
 package com.example.celery_sticks.ui.myprofile;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
@@ -11,6 +12,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 
 public class MyProfileViewModel extends ViewModel {
@@ -41,11 +47,16 @@ public class MyProfileViewModel extends ViewModel {
                             String email = document.getString("email");
                             String phoneNumber = document.getString("phoneNumber");
                             String role = document.getString("role");
+                            String encodedImage = document.getString("encodedImage");
 
                             if (!TextUtils.isEmpty(phoneNumber)) {
-                                user.setValue(new User(firstName, lastName, email, phoneNumber, role, userID));
+                                User buffer = new User(firstName, lastName, email, phoneNumber, role, userID);
+                                buffer.setEncodedImage(encodedImage);
+                                user.setValue(buffer);
                             } else {
-                                user.setValue(new User(firstName, lastName, email, role, userID));
+                                User buffer = new User(firstName, lastName, email, role, userID);
+                                buffer.setEncodedImage(encodedImage);
+                                user.setValue(buffer);
                             }
                         }
                     }
