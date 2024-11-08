@@ -269,7 +269,7 @@ public class AddEventFragment extends AppCompatActivity {
 
         HashMap<String, Object> eventData = new HashMap<>();
         HashMap<String, Object> eventWaitList = new HashMap<>();
-        eventData.put("accepted", false);
+        //eventData.put("accepted", false);
         eventData.put("close", stampCloseDate);
         eventData.put("date", stampDate);
         eventData.put("description", description);
@@ -278,7 +278,8 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("name", title);
         eventData.put("open", stampOpenDate);
         eventData.put("qrcode", "");
-        eventData.put("registered", false);
+        eventData.put("notificationSetting", true);
+        //eventData.put("registered", false);
         eventData.put("geolocation", geolocationStatus);
         eventData.put("availability", participationLimit); // titled "availability" in db
         eventData.put("price", cost); // titled "price" in db
