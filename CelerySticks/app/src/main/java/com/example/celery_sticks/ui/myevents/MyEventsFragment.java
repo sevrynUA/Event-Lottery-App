@@ -229,7 +229,6 @@ public class MyEventsFragment extends Fragment {
         createEventButton.setOnClickListener(view -> {
             createEventClicked();
         });
-
     }
 
     /**
@@ -499,6 +498,7 @@ public class MyEventsFragment extends Fragment {
                     String eventLocation = (String) eventData.get("location");
                     createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                     createdAdapter.notifyDataSetChanged();
+                    refreshLists();
                 }
             }
         });
