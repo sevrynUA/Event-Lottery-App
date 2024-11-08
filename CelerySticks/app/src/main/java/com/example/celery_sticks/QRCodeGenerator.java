@@ -9,15 +9,28 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * This is the class responsible for generating a QR code string for a specified event
+ */
 public class QRCodeGenerator {
     Bitmap qrCode;
     String eventID;
     ByteArrayOutputStream qrBytes;
     byte[] data;
     String encodedQR;
+
+    /**
+     * Constructor method for the class
+     * @param id id of the event for the QR
+     */
     public QRCodeGenerator(String id) {
         eventID = id;
     }
+
+    /**
+     * Generates the QR code based on the event ID
+     * @return String representation of the QR code (base 64 encoded data)
+     */
     public String generate() {
         try {
             BarcodeEncoder encoder = new BarcodeEncoder();
