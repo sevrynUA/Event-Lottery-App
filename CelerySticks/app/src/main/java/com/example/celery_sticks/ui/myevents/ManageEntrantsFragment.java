@@ -95,6 +95,8 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
         if (quantity > numberOfRegistrants) {
             Toast.makeText(this, "Not enough registrants!", Toast.LENGTH_SHORT).show();
+        } else if (quantity == 0) {
+            Toast.makeText(this, "Lottery requires 1 minimum!", Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<String> userIDs = new ArrayList<>();
             ArrayList<String> removingIDs = new ArrayList<>();
@@ -134,6 +136,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
     public void initialize() {
         final Integer[] numberOfRegistrants = new Integer[1];
+        final Integer[] numberOfSelected = new Integer[1];
         registrantList.clear();
         selectedCount = 0;
         registrantCount = 0;
@@ -143,6 +146,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
             @Override
             public void onDataRecieved(ArrayList<String> data) {
                 if (data != null) {
+                    numberOfSelected[0] = data.size();
+                    if (numberOfSelected[0] == 0) {
+                        lotteryStatusText.setText("The selection process has not yet been initiated");
+                    } else {
+                        lotteryStatusText.setText("The selection process has already started");
+                    }
                     for (String userID : data) {
                         getRegistrantData(userID, new DataCallback() {
                             @Override
@@ -162,6 +171,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                 if (data != null) {
                     numberOfRegistrants[0] = data.size();
                     if (numberOfRegistrants[0] == 0) {
+                        lotteryStatusText.setText("Maximum number of registrants have been selected");
                         lotteryButton.setVisibility(View.GONE);
                     } else {
                         lotteryButton.setVisibility(View.VISIBLE);
