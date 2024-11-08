@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.GeolocationMap;
+import com.example.celery_sticks.Notifications;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.User;
 import com.google.firebase.firestore.CollectionReference;
@@ -53,6 +54,8 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     private ListView registrantListView;
     private UserArrayAdapter registrantAdapter;
 
+    private Notifications notifications = new Notifications(ManageEntrantsFragment.this);
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         registrantListView.setAdapter(registrantAdapter);
 
         initialize();
+        //notifications.sendNotifications(eventID); wrong placement
 
         mapButton.setOnClickListener(view -> {
             Intent geoMap = new Intent(ManageEntrantsFragment.this, GeolocationMap.class);
@@ -156,7 +160,8 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                                         registrantList.remove(registrantList.get(j));
                                     }
                                 }
-                               initialize();
+                                initialize();
+                                notifications.sendNotifications(eventID); // Sends notifications to selected and non selected users.
                             }
                         }
                 );
