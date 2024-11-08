@@ -56,6 +56,8 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     private ListView registrantListView;
     private UserArrayAdapter registrantAdapter;
 
+    private ArrayList<String> selectedTracker = new ArrayList<String>();
+
     private Notifications notifications = new Notifications(ManageEntrantsFragment.this);
 
 
@@ -139,9 +141,10 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         } else {
             ArrayList<String> userIDs = new ArrayList<>();
             ArrayList<String> removingIDs = new ArrayList<>();
-
             for (User registrant : registrantList) {
-                userIDs.add(registrant.getUserID());
+                if (!selectedTracker.contains(registrant.getUserID())) {
+                    userIDs.add(registrant.getUserID());
+                }
             }
             Collections.shuffle(userIDs); // randomize the user ids
 
@@ -159,11 +162,11 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                             // Initialize UI on last add
                             if (finalI == quantity - 1) {
                                 int j;
-                                for (j = 0; j < registrantList.size(); j++) {
-                                    if (removingIDs.contains(registrantList.get(j).getUserID())) {
-                                        registrantList.remove(registrantList.get(j));
-                                    }
-                                }
+//                                for (j = 0; j < registrantList.size(); j++) {
+//                                    if (removingIDs.contains(registrantList.get(j).getUserID())) {
+//                                        registrantList.remove(registrantList.get(j));
+//                                    }
+//                                }
                                 initialize();
                                 notifications.sendNotifications(eventID); // Sends notifications to selected and non selected users.
                             }
@@ -203,6 +206,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                             @Override
                             public void onDataRecieved(ArrayList<String> data) {
                                 selectedCount++;
+                                selectedTracker.add(data.get(4)); // userID
                                 registrantList.add(new User(data.get(0), data.get(1), data.get(2), data.get(3), data.get(4)));
                                 registrantAdapter.notifyDataSetChanged();
                             }
