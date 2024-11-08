@@ -87,6 +87,7 @@ public class StartUpActivity extends AppCompatActivity {
         userData.put("email", email);
         userData.put("phoneNumber", phoneNumber);
         userData.put("role", role);
+        userData.put("notificationSetting", true);
 
         db.collection("users").document(userID).set(userData)
                 .addOnSuccessListener(aVoid -> {
