@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,10 +17,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.databinding.FragmentSettingsBinding;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+
+/**
+ * Represents the Settings activity, used to change settings for the user
+ */
 public class SettingsFragment extends Fragment {
-
     private FragmentSettingsBinding binding;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference users = db.collection("users");
+    private String userID;
+
+    private Boolean notificationToggle = true;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,45 +44,30 @@ public class SettingsFragment extends Fragment {
         View root = binding.getRoot();
 
         TextView text = binding.settingsNotificationsText;
-        Button notifyWin = binding.settingsNotifyWinButton;
-        Button notifyLose = binding.settingsNotifyLoseButton;
         Button notify = binding.settingsNotifyButton;
 
-        boolean[] getNotification = {true,false,false};
-;
-        notifyWin.setOnClickListener(view ->{
-            if (getNotification[0]) {
-                getNotification[0] = false;
-                notifyWin.setBackgroundColor(getResources().getColor(R.color.unSelectedRed));
-                notifyWin.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.x_mark, 0);
-            } else{
-                getNotification[0] = true;
-                notifyWin.setBackgroundColor(getResources().getColor(R.color.vomitGreen));
-                notifyWin.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
-            }
-        });
 
-        notifyLose.setOnClickListener(view ->{
-            if (getNotification[1]) {
-                getNotification[1] = false;
-                notifyLose.setBackgroundColor(getResources().getColor(R.color.unSelectedRed));
-                notifyLose.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.x_mark, 0);
-            } else{
-                getNotification[1] = true;
-                notifyLose.setBackgroundColor(getResources().getColor(R.color.vomitGreen));
-                notifyLose.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
+
+        if (getArguments().getString("userID") != null) {
+            userID = getArguments().getString("userID");
+        }
+
+
+        users.document(userID).get().addOnSuccessListener(user -> {
+            if (user.exists()) {
+                if (user.getBoolean("notificationSetting") == true) {
+                    setNotifSettingTrue(notify);
+                } else {
+                    setNotifSettingFalse(notify);
+                }
             }
         });
 
         notify.setOnClickListener(view ->{
-            if (getNotification[2]) {
-                getNotification[2] = false;
-                notify.setBackgroundColor(getResources().getColor(R.color.unSelectedRed));
-                notify.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.x_mark, 0);
-            } else{
-                getNotification[2] = true;
-                notify.setBackgroundColor(getResources().getColor(R.color.vomitGreen));
-                notify.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
+            if (notificationToggle) {
+                setNotifSettingFalse(notify);
+            } else {
+                setNotifSettingTrue(notify);
             }
         });
 
@@ -79,6 +77,32 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Toggles notification setting to true
+     * @param button the button clicked to toggle setting
+     */
+    public void setNotifSettingTrue(Button button) {
+        notificationToggle = true;
+        button.setBackgroundColor(getResources().getColor(R.color.vomitGreen));
+        button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
+        users.document(userID).update("notificationSetting", true);
+    }
+
+    /**
+     * Toggles notification setting to false
+     * @param button the button clicked to toggle setting
+     */
+    public void setNotifSettingFalse(Button button) {
+        notificationToggle = false;
+        button.setBackgroundColor(getResources().getColor(R.color.unSelectedRed));
+        button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.x_mark, 0);
+        users.document(userID).update("notificationSetting", false);
+
+    }
+
+    /**
+     * Function runs when activity is destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

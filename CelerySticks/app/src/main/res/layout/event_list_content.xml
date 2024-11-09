@@ -10,7 +10,7 @@
     android:backgroundTint="#bf83c7">
 
     <TextView
-        android:id="@+id/event_date"
+        android:id="@+id/event_date_text"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -20,15 +20,16 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/image_rounder"
+        app:layout_constraintStart_toEndOf="@+id/event_date_text"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -56,21 +57,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp">
+
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/location_icon"/>
+                android:src="@drawable/location_icon" />
 
             <TextView
-                android:id="@+id/event_location"
+                android:id="@+id/event_location_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="Location"
                 android:singleLine="true"
+                android:text="Location"
                 android:textColor="@color/black"
                 android:textSize="17sp">
             </TextView>
@@ -81,8 +84,8 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/image_rounder"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/place_holder_image_event"/>
+            android:src="@drawable/place_holder_image_event"/>
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

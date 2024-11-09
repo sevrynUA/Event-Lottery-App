@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * Represents the MyEvents activity (homepage); mostly default AndroidStudio implementation from sidebar
+ */
 public class MyEventsViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;

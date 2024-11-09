@@ -24,7 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**
+ * Represents the event details activity displayed by clicking on events in the MyEvents menu
+ */
 public class EventDetailsViewModel extends AppCompatActivity implements GeolocationWarningFragment.GeolocationDialogueListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -43,11 +45,14 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         eventID = intent.getStringExtra("eventID");
 
         Button registerButton = findViewById(R.id.register_button);
+        Button manageEntrantsButton = findViewById(R.id.manage_entrants_button);
         String eventCategory = intent.getStringExtra("category");
         if (Objects.equals(eventCategory, "created")) {
             registerButton.setVisibility(View.GONE);
+            manageEntrantsButton.setVisibility(View.VISIBLE);
         } else {
             registerButton.setVisibility(View.VISIBLE);
+            manageEntrantsButton.setVisibility(View.GONE);
             if (Objects.equals(eventCategory, "registered")) {
                 registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unSelectedRed)));
                 registerButton.setText("Unregister");
@@ -70,7 +75,11 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         eventDescriptionText.setText(intent.getStringExtra("description"));
         eventTimeText.setText(intent.getStringExtra("date"));
         eventLocationText.setText(intent.getStringExtra("location"));
-        eventAvailabilityText.setText(intent.getStringExtra("availability"));
+        if (intent.getStringExtra("availability") == null || Objects.equals(intent.getStringExtra("availability"), "")) {
+            eventAvailabilityText.setText("Availability - No Limit");
+        } else {
+            eventAvailabilityText.setText(String.format("Availability - %s", intent.getStringExtra("availability")));
+        }
         eventPriceText.setText(intent.getStringExtra("price"));
         // change event_image_view to the image passed with intent.getStringExtra("image") here
 
@@ -99,17 +108,40 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                 }
             });
         });
+
+        manageEntrantsButton.setOnClickListener(view -> {
+            Intent manageEntrantsIntent = new Intent(EventDetailsViewModel.this, ManageEntrantsFragment.class);
+            manageEntrantsIntent.putExtra("eventID", eventID);
+            manageEntrantsIntent.putExtra("availability", intent.getStringExtra("availability"));
+            startActivity(manageEntrantsIntent);
+        });
     }
 
-    // Interfaces for database read/fetch information
+    /**
+     * Interface used for asynchronously accessing data for event details
+     */
     public interface EventDetailsCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param eventData is the data accessed asynchronously
+         */
         void onDataRecieved(ArrayList<String> eventData);
     }
+
+    /**
+     * Interface used for asynchronously returning data for registration
+     */
     public interface RegistrationWaitCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param isRegistered is a boolean indicating whether the user is registered
+         */
         void onDataReturned(Boolean isRegistered);
     }
 
-    // GeolocationDialogListener method
+    /**
+     * Registers the user in the current event
+     */
     public void register() {
         db.collection("events").document(eventID)
                 .update("registrants", FieldValue.arrayUnion(userID))
@@ -120,6 +152,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         setResult(RESULT_OK, completedIntent);
         finish();
     }
+
+    /**
+     * Unregisters the user from the current event
+     */
     public void unregister() {
         db.collection("events").document(eventID)
                 .update("registrants", FieldValue.arrayRemove(userID))
@@ -131,6 +167,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         finish();
     }
 
+    /**
+     * Checks if user is already registered in the current event
+     * @param callback is used to get result of asynchronous data access
+     */
     public Boolean checkIfUserRegistered(RegistrationWaitCallback callback) {
         getRegistrants(eventID, new EventDetailsCallback() {
             @Override
@@ -142,6 +182,12 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         return null;
     }
 
+    /**
+     * Gets the userIDs of the entrants that have registered in the current event
+     * @param eventID is the ID of the current event
+     * @param callback is used to get results of asynchronous data access
+     * @return an ArrayList containing userIDs of the entrants registered in the current event
+     */
     public ArrayList<String> getRegistrants(String eventID, EventDetailsCallback callback) {
         DocumentReference ref = db.collection("events").document(eventID);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

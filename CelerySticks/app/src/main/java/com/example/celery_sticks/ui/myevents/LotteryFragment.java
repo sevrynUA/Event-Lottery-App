@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,19 +16,19 @@ import androidx.fragment.app.DialogFragment;
 import com.example.celery_sticks.R;
 
 /**
- * Represents the warning fragment presented to users when trying to register for an event that uses geolocation
+ * Represents the fragment shown to organizers who want to draw names for their event's lottery; requests number of entrants to draw
  */
-public class GeolocationWarningFragment extends DialogFragment {
+public class LotteryFragment extends DialogFragment {
     /**
-     * Represents the listener for geolocation fragment
+     * Represents the listener for lottery fragment
      */
-    interface GeolocationDialogueListener {
+    interface LotteryDialogueListener {
         /**
-         * register() is called when an user proceeds past the warning and still wishes to register in an event
+         * Begins lottery when organizer proceeds past the fragment
          */
-        void register();
+        void startLottery(Editable input);
     }
-    private GeolocationDialogueListener listener;
+    private LotteryDialogueListener listener;
 
     /**
      * Provides context for the listener
@@ -35,10 +37,10 @@ public class GeolocationWarningFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof GeolocationDialogueListener) {
-            listener = (GeolocationDialogueListener) context;
+        if (context instanceof LotteryDialogueListener) {
+            listener = (LotteryDialogueListener) context;
         } else {
-            throw new RuntimeException(context + "must implement GeolocationDialogueListener");
+            throw new RuntimeException(context + "must implement LotteryDialogueListener");
         }
     }
 
@@ -48,14 +50,15 @@ public class GeolocationWarningFragment extends DialogFragment {
      * @return the builder for creating the fragment to be displayed
      */
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.geolocation_warning_fragment, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.lottery_fragment, null);
+        EditText input = view.findViewById(R.id.lottery_quantity_input);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Warning")
-                .setNegativeButton("Go back", null)
-                .setPositiveButton("Register", (dialog, which) -> {
-                    listener.register();
+                .setTitle("Lottery")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Proceed", (dialog, which) -> {
+                    listener.startLottery(input.getText());
                 })
                 .create();
     }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,6 +45,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+
+/**
+ * Represents the MyEvents page (homepage) of the app, used for managing events
+ */
 public class MyEventsFragment extends Fragment {
 
     private FragmentMyEventsBinding binding;
@@ -104,7 +109,9 @@ public class MyEventsFragment extends Fragment {
     } // end of onCreateView
 
 
-
+    /**
+     * On activity start, calls for re-checking of whether user should have access to organizer features
+     */
     public void onStart() {
         super.onStart();
         if (userID != null) {
@@ -113,6 +120,10 @@ public class MyEventsFragment extends Fragment {
         }
     }
 
+    /**
+     * Refreshes UI by clearing and re-filling arrayLists with updated data from the database
+     * @param root used to get view IDs for updating UI
+     */
     public void initialize(View root) {
         registeredList.clear();
         invitationList.clear();
@@ -158,8 +169,6 @@ public class MyEventsFragment extends Fragment {
                         String eventImage = document.getString("image");
                         String eventQR = document.getString("qrcode");
                         String eventLocation = document.getString("location");
-                        Boolean registered = document.getBoolean("registered");
-                        Boolean accepted = document.getBoolean("accepted");
                         String organizerID = document.getString("organizerID");
 
                         if (organizerID != null && organizerID.equals(userID)) {
@@ -222,17 +231,88 @@ public class MyEventsFragment extends Fragment {
         });
     }
 
+    /**
+     * This function expands each list view so that the my events menu only needs one scroll bar for all lists derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
+     * @param listView list view to expand
+     */
+    public void expandListViewHeight(ListView listView) {
+        ListAdapter viewAdapter = listView.getAdapter();
+
+        if (viewAdapter == null) {
+            return;
+        }
+
+        ViewGroup listview = listView;
+        // total height of all elements in the list
+        int totalHeight = 0;
+
+        // add the heights
+        for (int i = 0; i < viewAdapter.getCount(); i++) {
+            // get item
+            View listItem = viewAdapter.getView(i, null, listview);
+            // get item length
+            listItem.measure(0, 0);
+            // increases height
+            totalHeight += 150; // height of content
+        }
+
+        // set height based on total height
+        ViewGroup.LayoutParams par = listView.getLayoutParams();
+        // 10dp is the height of a divider
+        int heightDP = totalHeight + (10 * (viewAdapter.getCount() + 1));
+
+        // get conversion factor
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        // convert from dp to px and store
+        par.height = (int) (heightDP * scale);
+
+        // set the layout to the specified parameters
+        listView.setLayoutParams(par);
+
+        // submit the changes
+        listView.requestLayout();
+
+    }
+
+    /**
+     * Interface used for asynchronously accessing data for event details
+     */
     public interface EventDataCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param eventData is the data accessed asynchronously
+         */
         void onDataRecieved(Map<String, Object> eventData);
     }
 
+    /**
+     * Interface used for asynchronously accessing data for registration
+     */
     public interface RegistrationCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param eventData is the data accessed asynchronously
+         */
         void onDataRecieved(ArrayList<String> eventData);
     }
+
+    /**
+     * Interface used for asynchronously returning data for registration
+     */
     public interface RegistrationWaitCallback {
+        /**
+         * Function is run when asynchronous access of data has been completed
+         * @param isRegistered is a boolean indicating whether the user is registered
+         */
         void onDataReturned(Boolean isRegistered);
     }
 
+    /**
+     * Checks if user is registered in a given event
+     * @param eventID is the ID of the event
+     * @param callback is used for asynchronous data access, returning boolean of whether user is registered through onDataRecieved
+     * @return null if no boolean is returned by onDataReturned
+     */
     public Boolean checkIfUserRegistered(String eventID, EventDetailsViewModel.RegistrationWaitCallback callback) {
         getRegistrants(eventID, new EventDetailsViewModel.EventDetailsCallback() {
             @Override
@@ -243,6 +323,13 @@ public class MyEventsFragment extends Fragment {
         });
         return null;
     }
+
+    /**
+     * Gets array of registrants from the database for a given event
+     * @param eventID is the ID of the event
+     * @param callback is used for asynchronous data access, returning arrayList of userIDs through onDataRecieved
+     * @return null if no data is returned by onDataReturned
+     */
     public ArrayList<String> getRegistrants(String eventID, EventDetailsViewModel.EventDetailsCallback callback) {
         DocumentReference ref = db.collection("events").document(eventID);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -261,6 +348,14 @@ public class MyEventsFragment extends Fragment {
         return null;
     }
 
+    /**
+     * Opens event details page when an event is clicked
+     * @param adapterView is the ListView in which an event was clicked
+     * @param view is the event which was clicked
+     * @param i is the index of the corresponding event object in the ArrayList
+     * @param l is the row index of the clicked item provided by the onItemClick function; not used here
+     * @param eventCategory is a string indicating which ArrayList contains the clicked event
+     */
     public void eventClicked(AdapterView<?> adapterView, View view, int i, long l, String eventCategory) {
         Intent intent = new Intent(getContext(), EventDetailsViewModel.class);
         Map<String, Object> eventData = new HashMap<>();
@@ -303,8 +398,6 @@ public class MyEventsFragment extends Fragment {
                     intent.putExtra("image", (String) eventData.get("image"));
                     intent.putExtra("qrcode", (String) eventData.get("qrcode"));
                     intent.putExtra("location", (String) eventData.get("location"));
-                    intent.putExtra("registered", (Boolean) eventData.get("registered"));
-                    intent.putExtra("accepted", (Boolean) eventData.get("accepted"));
                     intent.putExtra("availability", (String) eventData.get("availability"));
                     intent.putExtra("price", (String) eventData.get("price"));
                     intent.putExtra("eventID", (String) eventData.get("eventID"));
@@ -319,6 +412,13 @@ public class MyEventsFragment extends Fragment {
 
     }
 
+
+    /**
+     * Gets data from database for a given event
+     * @param eventID indicates which event to get data for
+     * @param callback used for asynchronous data access, returns event data through .onDataRecieved
+     * @return event data in case of .onDataRecieved failure
+     */
     public Map<String, Object> getEventData(String eventID, EventDataCallback callback) {
         DocumentReference ref = db.collection("events").document(eventID);
         Map<String, Object> eventData = new HashMap<>();
@@ -338,8 +438,6 @@ public class MyEventsFragment extends Fragment {
                         eventData.put("location", document.getString("location"));
                         eventData.put("availability", document.getString("availability"));
                         eventData.put("price", document.getString("price"));
-                        eventData.put("registered", document.getBoolean("registered"));
-                        eventData.put("accepted", document.getBoolean("accepted"));
                         eventData.put("eventID", document.getId());
 
                     }
@@ -350,6 +448,10 @@ public class MyEventsFragment extends Fragment {
         return eventData;
     }
 
+    /**
+     * Displays or hides organizer UI features depending on the user's role
+     * @param userID is the ID of the current user
+     */
     private void updateOrganizerUIVisibility(String userID) {
         TextView createdByMeTitle = requireActivity().findViewById(R.id.created_by_me_title);
         ListView createdByMeList = requireActivity().findViewById(R.id.created_by_me_list);
@@ -377,6 +479,10 @@ public class MyEventsFragment extends Fragment {
         });
     }
 
+    /**
+     * Creates event object to be stored in an ArrayList when new event is added to database
+     * @param eventID is the ID of the newly created event
+     */
     public void createEvent(String eventID) {
         getEventData(eventID, new EventDataCallback() {
             @Override
@@ -392,25 +498,41 @@ public class MyEventsFragment extends Fragment {
                     String eventLocation = (String) eventData.get("location");
                     createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                     createdAdapter.notifyDataSetChanged();
+                    refreshLists();
                 }
             }
         });
     }
 
+    /**
+     * Refreshes UI by calling .notifyDataSetChanged() on all ArrayLists
+     */
     public void refreshLists() {
         registeredAdapter.notifyDataSetChanged();
         invitationAdapter.notifyDataSetChanged();
         acceptedAdapter.notifyDataSetChanged();
         createdAdapter.notifyDataSetChanged();
         temporaryAdapter.notifyDataSetChanged();
+
+        expandListViewHeight(temporaryListView);
+        expandListViewHeight(registeredListView);
+        expandListViewHeight(acceptedListView);
+        expandListViewHeight(invitationListView);
+        expandListViewHeight(createdListView);
     }
 
+    /**
+     * Opens event creation activity when "Create New Event" button is clicked
+     */
     public void createEventClicked() {
         Intent intent = new Intent(getContext(), AddEventFragment.class);
         createEventLauncher.launch(intent);
     }
 
 
+    /**
+     * Function called when activity is destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

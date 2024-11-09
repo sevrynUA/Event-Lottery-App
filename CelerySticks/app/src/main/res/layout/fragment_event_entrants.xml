@@ -18,6 +18,35 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/manage_entrants_back_button"
+                android:layout_width="53dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                app:icon="?attr/homeAsUpIndicator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/list_entrants_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="List of Entrants"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="40dp">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -57,7 +86,10 @@
             android:id="@+id/waitlist_entrants"
             android:layout_width="match_parent"
             android:layout_height="572dp"
-            android:layout_weight="1">
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp">
 
         </ListView>
 
@@ -67,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="The selection process has yet been initiated"
+            android:text="The selection process has not yet been initiated"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -80,7 +112,8 @@
             android:backgroundTint="#33625C"
             android:text="Draw Entrants"
             android:textAllCaps="false"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

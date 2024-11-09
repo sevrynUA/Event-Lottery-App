@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 
+/**
+ * Represents the ViewModel for the MyProfile activity, opened through the sidebar
+ */
 public class MyProfileViewModel extends ViewModel {
 
     private final MutableLiveData<User> user;

@@ -2,7 +2,6 @@ package com.example.celery_sticks.ui.myevents;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,9 @@ import com.example.celery_sticks.R;
 import java.util.ArrayList;
 import java.util.Date;
 
-
+/**
+ * Adapter which manages the ListView displaying the events in the MyEvents activity
+ */
 public class EventsArrayAdapter extends ArrayAdapter<Event> {
     public EventsArrayAdapter(Context context, ArrayList<Event> events) {super (context, 0, events); }
     @NonNull
@@ -34,8 +35,8 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
         TextView name = view.findViewById(R.id.event_name);
         TextView time = view.findViewById(R.id.event_time);
-        TextView date = view.findViewById(R.id.event_date);
-        TextView location = view.findViewById(R.id.event_location);
+        TextView date = view.findViewById(R.id.event_date_text);
+        TextView location = view.findViewById(R.id.event_location_text);
         ImageView image = view.findViewById(R.id.event_image);
 
         Date eventDate = event.getEventDate();

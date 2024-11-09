@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="100dp"
     android:background="@drawable/rounded_rectangle_filled"
     android:backgroundTint="#bf83c7">
 
     <TextView
-        android:id="@+id/event_date"
+        android:id="@+id/entrant_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="-40dp"
         android:text="John Doe"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="35sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,46 +31,48 @@
         android:orientation="horizontal"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        app:layout_constraintStart_toStartOf="@+id/event_date"
-        app:layout_constraintTop_toBottomOf="@+id/event_date">
+        app:layout_constraintStart_toStartOf="@+id/entrant_name_text"
+        app:layout_constraintTop_toBottomOf="@+id/entrant_name_text">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/location_icon" />
+            android:src="@drawable/location_icon" />
 
         <TextView
-            android:id="@+id/event_location"
+            android:id="@+id/entrant_location_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:text="Location"
             android:textColor="@color/black"
-            android:textSize="25sp">
+            android:textSize="15sp">
 
         </TextView>
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/image_rounder"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="75dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="20dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/event_image"
-            android:layout_width="match_parent"
+            android:id="@+id/entrant_image"
+            android:layout_width="75dp"
+            android:layout_height="80dp"
             android:background="@android:color/transparent"
-            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/remove_user_image"/>
+            android:src="@drawable/remove_user_image" />
 
     </com.google.android.material.card.MaterialCardView>
 

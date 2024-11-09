@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.io.ByteArrayOutputStream;
 
 
+/**
+ * Represents the MyProfile activity, used to change information about the user
+ */
 // TODO: Input validation, make EditText fields TextView until an edit button is pressed.
 public class MyProfileFragment extends Fragment {
 
@@ -81,6 +86,8 @@ public class MyProfileFragment extends Fragment {
                 binding.editFirstName.setText(user.getFirstName());
                 binding.editLastName.setText(user.getLastName());
                 binding.editEmail.setText(user.getEmail());
+                encodedUserImage = user.getEncodedImage();
+                loadUserImage(encodedUserImage);
 
                 String initials = "";
                 initials += user.getFirstName().charAt(0);
@@ -92,14 +99,18 @@ public class MyProfileFragment extends Fragment {
                 if (!TextUtils.isEmpty(user.getPhoneNumber())) {
                     binding.editPhoneNumber.setText(user.getPhoneNumber());
                 }
-
-
             } else {
                 Toast.makeText(getContext(), "User not found", Toast.LENGTH_SHORT).show();
             }
         });
+
         // save changes to user data
         binding.saveButton.setOnClickListener(v -> saveChanges(userID));
+
+        binding.deleteUserImageButton.setOnClickListener(v ->  {
+            encodedUserImage = "";
+            loadUserImage(encodedUserImage);
+        });
 
         binding.uploadUserImageButton.setOnClickListener(v -> {
             getPicture();
@@ -141,30 +152,18 @@ public class MyProfileFragment extends Fragment {
      * decodes image to a base 64 string
      * @param path to image
      */
-    private static void loadUserImage(String path) {
-        try {
-            FileInputStream stream = new FileInputStream(path);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                stream.readAllBytes();
-                //byte[] data = Base64.decode(new String(stream.readAllBytes()));
+    private void loadUserImage(String path) {
+        byte[] decodedImage = Base64.decode(encodedUserImage, Base64.DEFAULT);
 
-                FileOutputStream outputStream = new FileOutputStream(path);
-                //outputStream.write(data);
-                outputStream.close();
-                stream.close();
-            }
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+        // set qrImage to decoded bitmap
+        ImageView userImage = binding.userImageProfileScreen;
+        userImage.setImageBitmap(qrBitmap);
     }
 
-
-
-
+    /**
+     * User popup to access their gallery
+     */
     private void getPicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -172,20 +171,38 @@ public class MyProfileFragment extends Fragment {
         startActivityForResult(intent, 1);
     }
 
+    /**
+     * Once the user has selected their image, this function invokes to set the attributes and update the image view
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     *
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null) {
             Uri userImageUri = data.getData();
             encodedUserImage = encodeImage(userImageUri);
+            loadUserImage(encodedUserImage);
 
 
         }
     }
 
 
-
-
+    /**
+     * Validates input given by the user
+     * @param firstName is the firstName provided by user
+     * @param lastName is the lastName provided by user
+     * @param email is the email address provided by user
+     * @param phoneNumber is the phone number (if any) provided by the user
+     * @returns false if invalid input, or true if input is valid
+     */
     private boolean inputValidation(String firstName, String lastName, String email, String phoneNumber) {
         if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(lastName)) {
             return false;
@@ -245,6 +262,9 @@ public class MyProfileFragment extends Fragment {
                 });
     }
 
+    /**
+     * Function runs when activity is destroyed
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
