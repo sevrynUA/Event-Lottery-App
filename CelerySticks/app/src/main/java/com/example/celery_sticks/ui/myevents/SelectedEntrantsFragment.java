@@ -129,8 +129,10 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         });
     }
 
+
+
     /**
-     * Refreshes the UI by clearing and filling the ArrayLists with updated data from the database
+     * Refreshes the UI by clearing and filling ArrayList with updated data from the database
      */
     public void initialize() {
         selectedList.clear();

@@ -13,6 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
+/**
+ * Represents the ViewModel for the MyProfile activity, opened through the sidebar
+ */
 public class MyProfileViewModel extends ViewModel {
 
     private final MutableLiveData<User> user;

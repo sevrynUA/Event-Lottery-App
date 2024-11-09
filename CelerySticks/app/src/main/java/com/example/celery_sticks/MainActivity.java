@@ -34,7 +34,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
+/**
+ * MainActivity initializes main features / setup for the app
+ */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -113,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Edit the default android studio options menu; used here to disable
+     * @param menu is the menu object to be modified
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -121,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Android studio functionality for navigating up within the app
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -128,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * Updates displayed name and initials of user in the sidebar
+     * @param firstName is the user's first name
+     * @param lastName is the user's last name
+     * @param userID is the userID associated with the user
+     */
     private void updateNameAndInitials(String firstName, String lastName, String userID) {
         // Update sidebar details
         TextView textUserFirstName = findViewById(R.id.text_user_first_name);
