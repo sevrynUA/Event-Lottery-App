@@ -1,7 +1,16 @@
 package com.example.celery_sticks.ui.myprofile;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,17 +18,36 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.databinding.FragmentMyProfileBinding;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
+import android.graphics.Bitmap;
+import android.util.Base64;
+import android.util.Log;
+
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.io.ByteArrayOutputStream;
+
 
 /**
  * Represents the MyProfile activity, used to change information about the user
@@ -29,6 +57,7 @@ public class MyProfileFragment extends Fragment {
 
     private FragmentMyProfileBinding binding;
     private MyProfileViewModel myProfileViewModel;
+    private String encodedUserImage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +75,8 @@ public class MyProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        encodedUserImage = "";
+
         // get device ID
         @SuppressLint("HardwareIds") String userID = Settings.Secure.getString(requireContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         myProfileViewModel = new ViewModelProvider(this).get(MyProfileViewModel.class);
@@ -55,6 +86,8 @@ public class MyProfileFragment extends Fragment {
                 binding.editFirstName.setText(user.getFirstName());
                 binding.editLastName.setText(user.getLastName());
                 binding.editEmail.setText(user.getEmail());
+                encodedUserImage = user.getEncodedImage();
+                loadUserImage(encodedUserImage);
 
                 String initials = "";
                 initials += user.getFirstName().charAt(0);
@@ -70,9 +103,97 @@ public class MyProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "User not found", Toast.LENGTH_SHORT).show();
             }
         });
+
         // save changes to user data
         binding.saveButton.setOnClickListener(v -> saveChanges(userID));
+
+        binding.deleteUserImageButton.setOnClickListener(v ->  {
+            encodedUserImage = "";
+            loadUserImage(encodedUserImage);
+        });
+
+        binding.uploadUserImageButton.setOnClickListener(v -> {
+            getPicture();
+        });
     }
+
+    /**
+     * encodes image to a base 64 string
+     */
+    private String encodeImage(Uri imageUri) {
+
+        try {
+            InputStream stream = getContext().getContentResolver().openInputStream(imageUri);
+
+            ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+
+            int len = 0;
+            while ((len = stream.read(buffer)) != -1) {
+                byteBuffer.write(buffer, 0, len);
+            }
+
+            stream.close();
+            byteBuffer.close();
+
+            String image = Base64.encodeToString(byteBuffer.toByteArray(), Base64.DEFAULT);
+            return image;
+
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * decodes image to a base 64 string
+     * @param path to image
+     */
+    private void loadUserImage(String path) {
+        byte[] decodedImage = Base64.decode(encodedUserImage, Base64.DEFAULT);
+
+        Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+        // set qrImage to decoded bitmap
+        ImageView userImage = binding.userImageProfileScreen;
+        userImage.setImageBitmap(qrBitmap);
+    }
+
+    /**
+     * User popup to access their gallery
+     */
+    private void getPicture() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    /**
+     * Once the user has selected their image, this function invokes to set the attributes and update the image view
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     *
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null) {
+            Uri userImageUri = data.getData();
+            encodedUserImage = encodeImage(userImageUri);
+            loadUserImage(encodedUserImage);
+
+
+        }
+    }
+
 
     /**
      * Validates input given by the user
@@ -90,7 +211,7 @@ public class MyProfileFragment extends Fragment {
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // From https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext by user1737884, Downloaded 2024-11-04
             return false;
-        } else if (!phoneNumber.matches("\\d{10}") && !TextUtils.isEmpty(phoneNumber)) {
+        } else if (!phoneNumber.matches("\\d{10}")) {
             return false;
         }
         return true;
@@ -115,6 +236,7 @@ public class MyProfileFragment extends Fragment {
         userData.put("firstName", firstName);
         userData.put("lastName", lastName);
         userData.put("email", email);
+        userData.put("encodedImage", encodedUserImage);
         if (!TextUtils.isEmpty(phoneNumber)) {
             userData.put("phoneNumber", phoneNumber);
         }
@@ -136,7 +258,7 @@ public class MyProfileFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save changes", Toast.LENGTH_SHORT).show();
-                    Log.e("MyProfileFragment", "Profile update failed for userID: " + userID, e);
+                    Log.e("MyProfileFragment", "Profile update failed for userID (max image size is 1 Mb): " + userID, e);
                 });
     }
 
