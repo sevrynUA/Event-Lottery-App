@@ -11,19 +11,12 @@ import java.util.List;
  */
 public class Event {
     private String eventID;
-
-    private Waitlist tentativeEntrants;
-    private ArrayList<Entrant> finalEntrants;
-
     private String eventName;
     private String description;
     private Date eventDate;
     private String location;
     private int maxCapacity; // Optional max capacity
     private String posterImage; // Path to the event poster image
-
-    private QRCode detailsQRCode;
-    private QRCode signupQRCcode;
     private Boolean lotteryStatus;
 
     /**
@@ -45,7 +38,6 @@ public class Event {
         this.posterImage = eventImage;
         this.eventDate = eventDate.toDate();
         this.location = eventLocation;
-        this.tentativeEntrants = new Waitlist();
         lotteryStatus = false;
     }
 
@@ -160,63 +152,6 @@ public class Event {
      */
     public void setEventId(String string) {
         this.eventID = string;
-    }
-
-
-    /**
-     * Gets QR code details for event
-     * @return
-     * returns event QR code details
-     */
-    public QRCode getDetailsQRCode() {
-        return detailsQRCode;
-    }
-
-
-    /**
-     * Allows you to set QR details for event
-     */
-    public void setDetailsQRCode(QRCode qrcode) {
-        this.detailsQRCode = qrcode;
-    }
-
-    /**
-     * Gets QR code for event
-     * @return
-     * returns event QR code
-     */
-    public QRCode getSignupQRCode() {
-        return signupQRCcode;
-    }
-
-    /**
-     * Allows you to set or change QR code for event
-     */
-    public void setSignupQRCode(QRCode qrcode) {
-        this.signupQRCcode = qrcode;
-    }
-
-    /**
-     * Gets event Waitlist
-     * @return
-     * returns waitlist
-     */
-    public List<Entrant> getWaitlistEntrants() {
-        return tentativeEntrants.getEntrants();
-    }
-
-    /**
-     * Allows users to be added to waitlist
-     */
-    public void addToWaitlist(Entrant entrant) {
-        tentativeEntrants.addEntrant(entrant);
-    }
-
-    /**
-     * Allows users to be removed from waitlist
-     */
-    public void removeFromWaitlist(Entrant entrant) {
-        tentativeEntrants.removeEntrant(entrant);
     }
 
     /**

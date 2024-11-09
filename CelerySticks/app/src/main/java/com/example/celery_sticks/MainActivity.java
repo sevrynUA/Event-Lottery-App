@@ -34,7 +34,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
+/**
+ * MainActivity initializes main features / setup for the app
+ */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userID;
 
-    private ActivityResultLauncher<Intent> loginActivityLauncher;
+    private ActivityResultLauncher<Intent> startUpActivityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         // Get device ID
         userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+        // Check if user exists in database
+        checkUser();
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
@@ -102,18 +106,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Set initials when new profile is created
-        loginActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        startUpActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
                 Intent data = result.getData();
                 updateNameAndInitials(data.getStringExtra("firstName"), data.getStringExtra("lastName"), data.getStringExtra("userID"));
             }
         });
-
-        // Check if user exists in database
-        checkUser();
     }
 
 
+    /**
+     * Edit the default android studio options menu; used here to disable
+     * @param menu is the menu object to be modified
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -122,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Android studio functionality for navigating up within the app
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -129,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * Updates displayed name and initials of user in the sidebar
+     * @param firstName is the user's first name
+     * @param lastName is the user's last name
+     * @param userID is the userID associated with the user
+     */
     private void updateNameAndInitials(String firstName, String lastName, String userID) {
         // Update sidebar details
         TextView textUserFirstName = findViewById(R.id.text_user_first_name);
@@ -160,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                                 // User does not exist
                                 Log.d("MainActivity", "User not found, starting StartUpActivity");
                                 Intent intent = new Intent(getApplicationContext(), StartUpActivity.class);
-                                loginActivityLauncher.launch(intent);
+                                startUpActivityLauncher.launch(intent);
                             }
                         } else {
                             Log.e("MainActivity", "Error getting user data", task.getException());

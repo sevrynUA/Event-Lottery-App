@@ -65,14 +65,22 @@ public class FacilityInformationViewModel extends ViewModel {
         return db.collection("facilities").document(ownerID).update(updatedData)
                 .addOnSuccessListener(aVoid -> {
                     refreshFacilityData(ownerID);
+                    db.collection("users").document(ownerID)
+                            .update("role", "organizer")
+                            .addOnSuccessListener(aVoidUser -> {
+                                Log.d("FacilityInformationViewModel", "User role updated to organizer");
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("FacilityInformationViewModel", "Failed to update user role", e);
+                            });
                 });
     }
 
     /**
-     *
-     * @param ownerID
-     * @param newData
-     * @return
+     * Sets facility data in the database
+     * @param ownerID is the userID of the owner of the facility
+     * @param newData is the data provided by the user for the facility
+     * @return result of data setting
      */
     public Task<Void> createFacilityData(String ownerID, Map<String, Object> newData) {
         return db.collection("facilities").document(ownerID).set(newData)
@@ -89,8 +97,16 @@ public class FacilityInformationViewModel extends ViewModel {
                 });
     }
 
+    /**
+     * Call loadFacilityData to refresh data for a facility
+     * @param ownerID is the userID of the owner of the facility
+     */
     public void refreshFacilityData(String ownerID) { loadFacilityData(ownerID); }
 
+    /**
+     * Get data for a facility owned by a given user
+     * @param ownerID is the userID of the owner of the facility
+     */
     public LiveData<Facility> getFacility(String ownerID) {
         if (facility.getValue() == null) {
             loadFacilityData(ownerID);

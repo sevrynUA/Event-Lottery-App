@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -228,6 +229,49 @@ public class MyEventsFragment extends Fragment {
         createEventButton.setOnClickListener(view -> {
             createEventClicked();
         });
+    }
+
+    /**
+     * This function expands each list view so that the my events menu only needs one scroll bar for all lists derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
+     * @param listView list view to expand
+     */
+    public void expandListViewHeight(ListView listView) {
+        ListAdapter viewAdapter = listView.getAdapter();
+
+        if (viewAdapter == null) {
+            return;
+        }
+
+        ViewGroup listview = listView;
+        // total height of all elements in the list
+        int totalHeight = 0;
+
+        // add the heights
+        for (int i = 0; i < viewAdapter.getCount(); i++) {
+            // get item
+            View listItem = viewAdapter.getView(i, null, listview);
+            // get item length
+            listItem.measure(0, 0);
+            // increases height
+            totalHeight += 150; // height of content
+        }
+
+        // set height based on total height
+        ViewGroup.LayoutParams par = listView.getLayoutParams();
+        // 10dp is the height of a divider
+        int heightDP = totalHeight + (10 * (viewAdapter.getCount() + 1));
+
+        // get conversion factor
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        // convert from dp to px and store
+        par.height = (int) (heightDP * scale);
+
+        // set the layout to the specified parameters
+        listView.setLayoutParams(par);
+
+        // submit the changes
+        listView.requestLayout();
+
     }
 
     /**
@@ -454,6 +498,7 @@ public class MyEventsFragment extends Fragment {
                     String eventLocation = (String) eventData.get("location");
                     createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                     createdAdapter.notifyDataSetChanged();
+                    refreshLists();
                 }
             }
         });
@@ -468,6 +513,12 @@ public class MyEventsFragment extends Fragment {
         acceptedAdapter.notifyDataSetChanged();
         createdAdapter.notifyDataSetChanged();
         temporaryAdapter.notifyDataSetChanged();
+
+        expandListViewHeight(temporaryListView);
+        expandListViewHeight(registeredListView);
+        expandListViewHeight(acceptedListView);
+        expandListViewHeight(invitationListView);
+        expandListViewHeight(createdListView);
     }
 
     /**

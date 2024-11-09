@@ -3,9 +3,11 @@ package com.example.celery_sticks.ui.eventfinder;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.celery_sticks.MainActivity;
 import com.example.celery_sticks.databinding.FragmentEventFinderBinding;
 import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
 import com.example.celery_sticks.ui.myevents.MyEventsFragment;
@@ -46,6 +49,7 @@ public class EventFinderFragment extends Fragment {
     private DecoratedBarcodeView barcodeScannerView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityResultLauncher<Intent> eventDetailsLauncher;
+    String userID;
 
     /**
      * Handles the result of the camera permission request.
@@ -123,7 +127,7 @@ public class EventFinderFragment extends Fragment {
                         intent.putExtra("price", (String) eventData.get("price"));
                         intent.putExtra("eventID", (String) eventData.get("eventID"));
                         intent.putExtra("category", "invitation");
-                        intent.putExtra("userID", "03c96e4930418242");
+                        intent.putExtra("userID", userID);
 
                         startActivity(intent);
                     }
@@ -146,6 +150,10 @@ public class EventFinderFragment extends Fragment {
 
         binding = FragmentEventFinderBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        if (getArguments().getString("userID") != null) {
+            userID = getArguments().getString("userID");
+        }
 
         barcodeScannerView = binding.barcodeScanner;
         barcodeScannerView.getStatusView().setVisibility(View.GONE);

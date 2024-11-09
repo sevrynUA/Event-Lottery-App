@@ -75,7 +75,8 @@
                 android:singleLine="true"
                 android:text="Location"
                 android:textColor="@color/black"
-                android:textSize="17sp"></TextView>
+                android:textSize="17sp">
+            </TextView>
         </LinearLayout>
 
     </LinearLayout>

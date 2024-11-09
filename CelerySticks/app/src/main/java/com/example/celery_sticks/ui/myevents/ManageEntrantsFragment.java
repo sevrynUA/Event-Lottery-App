@@ -12,11 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.GeolocationMap;
+import com.example.celery_sticks.Notifications;
 import com.example.celery_sticks.R;
+import com.example.celery_sticks.StartUpActivity;
 import com.example.celery_sticks.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -53,6 +56,10 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     private ListView registrantListView;
     private UserArrayAdapter registrantAdapter;
 
+    private ArrayList<String> selectedTracker = new ArrayList<String>();
+
+    private Notifications notifications = new Notifications(ManageEntrantsFragment.this);
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +86,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         registrantListView.setAdapter(registrantAdapter);
 
         initialize();
+        //notifications.sendNotifications(eventID); wrong placement
 
         mapButton.setOnClickListener(view -> {
             Intent geoMap = new Intent(ManageEntrantsFragment.this, GeolocationMap.class);
@@ -92,7 +100,9 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         });
 
         selectedButton.setOnClickListener(view -> {
-            // selected entrants fragment
+            Intent selectedEntrants = new Intent(ManageEntrantsFragment.this, SelectedEntrantsFragment.class);
+            selectedEntrants.putExtra("eventID", eventID);
+            startActivity(selectedEntrants);
         });
 
         backButton.setOnClickListener(view -> {
@@ -131,9 +141,10 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         } else {
             ArrayList<String> userIDs = new ArrayList<>();
             ArrayList<String> removingIDs = new ArrayList<>();
-
             for (User registrant : registrantList) {
-                userIDs.add(registrant.getUserID());
+                if (!selectedTracker.contains(registrant.getUserID())) {
+                    userIDs.add(registrant.getUserID());
+                }
             }
             Collections.shuffle(userIDs); // randomize the user ids
 
@@ -151,12 +162,13 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                             // Initialize UI on last add
                             if (finalI == quantity - 1) {
                                 int j;
-                                for (j = 0; j < registrantList.size(); j++) {
-                                    if (removingIDs.contains(registrantList.get(j).getUserID())) {
-                                        registrantList.remove(registrantList.get(j));
-                                    }
-                                }
-                               initialize();
+//                                for (j = 0; j < registrantList.size(); j++) {
+//                                    if (removingIDs.contains(registrantList.get(j).getUserID())) {
+//                                        registrantList.remove(registrantList.get(j));
+//                                    }
+//                                }
+                                initialize();
+                                notifications.sendNotifications(eventID); // Sends notifications to selected and non selected users.
                             }
                         }
                 );
@@ -194,6 +206,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                             @Override
                             public void onDataRecieved(ArrayList<String> data) {
                                 selectedCount++;
+                                selectedTracker.add(data.get(4)); // userID
                                 registrantList.add(new User(data.get(0), data.get(1), data.get(2), data.get(3), data.get(4)));
                                 registrantAdapter.notifyDataSetChanged();
                             }
