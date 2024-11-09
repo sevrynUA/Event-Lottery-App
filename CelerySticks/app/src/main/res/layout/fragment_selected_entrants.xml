@@ -17,17 +17,33 @@
         android:gravity="top"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/selected_entrants_back_button"
-            android:layout_width="53dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            app:icon="?attr/homeAsUpIndicator"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp">
+            <Button
+                android:id="@+id/selected_entrants_back_button"
+                android:layout_width="53dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                app:icon="?attr/homeAsUpIndicator"/>
 
+            <TextView
+                android:id="@+id/selected_entrants_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="List of Selected Entrants"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/selected_entrants_back_button"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <ListView
             android:id="@+id/waitlist_selected_list"
             android:layout_width="match_parent"
