@@ -34,7 +34,7 @@ public class QRCodeGenerator {
     public String generate() {
         try {
             BarcodeEncoder encoder = new BarcodeEncoder();
-            qrCode = encoder.encodeBitmap(eventID, BarcodeFormat.QR_CODE, 400, 400);
+            qrCode = encoder.encodeBitmap(eventID, BarcodeFormat.QR_CODE, 800, 800);
         } catch(Exception e) {
             Log.e("QRCodeGenerator", "QR Code generation failed", e);
         }
