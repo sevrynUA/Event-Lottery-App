@@ -42,6 +42,15 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("androidx.test:rules:1.5.0")
+    implementation("androidx.test.espresso:espresso-contrib:3.5.1"){
+        exclude(module = "proto-google-common-protos")
+        exclude(module = "protolite-well-known-types")
+        exclude(module = "protobuf-lite")
+    }
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("com.android.support.test:runner:1.0.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -49,7 +58,4 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }
