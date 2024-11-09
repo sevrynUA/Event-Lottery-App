@@ -130,6 +130,7 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
     }
 
 
+
     /**
      * Refreshes the UI by clearing and filling ArrayList with updated data from the database
      */
