@@ -102,6 +102,7 @@ public class StartUpActivity extends AppCompatActivity {
         userData.put("lastName", lastName);
         userData.put("email", email);
         userData.put("phoneNumber", phoneNumber);
+        userData.put("encodedImage", "");
         userData.put("role", role);
         userData.put("notificationSetting", true);
 
