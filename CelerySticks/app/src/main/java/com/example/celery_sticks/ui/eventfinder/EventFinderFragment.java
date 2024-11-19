@@ -92,7 +92,6 @@ public class EventFinderFragment extends Fragment {
                         eventData.put("location", document.getString("location"));
                         eventData.put("availability", document.getString("availability"));
                         eventData.put("price", document.getString("price"));
-                        eventData.put("accepted", document.getBoolean("accepted"));
                         eventData.put("eventID", document.getId());
 
                         // format the dates given Timestamps
@@ -120,7 +119,6 @@ public class EventFinderFragment extends Fragment {
                         intent.putExtra("image", (String) eventData.get("image"));
                         intent.putExtra("qrcode", (String) eventData.get("qrcode"));
                         intent.putExtra("location", (String) eventData.get("location"));
-                        intent.putExtra("accepted", (Boolean) eventData.get("accepted"));
                         intent.putExtra("availability", (String) eventData.get("availability"));
                         intent.putExtra("price", (String) eventData.get("price"));
                         intent.putExtra("eventID", (String) eventData.get("eventID"));
