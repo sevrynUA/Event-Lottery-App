@@ -404,6 +404,7 @@ public class MyEventsFragment extends Fragment {
                     intent.putExtra("category", eventCategory);
                     intent.putExtra("userID", userID);
 
+
                     eventDetailsLauncher.launch(intent);
                 }
             }

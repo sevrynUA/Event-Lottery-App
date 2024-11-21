@@ -70,8 +70,8 @@
                 android:layout_gravity="left"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
-
             </Button>
+
 
             <Button
                 android:id="@+id/upload_event_image_button"

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.User;
@@ -48,8 +49,9 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     public String eventID = null;
 
     public Boolean geolocation = false;
-    private String encodedEventImage = "";
+    private String encodedEventImage;
     private ImageView eventImage;
+    private final MutableLiveData<String> loadedImageData = new MutableLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,8 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         eventTimeText.setText(intent.getStringExtra("date"));
         eventLocationText.setText(intent.getStringExtra("location"));
 
+        //System.out.println(intent.getStringExtra("image"));
+
 
         if (intent.getStringExtra("availability") == null || Objects.equals(intent.getStringExtra("availability"), "")) {
             eventAvailabilityText.setText("Availability - No Limit");
@@ -109,9 +113,9 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         eventPriceText.setText(intent.getStringExtra("price"));
 
         // change event_image_view to the image passed with intent.getStringExtra("image") here
-        getEventImageFromDatabase();
-        System.out.println(encodedEventImage);
-        loadUserImage(encodedEventImage);
+        getEventImageData(eventID);
+
+
 
         Button backButton = findViewById(R.id.event_details_back);
         backButton.setOnClickListener(view -> {
@@ -192,14 +196,15 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
     /**
      * decodes image to a base 64 string
-     * @param path to image
      */
-    private void loadUserImage(String path) {
-        byte[] decodedImage = Base64.decode(encodedEventImage, Base64.DEFAULT);
+    private void loadUserImage(String data) {
+        if (data != null) {
+            byte[] decodedImage = Base64.decode(data, Base64.DEFAULT);
 
-        Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
-        // set qrImage to decoded bitmap
-        eventImage.setImageBitmap(qrBitmap);
+            Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+            // set qrImage to decoded bitmap
+            eventImage.setImageBitmap(qrBitmap);
+        }
     }
 
     /**
@@ -285,17 +290,14 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     /**
      * gets the event image from the database
      */
-    public void getEventImageFromDatabase() {
-        DocumentReference docRef = db.collection("events").document(eventID);
+    public void getEventImageData(String eventID) {
+        DocumentReference ref = db.collection("events").document(eventID);
 
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        encodedEventImage = document.getString("image");
-                    }
+        ref.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    loadUserImage(document.getString("image"));
                 }
             }
         });
