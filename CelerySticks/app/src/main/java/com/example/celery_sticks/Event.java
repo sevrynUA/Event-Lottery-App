@@ -16,9 +16,8 @@ public class Event {
     private Date eventDate;
     private String location;
     private int maxCapacity; // Optional max capacity
-    private String posterImage; // Path to the event poster image
+    private String posterImage; // encoded image data
     private Boolean lotteryStatus;
-    private String encodedImage;
 
     /**
      * Instantiates an Event object
@@ -173,22 +172,5 @@ public class Event {
         this.lotteryStatus = lotteryStatus;
     }
 
-    /**
-     * returns the encoded image string
-     * @return
-     * the encoded image string
-     */
-    public String getEncodedImage() {
-        return encodedImage;
-    }
-
-    /**
-     * updates the encoded image
-     * @param encodedImage string to add
-     *
-     */
-    public void setLotteryStatus(String encodedImage) {
-        this.encodedImage = encodedImage;
-    }
 
 }

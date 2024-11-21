@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -199,11 +200,17 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
      */
     private void loadUserImage(String data) {
         if (data != null) {
-            byte[] decodedImage = Base64.decode(data, Base64.DEFAULT);
+            if (data.equals("")) {
+                Drawable image = getResources().getDrawable(R.drawable.landscape_event_placeholder_image, getTheme());
+                eventImage.setImageDrawable(image);
+            }
+            else {
+                byte[] decodedImage = Base64.decode(data, Base64.DEFAULT);
 
-            Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
-            // set qrImage to decoded bitmap
-            eventImage.setImageBitmap(qrBitmap);
+                Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                // set qrImage to decoded bitmap
+                eventImage.setImageBitmap(qrBitmap);
+            }
         }
     }
 

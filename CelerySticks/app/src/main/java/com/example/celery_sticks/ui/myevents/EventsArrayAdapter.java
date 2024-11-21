@@ -1,7 +1,11 @@
 package com.example.celery_sticks.ui.myevents;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +54,19 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         time.setText(String.format("%s - %s", dayOfWeek, timeStr));
         date.setText(String.format("%s %s", monthName, dayNum));
         location.setText(event.getLocation());
+
         // set image to imageview here
+        String imageData = event.getPosterImage();
+        if (imageData != null) {
+            if (!imageData.equals("")) {
+
+                byte[] decodedImage = Base64.decode(imageData, Base64.DEFAULT);
+
+                Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                // set qrImage to decoded bitmap
+                image.setImageBitmap(qrBitmap);
+            }
+        }
 
         return view;
     }
