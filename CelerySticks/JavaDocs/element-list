@@ -1,0 +1,9 @@
+com.example.celery_sticks
+com.example.celery_sticks.ClassTests
+com.example.celery_sticks.ui.eventadd
+com.example.celery_sticks.ui.eventfinder
+com.example.celery_sticks.ui.facilityinformation
+com.example.celery_sticks.ui.myevents
+com.example.celery_sticks.ui.myprofile
+com.example.celery_sticks.ui.settings
+com.example.celery_sticks.UITests

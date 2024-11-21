@@ -92,8 +92,6 @@ public class EventFinderFragment extends Fragment {
                         eventData.put("location", document.getString("location"));
                         eventData.put("availability", document.getString("availability"));
                         eventData.put("price", document.getString("price"));
-                        eventData.put("registered", document.getBoolean("registered"));
-                        eventData.put("accepted", document.getBoolean("accepted"));
                         eventData.put("eventID", document.getId());
 
                         // format the dates given Timestamps
@@ -121,8 +119,6 @@ public class EventFinderFragment extends Fragment {
                         intent.putExtra("image", (String) eventData.get("image"));
                         intent.putExtra("qrcode", (String) eventData.get("qrcode"));
                         intent.putExtra("location", (String) eventData.get("location"));
-                        intent.putExtra("registered", (Boolean) eventData.get("registered"));
-                        intent.putExtra("accepted", (Boolean) eventData.get("accepted"));
                         intent.putExtra("availability", (String) eventData.get("availability"));
                         intent.putExtra("price", (String) eventData.get("price"));
                         intent.putExtra("eventID", (String) eventData.get("eventID"));
@@ -195,11 +191,13 @@ public class EventFinderFragment extends Fragment {
             @Override
             public void barcodeResult(BarcodeResult result) {
                 String qrData = result.getText();
-                getEventData(qrData);
-                if (qrData != null) {
-                    Toast.makeText(getContext(), "QR Code: " + qrData, Toast.LENGTH_SHORT).show();
+                if (qrData.length() == 20) {
+                    getEventData(qrData);
                     // Pause the scanner to prevent further detections
                     barcodeScannerView.pause();
+                }
+                else {
+                    Toast.makeText(getContext(), "Invalid QR Code", Toast.LENGTH_SHORT).show();
                 }
             }
         });

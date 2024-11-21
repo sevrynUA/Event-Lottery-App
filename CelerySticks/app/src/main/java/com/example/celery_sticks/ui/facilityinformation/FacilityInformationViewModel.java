@@ -65,6 +65,14 @@ public class FacilityInformationViewModel extends ViewModel {
         return db.collection("facilities").document(ownerID).update(updatedData)
                 .addOnSuccessListener(aVoid -> {
                     refreshFacilityData(ownerID);
+                    db.collection("users").document(ownerID)
+                            .update("role", "organizer")
+                            .addOnSuccessListener(aVoidUser -> {
+                                Log.d("FacilityInformationViewModel", "User role updated to organizer");
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("FacilityInformationViewModel", "Failed to update user role", e);
+                            });
                 });
     }
 
