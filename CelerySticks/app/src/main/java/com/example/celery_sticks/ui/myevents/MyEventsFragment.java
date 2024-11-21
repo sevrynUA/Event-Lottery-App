@@ -404,6 +404,7 @@ public class MyEventsFragment extends Fragment {
                     intent.putExtra("category", eventCategory);
                     intent.putExtra("userID", userID);
 
+
                     eventDetailsLauncher.launch(intent);
                 }
             }
@@ -433,7 +434,6 @@ public class MyEventsFragment extends Fragment {
                         eventData.put("open", document.getTimestamp("open"));
                         eventData.put("name", document.getString("name"));
                         eventData.put("description", document.getString("description"));
-                        eventData.put("image", document.getString("image"));
                         eventData.put("qrcode", document.getString("qrcode"));
                         eventData.put("location", document.getString("location"));
                         eventData.put("availability", document.getString("availability"));

@@ -1,13 +1,17 @@
 package com.example.celery_sticks;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.databinding.ActivityMainBinding;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -154,6 +160,48 @@ public class MainActivity extends AppCompatActivity {
 
         textUserFirstName.setText(firstName);
         sidebarIconInitials.setText(initials.toUpperCase());
+        updateUserImage(userID);
+    }
+
+    /**
+     * updates the profile image in the nav sidebar
+     * @param userID is user to get the profile image from
+     */
+    public void updateUserImage(String userID) {
+        DocumentReference ref = db.collection("users").document(userID);
+
+        ref.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    decodeImage(document.getString("encodedImage"));
+                }
+            }
+        });
+    }
+
+    /**
+     * decodes the image data into a usable asset
+     * @param imageData data to decode into an image
+     */
+    private void decodeImage(String imageData) {
+        System.out.println(imageData);
+        ImageView image = findViewById(R.id.nav_profile_image);
+        MaterialCardView rounder = findViewById(R.id.image_rounder_nav_profile);
+
+        if (imageData != null) {
+            if (!imageData.equals("")) {
+                rounder.setVisibility(View.VISIBLE);
+                byte[] decodedImage = Base64.decode(imageData, Base64.DEFAULT);
+
+                Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                // set qrImage to decoded bitmap
+                image.setImageBitmap(qrBitmap);
+            }
+            else {
+                rounder.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     /**

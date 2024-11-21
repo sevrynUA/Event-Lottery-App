@@ -16,7 +16,7 @@ public class Event {
     private Date eventDate;
     private String location;
     private int maxCapacity; // Optional max capacity
-    private String posterImage; // Path to the event poster image
+    private String posterImage; // encoded image data
     private Boolean lotteryStatus;
 
     /**
@@ -171,4 +171,6 @@ public class Event {
     public void setLotteryStatus(Boolean lotteryStatus) {
         this.lotteryStatus = lotteryStatus;
     }
+
+
 }

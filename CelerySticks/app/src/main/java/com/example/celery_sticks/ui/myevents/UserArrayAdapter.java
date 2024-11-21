@@ -37,6 +37,7 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         TextView entrantLocationText = view.findViewById(R.id.entrant_location_text);
         ImageView image = view.findViewById(R.id.entrant_image);
 
+
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
 

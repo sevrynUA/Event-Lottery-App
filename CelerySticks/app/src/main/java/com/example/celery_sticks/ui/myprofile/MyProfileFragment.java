@@ -43,6 +43,10 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.BarcodeFormat;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
@@ -194,6 +198,48 @@ public class MyProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * updates the profile image in the nav sidebar
+     * @param userID is user to get the profile image from
+     */
+    public void updateUserImageNav(String userID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(userID);
+
+        ref.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    decodeImageNav(document.getString("encodedImage"));
+                }
+            }
+        });
+    }
+
+    /**
+     * decodes the image data into a usable asset
+     * @param imageData data to decode into an image
+     */
+    private void decodeImageNav(String imageData) {
+        System.out.println(imageData);
+        ImageView image = requireActivity().findViewById(R.id.nav_profile_image);
+        MaterialCardView rounder = requireActivity().findViewById(R.id.image_rounder_nav_profile);
+
+        if (imageData != null) {
+            if (!imageData.equals("")) {
+                rounder.setVisibility(View.VISIBLE);
+                byte[] decodedImage = Base64.decode(imageData, Base64.DEFAULT);
+
+                Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                // set qrImage to decoded bitmap
+                image.setImageBitmap(qrBitmap);
+            }
+            else {
+                rounder.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
 
     /**
      * Validates input given by the user
@@ -255,6 +301,8 @@ public class MyProfileFragment extends Fragment {
                     text_user_first_name.setText(firstName);
                     sidebar_icon_initials.setText(initials.toUpperCase());
                     binding.iconInitials.setText(initials.toUpperCase());
+                    updateUserImageNav(userID);
+
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save changes", Toast.LENGTH_SHORT).show();

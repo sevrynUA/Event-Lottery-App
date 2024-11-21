@@ -21,6 +21,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/relativeLayout4"
             android:layout_width="145dp"
             android:layout_height="145dp"
             android:layout_alignTop="@+id/sidebar_icon_initials"
@@ -51,6 +52,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/image_rounder_nav_profile"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:visibility="gone"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout4"
+            app:layout_constraintEnd_toEndOf="@+id/relativeLayout4"
+            app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout4">
+
+            <ImageView
+                android:id="@+id/nav_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
