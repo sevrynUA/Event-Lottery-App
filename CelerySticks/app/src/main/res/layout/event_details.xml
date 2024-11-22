@@ -66,19 +66,19 @@
                 android:id="@+id/delete_event_image_button"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="Delete"
                 android:layout_gravity="left"
+                android:text="Delete"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-            </Button>
+                app:layout_constraintStart_toStartOf="parent"></Button>
 
 
             <Button
                 android:id="@+id/upload_event_image_button"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="upload"
                 android:layout_gravity="right"
+                android:text="upload"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -280,6 +280,7 @@
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/vomitGreen"
         android:text="Register"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -293,6 +294,20 @@
         android:layout_marginBottom="5dp"
         android:backgroundTint="#025043"
         android:text="Manage Entrants"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/delete_event_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/unSelectedRed"
+        android:text="Delete Event"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

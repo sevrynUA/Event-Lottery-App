@@ -24,5 +24,17 @@
             android:id="@+id/facility_information"
             android:icon="@android:drawable/ic_menu_myplaces"
             android:title="Facility Information" />
+        <item
+            android:id="@+id/browse_events"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="Browse Events" />
+        <item
+            android:id="@+id/browse_users"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="Browse Users" />
+        <item
+            android:id="@+id/browse_images"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="Browse Images" />
     </group>
 </menu>

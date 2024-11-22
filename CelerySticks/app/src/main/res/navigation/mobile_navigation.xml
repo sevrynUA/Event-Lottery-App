@@ -36,4 +36,17 @@
         android:id="@+id/facility_information"
         android:name="com.example.celery_sticks.ui.facilityinformation.FacilityInformationFragment"
         android:label="Facility Information" />
+
+    <fragment
+        android:id="@+id/browse_events"
+        android:name="com.example.celery_sticks.ui.browseevents.BrowseEventsFragment"
+        android:label="Browse Events" />
+    <fragment
+        android:id="@+id/browse_users"
+        android:name="com.example.celery_sticks.ui.browseusers.BrowseUsersFragment"
+        android:label="Browse Users" />
+    <fragment
+        android:id="@+id/browse_images"
+        android:name="com.example.celery_sticks.ui.browseimages.BrowseImagesFragment"
+        android:label="Browse Images" />
 </navigation>
