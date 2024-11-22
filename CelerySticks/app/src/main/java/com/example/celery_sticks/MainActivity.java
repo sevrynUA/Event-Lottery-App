@@ -9,10 +9,9 @@ import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -40,17 +39,24 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * MainActivity initializes main features / setup for the app
  */
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    private AppBarConfiguration mAppBarConfiguration = null;
     private ActivityMainBinding binding;
     private FirebaseFirestore db;
     private String userID;
 
     private ActivityResultLauncher<Intent> startUpActivityLauncher;
+
+    Menu menu;
+    MenuItem browseEvents;
+    MenuItem browseUsers;
+    MenuItem browseImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,22 +71,26 @@ public class MainActivity extends AppCompatActivity {
         // Get device ID
         userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        // Check if user exists in database
-        checkUser();
-
+        // Show/hide admin tabs
         setSupportActionBar(binding.appBarMain.toolbar);
-
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        menu = navigationView.getMenu();
+        browseEvents = menu.findItem(R.id.browse_events);
+        browseUsers = menu.findItem(R.id.browse_users);
+        browseImages = menu.findItem(R.id.browse_images);
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.my_events, R.id.event_finder, R.id.my_profile, R.id.settings, R.id.facility_information)
+                R.id.my_events, R.id.event_finder, R.id.my_profile, R.id.settings, R.id.facility_information, R.id.browse_events, R.id.browse_users, R.id.browse_images)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // Check if user exists in database
+        checkUser();
 
         // explicitly pass userID to MyEventsFragment on app startup
         Bundle explicitBundle = new Bundle();
@@ -105,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.facility_information) {
                 idBundle.putString("userID", userID);
                 navController.navigate(R.id.facility_information, idBundle);
+            } else if (item.getItemId() == R.id.browse_events) {
+                idBundle.putString("userID", userID);
+                navController.navigate(R.id.browse_events, idBundle);
+            } else if (item.getItemId() == R.id.browse_users) {
+                idBundle.putString("userID", userID);
+                navController.navigate(R.id.browse_users, idBundle);
+            } else if (item.getItemId() == R.id.browse_images) {
+                idBundle.putString("userID", userID);
+                navController.navigate(R.id.browse_images, idBundle);
             }
             drawer.closeDrawer(GravityCompat.START);
             return false;
@@ -218,6 +237,15 @@ public class MainActivity extends AppCompatActivity {
                                 // User exists
                                 Log.d("MainActivity", "User found: " + document.getData());
                                 updateNameAndInitials(document.getString("firstName"), document.getString("lastName"), document.getString("userID"));
+                                if (document.getBoolean("admin")) {
+                                    browseEvents.setVisible(true);
+                                    browseUsers.setVisible(true);
+                                    browseImages.setVisible(true);
+                                } else {
+                                    browseEvents.setVisible(false);
+                                    browseUsers.setVisible(false);
+                                    browseImages.setVisible(false);
+                                }
                             } else {
                                 // User does not exist
                                 Log.d("MainActivity", "User not found, starting StartUpActivity");

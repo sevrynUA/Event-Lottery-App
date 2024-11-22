@@ -71,12 +71,17 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
         Button registerButton = findViewById(R.id.register_button);
         Button manageEntrantsButton = findViewById(R.id.manage_entrants_button);
+        Button deleteEventButton = findViewById(R.id.delete_event_button);
         String eventCategory = intent.getStringExtra("category");
-        if (Objects.equals(eventCategory, "created")) {
+        deleteEventButton.setVisibility(View.GONE);
+        if (Objects.equals(eventCategory, "admin")) {
+            registerButton.setVisibility(View.GONE);
+            manageEntrantsButton.setVisibility(View.GONE);
+            deleteEventButton.setVisibility(View.VISIBLE);
+        } else if (Objects.equals(eventCategory, "created")) {
             registerButton.setVisibility(View.GONE);
             imageButtons.setVisibility(View.VISIBLE);
             manageEntrantsButton.setVisibility(View.VISIBLE);
-
         } else {
             registerButton.setVisibility(View.VISIBLE);
             manageEntrantsButton.setVisibility(View.GONE);
@@ -120,6 +125,8 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
         Button backButton = findViewById(R.id.event_details_back);
         backButton.setOnClickListener(view -> {
+            Intent completedIntent = new Intent();
+            setResult(RESULT_OK, completedIntent);
             finish();
         });
 
@@ -149,6 +156,15 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
             manageEntrantsIntent.putExtra("eventID", eventID);
             manageEntrantsIntent.putExtra("availability", intent.getStringExtra("availability"));
             startActivity(manageEntrantsIntent);
+        });
+
+        deleteEventButton.setOnClickListener(view -> {
+            db.collection("events").document(eventID).delete()
+                    .addOnSuccessListener(success -> {
+                        Intent completedIntent = new Intent();
+                        setResult(RESULT_OK, completedIntent);
+                        finish();
+                    });
         });
 
 
