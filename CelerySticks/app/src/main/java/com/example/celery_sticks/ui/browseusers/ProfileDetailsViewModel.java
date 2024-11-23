@@ -2,7 +2,10 @@ package com.example.celery_sticks.ui.browseusers;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +46,17 @@ public class ProfileDetailsViewModel extends AppCompatActivity {
                     lastName.setText(document.getString("lastName"));
                     email.setText(document.getString("email"));
                     phoneNumber.setText(document.getString("phoneNumber"));
-                    // TODO JEREMY can you plz make the "profilePicture" imageView be the user image here ty
+
+
+                    // set image
+                    String encodedProfileImage = document.getString("encodedImage");
+
+                    if (!encodedProfileImage.equals(" ")) {
+                        byte[] decodedImage = Base64.decode(encodedProfileImage, Base64.DEFAULT);
+                        Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                        profilePicture.setImageBitmap(qrBitmap);
+                    }
+
 
                     db.collection("facilities").document(viewingUserID).get()
                             .addOnSuccessListener(facilityDoc -> {

@@ -1,29 +1,18 @@
-package com.example.celery_sticks.ui.admin;
+package com.example.celery_sticks.ui.browseimages;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.celery_sticks.Event;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.databinding.FragmentAdminBrowseImagesBinding;
-import com.example.celery_sticks.databinding.FragmentMyEventsBinding;
-import com.example.celery_sticks.ui.myevents.EventsArrayAdapter;
-import com.example.celery_sticks.ui.myevents.MyEventsViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

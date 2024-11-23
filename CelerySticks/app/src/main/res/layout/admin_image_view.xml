@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/admin_browse_image_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/admin_browse_image_view_back"
+        android:layout_width="53dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:icon="?attr/homeAsUpIndicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/admin_browse_image_view_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:singleLine="true"
+        android:text="Image Type:"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/admin_browse_image_view_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/admin_browse_image_view">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/admin_browse_image_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="120dp"
+        android:singleLine="true"
+        android:text="Origin:"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/organizer_button_nav_header_background"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/login_user_type_button_unselected"
+        app:layout_constraintBottom_toBottomOf="@+id/admin_browse_image_view_delete_button"
+        app:layout_constraintEnd_toEndOf="@+id/admin_browse_image_view_delete_button"
+        app:layout_constraintStart_toStartOf="@+id/admin_browse_image_view_delete_button"
+        app:layout_constraintTop_toTopOf="@+id/admin_browse_image_view_delete_button">
+    </RelativeLayout>
+
+    <android.widget.Button
+        android:id="@+id/admin_browse_image_view_delete_button"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:text="Remove"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/admin_browse_image_view_title">
+
+    </android.widget.Button>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
