@@ -39,6 +39,7 @@
         <activity android:name=".GeolocationMap"></activity>
         <activity android:name=".ui.myevents.SelectedEntrantsFragment"></activity>
         <activity android:name=".ui.browseusers.ProfileDetailsViewModel"></activity>
+        <activity android:name=".ui.browseusers.FacilityDetailsActivity"></activity>
     </application>
 
 </manifest>
