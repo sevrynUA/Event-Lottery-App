@@ -40,6 +40,8 @@
         <activity android:name=".ui.myevents.SelectedEntrantsFragment"></activity>
         <activity android:name=".ui.browseusers.ProfileDetailsViewModel"></activity>
         <activity android:name=".ui.browseusers.FacilityDetailsActivity"></activity>
+        <activity android:name=".ui.browseimages.BrowseImageViewFragment"></activity>
+
     </application>
 
 </manifest>

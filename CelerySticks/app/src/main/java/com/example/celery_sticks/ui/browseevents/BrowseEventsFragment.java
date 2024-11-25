@@ -99,6 +99,8 @@ public class BrowseEventsFragment extends Fragment {
             }
         });
 
+
+
         browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 eventClicked(adapterView, view, i, l, "admin");
