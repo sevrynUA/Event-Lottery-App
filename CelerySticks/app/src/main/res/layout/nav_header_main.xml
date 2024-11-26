@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="wrap_content"
     android:background="@color/primary"
-    android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -21,6 +20,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/relativeLayout4"
             android:layout_width="145dp"
             android:layout_height="145dp"
             android:layout_alignTop="@+id/sidebar_icon_initials"
@@ -51,6 +51,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/image_rounder_nav_profile"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:visibility="gone"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout4"
+            app:layout_constraintEnd_toEndOf="@+id/relativeLayout4"
+            app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout4">
+
+            <ImageView
+                android:id="@+id/nav_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,96 +122,6 @@
 
 
     </LinearLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="133dp"
-        android:layout_gravity="center">
-
-        <RelativeLayout
-            android:id="@+id/entrant_button_nav_header_background"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@drawable/login_user_type_button_selected"
-            app:layout_constraintBottom_toBottomOf="@+id/entrant_button_nav_header"
-            app:layout_constraintEnd_toEndOf="@+id/entrant_button_nav_header"
-            app:layout_constraintStart_toStartOf="@+id/entrant_button_nav_header"
-            app:layout_constraintTop_toTopOf="@+id/entrant_button_nav_header">
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/entrant_button_nav_header_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/checkmark"
-            app:layout_constraintBottom_toBottomOf="@+id/entrant_button_nav_header"
-            app:layout_constraintEnd_toEndOf="@+id/entrant_button_nav_header"
-            app:layout_constraintTop_toTopOf="@+id/entrant_button_nav_header">
-        </RelativeLayout>
-
-
-        <android.widget.Button
-            android:id="@+id/entrant_button_nav_header"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:text="Entrant"
-            android:paddingLeft = "10dp"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/organizer_button_nav_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </android.widget.Button>
-
-
-        <RelativeLayout
-            android:id="@+id/organizer_button_nav_header_background"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@drawable/login_user_type_button_unselected"
-            app:layout_constraintBottom_toBottomOf="@+id/organizer_button_nav_header"
-            app:layout_constraintEnd_toEndOf="@+id/organizer_button_nav_header"
-            app:layout_constraintStart_toStartOf="@+id/organizer_button_nav_header"
-            app:layout_constraintTop_toTopOf="@+id/organizer_button_nav_header">
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/organizer_button_nav_header_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/x_mark"
-            app:layout_constraintBottom_toBottomOf="@+id/organizer_button_nav_header_background"
-            app:layout_constraintEnd_toEndOf="@+id/organizer_button_nav_header_background"
-            app:layout_constraintTop_toTopOf="@+id/organizer_button_nav_header_background">
-        </RelativeLayout>
-
-
-        <android.widget.Button
-            android:id="@+id/organizer_button_nav_header"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:text="Organizer"
-            android:paddingLeft = "10dp"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/entrant_button_nav_header">
-        </android.widget.Button>
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>
