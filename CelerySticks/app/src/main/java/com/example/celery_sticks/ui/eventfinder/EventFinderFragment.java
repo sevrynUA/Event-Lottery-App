@@ -36,6 +36,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ public class EventFinderFragment extends Fragment {
     private DecoratedBarcodeView barcodeScannerView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ActivityResultLauncher<Intent> eventDetailsLauncher;
-    String userID;
+    private String userID;
+    private String category;
 
     /**
      * Handles the result of the camera permission request.
@@ -78,6 +80,26 @@ public class EventFinderFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+
+                        ArrayList<String> cancelled = (ArrayList<String>) document.get("cancelled");
+                        ArrayList<String> accepted = (ArrayList<String>) document.get("accepted");
+                        ArrayList<String> selected = (ArrayList<String>) document.get("selected");
+                        ArrayList<String> registered = (ArrayList<String>) document.get("registrants");
+
+                        if(cancelled.contains(userID)) {
+                            category = "cancelled";
+                        } else if(accepted.contains(userID)) {
+                            category = "accepted";
+                        } else if(registered.contains(userID)) {
+                            category = "registered";
+                        } else if(selected.contains(userID)) {
+                            category = "invitation";
+                        } else {
+                            category = "notinarray";
+                        }
+
+
+
 
                         // passes values to intent EventDetailsViewModel
                         Intent intent = new Intent(getContext(), EventDetailsViewModel.class);
@@ -122,7 +144,7 @@ public class EventFinderFragment extends Fragment {
                         intent.putExtra("availability", (String) eventData.get("availability"));
                         intent.putExtra("price", (String) eventData.get("price"));
                         intent.putExtra("eventID", (String) eventData.get("eventID"));
-                        intent.putExtra("category", "invitation");
+                        intent.putExtra("category", category);
                         intent.putExtra("userID", userID);
 
                         startActivity(intent);

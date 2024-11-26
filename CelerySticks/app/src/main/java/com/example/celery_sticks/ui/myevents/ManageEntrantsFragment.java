@@ -13,16 +13,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.GeolocationMap;
+import com.example.celery_sticks.Notification;
 import com.example.celery_sticks.Notifications;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.StartUpActivity;
 import com.example.celery_sticks.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -51,6 +56,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     private String eventID;
     private Integer availability;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String eventName;
 
 
     private ArrayList<User> registrantList = new ArrayList<User>();
@@ -69,6 +75,13 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
         Intent intent = getIntent();
         eventID = intent.getStringExtra("eventID");
+        db.collection("events").document(eventID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        eventName = documentSnapshot.getString("name");
+                    }
+                });
         if (intent.getStringExtra("availability") == null || Objects.equals(intent.getStringExtra("availability"), "")) {
             availability = 999999; // no upper limit on participants
         } else {
@@ -148,12 +161,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                 }
             }
             Collections.shuffle(userIDs); // randomize the user ids
-
+            ArrayList<String> lost = new ArrayList<>(userIDs);
             int i;
             for (i = 0; i < quantity; i++) {
                 // Remove User object from registrantList
                 removingIDs.add(userIDs.get(i));
-
+                lost.remove(userIDs.get(i));
 
                 // Remove userID from registrants, add to selected
                 event.update("registrants", FieldValue.arrayRemove(userIDs.get(i)));
@@ -174,6 +187,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                         }
                 );
             }
+            Notification winNotification;
+            winNotification = new Notification("You have been drawn for " + eventName + "!", removingIDs);
+            winNotification.newNotification();
+            Notification lostNotification;
+            lostNotification = new Notification("You have not been selected for " + eventName, lost);
+            lostNotification.newNotification();
         }
     }
 
