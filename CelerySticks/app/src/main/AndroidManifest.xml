@@ -42,6 +42,7 @@
         <activity android:name=".ui.browseusers.FacilityDetailsActivity"></activity>
         <activity android:name=".ui.browseimages.BrowseImageViewFragment"></activity>
         <activity android:name=".ui.myevents.AcceptedListFragment"></activity>
+        <activity android:name=".ui.myevents.CancelledListFragment"></activity>
 
     </application>
 
