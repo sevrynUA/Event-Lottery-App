@@ -43,6 +43,7 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private ActivityResultLauncher<Intent> acceptedListLauncher;
+    private ActivityResultLauncher<Intent> cancelledListLauncher;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +51,11 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         setContentView(R.layout.fragment_selected_entrants);
 
         acceptedListLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                initialize();
+            }
+        });
+        cancelledListLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
                 initialize();
             }
@@ -88,7 +94,9 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         });
 
         declinedButton.setOnClickListener(view -> {
-            //declined list
+            Intent cancelledIntent = new Intent(this, CancelledListFragment.class);
+            cancelledIntent.putExtra("eventID", eventID);
+            cancelledListLauncher.launch(cancelledIntent);
         });
 
         backButton.setOnClickListener(view -> {

@@ -289,7 +289,7 @@
         android:paddingLeft="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="20dp"
-        android:visibility="visible"
+        android:visibility="gone"
 
         app:layout_constraintBottom_toBottomOf="parent">
 

@@ -180,6 +180,9 @@ public class MyEventsFragment extends Fragment {
                         String eventLocation = document.getString("location");
                         String organizerID = document.getString("organizerID");
 
+                        // Enable for testing
+                        // temporaryList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                        // refreshLists();
                         if (organizerID != null && organizerID.equals(userID)) {
                             createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                         } else {
