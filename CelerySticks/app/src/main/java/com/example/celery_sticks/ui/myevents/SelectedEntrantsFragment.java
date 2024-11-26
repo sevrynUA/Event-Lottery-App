@@ -2,17 +2,22 @@ package com.example.celery_sticks.ui.myevents;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.User;
+import com.example.celery_sticks.ui.myevents.AcceptedListFragment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,10 +42,18 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
     private Integer selectedCount = 0;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    private ActivityResultLauncher<Intent> acceptedListLauncher;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_selected_entrants);
+
+        acceptedListLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                initialize();
+            }
+        });
 
         Intent intent = getIntent();
         eventID = intent.getStringExtra("eventID");
@@ -69,7 +82,9 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         });
 
         acceptedButton.setOnClickListener(view -> {
-            //accepted list
+            Intent acceptedIntent = new Intent(this, AcceptedListFragment.class);
+            acceptedIntent.putExtra("eventID", eventID);
+            acceptedListLauncher.launch(acceptedIntent);
         });
 
         declinedButton.setOnClickListener(view -> {
