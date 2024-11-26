@@ -188,10 +188,10 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                 );
             }
             Notification winNotification;
-            winNotification = new Notification("You have been drawn for " + eventName + "!", removingIDs);
+            winNotification = new Notification("You have been drawn for " + eventName + "!", "You have been drawn in the lottery for " + eventName + " accept your invite now!", removingIDs);
             winNotification.newNotification();
             Notification lostNotification;
-            lostNotification = new Notification("You have not been selected for " + eventName, lost);
+            lostNotification = new Notification("You have not been drawn for " + eventName, "You have not been drawn in the lottery for " + eventName + " don't worry, we'll keep you on the waitlist in case others cancel!", lost);
             lostNotification.newNotification();
         }
     }

@@ -34,10 +34,10 @@ public class NotificationChecker {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "New Notification";
-            String description = "New Notification";
+            CharSequence name = "Celery Sticks";
+            String description = "New Notification from Celery Sticks";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("New Notification", name, importance);
+            NotificationChannel channel = new NotificationChannel("New Notification from Celery Sticks", name, importance);
             channel.setDescription(description);
             notificationManager.createNotificationChannel(channel);
         }
@@ -52,11 +52,12 @@ public class NotificationChecker {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ArrayList<String> recipients = (ArrayList<String>) document.get("recipients");
                                 if(recipients.contains(userID)) {
+                                    String title = document.getString("title");
                                     String message = document.getString("message");
 
                                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "New Notification")
                                             .setSmallIcon(R.drawable.notification_icon)
-                                            .setContentTitle("New Notification")
+                                            .setContentTitle(title)
                                             .setContentText(message)
                                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                             .setAutoCancel(true);

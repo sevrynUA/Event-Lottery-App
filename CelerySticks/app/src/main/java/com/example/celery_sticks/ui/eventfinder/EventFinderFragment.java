@@ -90,17 +90,14 @@ public class EventFinderFragment extends Fragment {
                             category = "cancelled";
                         } else if(accepted.contains(userID)) {
                             category = "accepted";
-                        } else if(registered.contains(userID)) {
-                            category = "registered";
                         } else if(selected.contains(userID)) {
                             category = "invitation";
+                        }  else if(registered.contains(userID)) {
+                            category = "registered";
                         } else {
                             category = "notinarray";
                         }
-
-
-
-
+                        
                         // passes values to intent EventDetailsViewModel
                         Intent intent = new Intent(getContext(), EventDetailsViewModel.class);
 

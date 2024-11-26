@@ -16,11 +16,13 @@ public class Notification {
     private FirebaseFirestore db;
     ArrayList<String> recipients;
     String message;
+    String title;
 
 
-    public Notification(String newMessage, ArrayList<String> users) {
-        message = newMessage;
-        recipients = users;
+    public Notification(String title, String message, ArrayList<String> recipients) {
+        this.title = title;
+        this.message = message;
+        this.recipients = recipients;
     }
 
 
@@ -28,6 +30,7 @@ public class Notification {
 
         db = FirebaseFirestore.getInstance();
         HashMap<String, Object> notificationData = new HashMap<>();
+        notificationData.put("title", title);
         notificationData.put("message", message);
         notificationData.put("recipients", recipients);
 
@@ -39,6 +42,5 @@ public class Notification {
                     Log.e("Notification", "Failed to make new notification");
                 });
     }
-
 }
 
