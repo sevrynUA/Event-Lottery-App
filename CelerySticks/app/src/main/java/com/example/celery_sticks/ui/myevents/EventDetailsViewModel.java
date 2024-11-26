@@ -152,6 +152,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         qrButton.setOnClickListener(view -> {
             Intent qrView = new Intent(EventDetailsViewModel.this, EventQRCodeView.class);
             qrView.putExtra("eventID", eventID);
+            qrView.putExtra("category", eventCategory);
             startActivity(qrView);
         });
 
