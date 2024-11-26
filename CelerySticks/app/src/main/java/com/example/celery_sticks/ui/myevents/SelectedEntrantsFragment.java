@@ -64,9 +64,6 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         Intent intent = getIntent();
         eventID = intent.getStringExtra("eventID");
 
-        notifyAll = findViewById(R.id.notify_all_selected_button);
-        notifyRSVP = findViewById(R.id.notify_RSVP_button);
-        notifyDeclined = findViewById(R.id.notify_all_declined_button);
         acceptedButton = findViewById(R.id.list_accepts_button);
         declinedButton = findViewById(R.id.list_declines_button);
         backButton = findViewById(R.id.selected_entrants_back_button);
@@ -76,16 +73,6 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         selectedListView.setAdapter(selectedAdapter);
 
         initialize();
-
-        notifyAll.setOnClickListener(view -> {
-            //notify all
-        });
-        notifyRSVP.setOnClickListener(view -> {
-            //notify rsvp
-        });
-        notifyDeclined.setOnClickListener(view -> {
-            //notify declined
-        });
 
         acceptedButton.setOnClickListener(view -> {
             Intent acceptedIntent = new Intent(this, AcceptedListFragment.class);

@@ -43,7 +43,7 @@
         <activity android:name=".ui.browseimages.BrowseImageViewFragment"></activity>
         <activity android:name=".ui.myevents.AcceptedListFragment"></activity>
         <activity android:name=".ui.myevents.CancelledListFragment"></activity>
-
+        <activity android:name=".ui.myevents.NotifyEntrantsActivity" />
     </application>
 
 </manifest>
