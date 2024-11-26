@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                                 // User exists
                                 Log.d("MainActivity", "User found: " + document.getData());
                                 updateNameAndInitials(document.getString("firstName"), document.getString("lastName"), document.getString("userID"));
-                                if (document.getBoolean("admin")) {
+                                if (document.getBoolean("admin") == true) {
                                     browseEvents.setVisible(true);
                                     browseUsers.setVisible(true);
                                     browseImages.setVisible(true);

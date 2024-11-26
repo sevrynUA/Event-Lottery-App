@@ -62,6 +62,10 @@ public class MyEventsFragment extends Fragment {
     private ListView acceptedListView;
     private EventsArrayAdapter acceptedAdapter;
 
+    private ArrayList<Event> cancelledList = new ArrayList<>();
+    private ListView cancelledListView;
+    private EventsArrayAdapter cancelledAdapter;
+
     private ArrayList<Event> invitationList = new ArrayList<>();
     private ListView invitationListView;
     private EventsArrayAdapter invitationAdapter;
@@ -128,6 +132,7 @@ public class MyEventsFragment extends Fragment {
         registeredList.clear();
         invitationList.clear();
         acceptedList.clear();
+        cancelledList.clear();
         createdList.clear();
         temporaryList.clear();
 
@@ -138,6 +143,10 @@ public class MyEventsFragment extends Fragment {
         acceptedListView = root.findViewById(R.id.accepted_list);
         acceptedAdapter = new EventsArrayAdapter(getContext(), acceptedList);
         acceptedListView.setAdapter(acceptedAdapter);
+
+        cancelledListView = root.findViewById(R.id.cancelled_list);
+        cancelledAdapter = new EventsArrayAdapter(getContext(), cancelledList);
+        cancelledListView.setAdapter(cancelledAdapter);
 
         invitationListView = root.findViewById(R.id.invitation_list);
         invitationAdapter = new EventsArrayAdapter(getContext(), invitationList);
@@ -174,11 +183,27 @@ public class MyEventsFragment extends Fragment {
                         if (organizerID != null && organizerID.equals(userID)) {
                             createdList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                         } else {
-                            checkIfUserRegistered(eventID, isUserRegistered -> {
-                                if (isUserRegistered) {
+                            checkIfUserInFirebaseArray("registrants", eventID, isUserInRegistrants -> {
+                                if (isUserInRegistrants) {
                                     registeredList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
-                                } else {
-                                    temporaryList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                                    refreshLists();
+                                }
+                            });
+                            checkIfUserInFirebaseArray("accepted", eventID, isUserInSelected -> {
+                                if (isUserInSelected) {
+                                    acceptedList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                                }
+                                refreshLists();
+                            });
+                            checkIfUserInFirebaseArray("cancelled", eventID, isUserInSelected -> {
+                                if (isUserInSelected) {
+                                    cancelledList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
+                                }
+                                refreshLists();
+                            });
+                            checkIfUserInFirebaseArray("selected", eventID, isUserInSelected -> {
+                                if (isUserInSelected) {
+                                    invitationList.add(new Event(eventName, eventID, eventDescription, eventImage, eventDate, eventClose, eventOpen, eventQR, eventLocation));
                                 }
                                 refreshLists();
                             });
@@ -213,6 +238,11 @@ public class MyEventsFragment extends Fragment {
         invitationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 eventClicked(adapterView, view, i, l, "invitation");
+            }
+        });
+        cancelledListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                eventClicked(adapterView, view, i, l, "cancelled");
             }
         });
         createdListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -308,29 +338,29 @@ public class MyEventsFragment extends Fragment {
     }
 
     /**
-     * Checks if user is registered in a given event
+     * Checks if user is in a given array
      * @param eventID is the ID of the event
      * @param callback is used for asynchronous data access, returning boolean of whether user is registered through onDataRecieved
      * @return null if no boolean is returned by onDataReturned
      */
-    public Boolean checkIfUserRegistered(String eventID, EventDetailsViewModel.RegistrationWaitCallback callback) {
-        getRegistrants(eventID, new EventDetailsViewModel.EventDetailsCallback() {
+    public Boolean checkIfUserInFirebaseArray(String arrayName, String eventID, EventDetailsViewModel.RegistrationWaitCallback callback) {
+        getFirebaseArray(arrayName, eventID, new EventDetailsViewModel.EventDetailsCallback() {
             @Override
             public void onDataRecieved(ArrayList<String> eventData) {
-                Boolean isUserRegistered = eventData.contains(userID);
-                callback.onDataReturned(isUserRegistered);
+                Boolean isUserInArray = eventData.contains(userID);
+                callback.onDataReturned(isUserInArray);
             }
         });
         return null;
     }
 
     /**
-     * Gets array of registrants from the database for a given event
+     * Gets specified array from the database for a given event
      * @param eventID is the ID of the event
      * @param callback is used for asynchronous data access, returning arrayList of userIDs through onDataRecieved
      * @return null if no data is returned by onDataReturned
      */
-    public ArrayList<String> getRegistrants(String eventID, EventDetailsViewModel.EventDetailsCallback callback) {
+    public ArrayList<String> getFirebaseArray(String arrayName, String eventID, EventDetailsViewModel.EventDetailsCallback callback) {
         DocumentReference ref = db.collection("events").document(eventID);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -339,7 +369,7 @@ public class MyEventsFragment extends Fragment {
                     ArrayList<String> registrants = null;
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        registrants = (ArrayList<String>) document.get("registrants");
+                        registrants = (ArrayList<String>) document.get(arrayName);
                     }
                     callback.onDataRecieved(registrants);
                 }
@@ -364,6 +394,8 @@ public class MyEventsFragment extends Fragment {
             eventID = registeredList.get(i).getEventId();
         } else if (eventCategory == "accepted") {
             eventID = acceptedList.get(i).getEventId();
+        } else if (eventCategory == "cancelled") {
+            eventID = cancelledList.get(i).getEventId();
         } else if (eventCategory == "invitation") {
             eventID = invitationList.get(i).getEventId();
         } else if (eventCategory == "created") {
@@ -511,12 +543,14 @@ public class MyEventsFragment extends Fragment {
         registeredAdapter.notifyDataSetChanged();
         invitationAdapter.notifyDataSetChanged();
         acceptedAdapter.notifyDataSetChanged();
+        cancelledAdapter.notifyDataSetChanged();
         createdAdapter.notifyDataSetChanged();
         temporaryAdapter.notifyDataSetChanged();
 
         expandListViewHeight(temporaryListView);
         expandListViewHeight(registeredListView);
         expandListViewHeight(acceptedListView);
+        expandListViewHeight(cancelledListView);
         expandListViewHeight(invitationListView);
         expandListViewHeight(createdListView);
     }

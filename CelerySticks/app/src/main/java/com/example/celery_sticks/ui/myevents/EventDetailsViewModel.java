@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,8 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     private ImageView eventImage;
     private final MutableLiveData<String> loadedImageData = new MutableLiveData<>();
 
+    public Boolean invitationDecisionDebounce = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,32 +71,47 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         Button uploadButton = findViewById(R.id.upload_event_image_button);
         Button deleteButton = findViewById(R.id.delete_event_image_button);
         FrameLayout imageButtons = findViewById(R.id.image_buttons_event_details);
-
+        LinearLayout invitationLinearLayout = findViewById(R.id.invitation_linear_layout);
+        TextView invitationDecidedText = findViewById(R.id.invitation_decided_text);
 
         Button registerButton = findViewById(R.id.register_button);
         Button manageEntrantsButton = findViewById(R.id.manage_entrants_button);
+        Button acceptInvitationButton = findViewById(R.id.accept_invitation_button);
+        Button declineInvitationButton = findViewById(R.id.decline_invitation_button);
         Button deleteEventButton = findViewById(R.id.delete_event_button);
         String eventCategory = intent.getStringExtra("category");
+
         deleteEventButton.setVisibility(View.GONE);
+        registerButton.setVisibility(View.GONE);
+        invitationLinearLayout.setVisibility(View.GONE);
+        manageEntrantsButton.setVisibility(View.GONE);
+        imageButtons.setVisibility(View.GONE);
+        invitationDecidedText.setVisibility(View.GONE);
+
         if (Objects.equals(eventCategory, "admin")) {
-            registerButton.setVisibility(View.GONE);
-            manageEntrantsButton.setVisibility(View.GONE);
             deleteEventButton.setVisibility(View.VISIBLE);
         } else if (Objects.equals(eventCategory, "created")) {
-            registerButton.setVisibility(View.GONE);
             imageButtons.setVisibility(View.VISIBLE);
             manageEntrantsButton.setVisibility(View.VISIBLE);
+        } else if (Objects.equals(eventCategory, "registered")) {
+            registerButton.setVisibility(View.VISIBLE);
+            registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unSelectedRed)));
+            registerButton.setText("Unregister");
+        } else if (Objects.equals(eventCategory, "invitation")) {
+            invitationLinearLayout.setVisibility(View.VISIBLE);
+        } else if (Objects.equals(eventCategory, "accepted")) {
+            invitationDecidedText.setVisibility(View.VISIBLE);
+            invitationDecidedText.setText("You have accepted an invitation for this event.");
+        } else if (Objects.equals(eventCategory, "cancelled")) {
+            invitationDecidedText.setVisibility(View.VISIBLE);
+            invitationDecidedText.setText("You have declined an invitation for this event.");
         } else {
             registerButton.setVisibility(View.VISIBLE);
-            manageEntrantsButton.setVisibility(View.GONE);
-            if (Objects.equals(eventCategory, "registered")) {
-                registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unSelectedRed)));
-                registerButton.setText("Unregister");
-            } else {
-                registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.vomitGreen)));
-                registerButton.setText("Register");
-            }
+            registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.vomitGreen)));
+            registerButton.setText("Register");
+
         }
+
 
 
         TextView eventTitleText = findViewById(R.id.event_title_text);
@@ -177,7 +196,34 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
             updateEventImage();
         });
 
+        acceptInvitationButton.setOnClickListener(view -> {
+            inviteDecision("accepted");
+        });
 
+        declineInvitationButton.setOnClickListener(view -> {
+            inviteDecision("cancelled");
+        });
+
+
+    }
+
+    private void inviteDecision(String decisionArray) {
+        if (invitationDecisionDebounce == false) {
+            invitationDecisionDebounce = true;
+            db.collection("events").document(eventID).update(
+                    "selected", FieldValue.arrayRemove(userID),
+                    decisionArray, FieldValue.arrayUnion(userID))
+                    .addOnSuccessListener(success -> {
+                        if (decisionArray.equals("accepted")) {
+                            Toast.makeText(this, "Invitation Accepted!", Toast.LENGTH_SHORT).show();
+                        } else if (decisionArray.equals("cancelled")) {
+                            Toast.makeText(this, "Invitation Declined!", Toast.LENGTH_SHORT).show();
+                        }
+                        Intent completedIntent = new Intent();
+                        setResult(RESULT_OK, completedIntent);
+                        finish();
+                    });
+        }
     }
 
     /**

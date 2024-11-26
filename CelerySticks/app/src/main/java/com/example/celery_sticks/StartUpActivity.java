@@ -105,6 +105,7 @@ public class StartUpActivity extends AppCompatActivity {
         userData.put("encodedImage", "");
         userData.put("role", role);
         userData.put("notificationSetting", true);
+        userData.put("admin", false); // user is NOT admin by default
 
         db.collection("users").document(userID).set(userData)
                 .addOnSuccessListener(aVoid -> {
