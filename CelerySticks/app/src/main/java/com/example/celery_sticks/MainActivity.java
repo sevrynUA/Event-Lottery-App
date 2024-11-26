@@ -92,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         // Check if user exists in database
         checkUser();
 
+        // Check if user has notifications
+        NotificationChecker checker;
+        checker = new NotificationChecker(userID, MainActivity.this);
+        checker.checkNotifications();
+
         // explicitly pass userID to MyEventsFragment on app startup
         Bundle explicitBundle = new Bundle();
         explicitBundle.putString("userID", userID);
