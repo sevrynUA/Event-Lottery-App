@@ -6,6 +6,42 @@
     android:layout_height="match_parent">
 
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <ImageView
+            android:id="@+id/event_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/landscape_event_placeholder_image" />
+
+        <Button
+            android:id="@+id/event_details_back"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:icon="?attr/homeAsUpIndicator" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/event_image_view"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="11dp"
+            android:visibility="gone"
+            app:icon="@android:drawable/ic_menu_edit" />
+
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,42 +53,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/relativeLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="180dp">
-
-                <ImageView
-                    android:id="@+id/event_image_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/landscape_event_placeholder_image" />
-
-                <Button
-                    android:id="@+id/event_details_back"
-                    android:layout_width="53dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_margin="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    app:icon="?attr/homeAsUpIndicator" />
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="61dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/event_image_view"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginBottom="11dp"
-                    android:visibility="gone"
-                    app:icon="@android:drawable/ic_menu_edit" />
-
-            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
