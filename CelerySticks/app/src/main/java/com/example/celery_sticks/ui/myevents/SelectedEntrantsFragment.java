@@ -138,7 +138,7 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         selectedList.clear();
         selectedCount = 0;
 
-        getUsers("admin", new DataCallback() {
+        getUsers("selected", new DataCallback() {
             @Override
             public void onDataRecieved(ArrayList<String> data) {
                 if (data != null) {

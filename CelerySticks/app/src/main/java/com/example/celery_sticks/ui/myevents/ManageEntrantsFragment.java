@@ -45,6 +45,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     private TextView lotteryStatusText;
 
     private Integer registrantCount = 0;
+    private Integer acceptedCount = 0;
     private Integer selectedCount = 0;
 
     private String eventID;
@@ -131,12 +132,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         Integer quantity = Integer.parseInt(input.toString());
         Integer numberOfRegistrants = registrantCount;
 
-        if (quantity + selectedCount > availability) {
-            Toast.makeText(this, String.format("Only room for %s more!", String.valueOf(availability - selectedCount)), Toast.LENGTH_SHORT).show();
+        if (quantity + selectedCount + acceptedCount > availability) {
+            Toast.makeText(this, String.format("Only room for %s more!", String.valueOf(availability - selectedCount - acceptedCount)), Toast.LENGTH_SHORT).show();
         } else if (quantity > numberOfRegistrants) {
             Toast.makeText(this, "Not enough registrants!", Toast.LENGTH_SHORT).show();
         }
-        else if (quantity == 0) {
+        else if (quantity <= 0) {
             Toast.makeText(this, "Lottery requires 1 minimum!", Toast.LENGTH_SHORT).show();
         } else {
             ArrayList<String> userIDs = new ArrayList<>();
@@ -183,26 +184,37 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
     public void initialize() {
         final Integer[] numberOfRegistrants = new Integer[1];
         final Integer[] numberOfSelected = new Integer[1];
+        final Integer[] numberOfAccepted = new Integer[1];
         registrantList.clear();
         selectedCount = 0;
         registrantCount = 0;
+        acceptedCount = 0;
 
+        getUsers("accepted", new DataCallback() {
+            @Override
+            public void onDataRecieved(ArrayList<String> data) {
+                if (data != null) {
+                    acceptedCount = data.size();
+                    numberOfAccepted[0] = data.size();
+                }
+            }
+        });
 
         getUsers("selected", new DataCallback() {
             @Override
             public void onDataRecieved(ArrayList<String> data) {
                 if (data != null) {
                     numberOfSelected[0] = data.size();
-                    if (numberOfSelected[0] == 0) {
+                    if (numberOfSelected[0] + numberOfAccepted[0] == 0) {
                         lotteryStatusText.setText("The selection process has not yet been initiated");
-                    } else if (numberOfSelected[0] == availability) {
+                    } else if (numberOfSelected[0] + numberOfAccepted[0] == availability) {
                         lotteryButton.setVisibility(View.GONE);
                         lotteryStatusText.setText("Maximum availability has been filled");
                     } else {
                         lotteryStatusText.setText("The selection process has already started");
                     }
                     for (String userID : data) {
-                        getRegistrantData(userID, new DataCallback() {
+                        getUserData(userID, new DataCallback() {
                             @Override
                             public void onDataRecieved(ArrayList<String> data) {
                                 selectedCount++;
@@ -229,7 +241,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                         }
                     }
                     for (String userID : data) {
-                        getRegistrantData(userID, new DataCallback() {
+                        getUserData(userID, new DataCallback() {
                             @Override
                             public void onDataRecieved(ArrayList<String> data) {
                                 registrantCount++;
@@ -266,7 +278,7 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
      * @param userID of the user whose data is to be fetched
      * @param callback is used for asynchronous data access, returning user data through onDataRecieved
      */
-    public void getRegistrantData(String userID, DataCallback callback) {
+    public void getUserData(String userID, DataCallback callback) {
         final ArrayList<String>[] userData = new ArrayList[]{new ArrayList<>()};
         CollectionReference users = db.collection("users");
         users.document(userID).get().addOnSuccessListener(user -> {

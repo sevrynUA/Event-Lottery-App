@@ -109,7 +109,6 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
             registerButton.setVisibility(View.VISIBLE);
             registerButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.vomitGreen)));
             registerButton.setText("Register");
-
         }
 
 
