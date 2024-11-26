@@ -106,6 +106,12 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
             startActivity(selectedEntrants);
         });
 
+        notifyButton.setOnClickListener(view -> {
+            Intent notifyIntent = new Intent(ManageEntrantsFragment.this, NotifyEntrantsActivity.class);
+            notifyIntent.putExtra("eventID", eventID);
+            startActivity(notifyIntent);
+        });
+
         backButton.setOnClickListener(view -> {
             finish();
         });

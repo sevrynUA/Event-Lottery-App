@@ -54,45 +54,7 @@
 
         </ListView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/notify_all_selected_button"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_corners"
-            android:backgroundTint="#33625C"
-            android:paddingStart="10sp"
-            android:text="Notify all selected entrants"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textSize="14sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/notify_RSVP_button"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_corners"
-            android:backgroundTint="#33625C"
-            android:paddingStart="10sp"
-            android:text="Notify all entrants who still need to RSVP"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textSize="14sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/notify_all_declined_button"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/light_grey_rounded_background"
-            android:backgroundTint="#33625C"
-            android:paddingStart="10sp"
-            android:text="Notify all declined entrants"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textSize="14sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/list_accepts_button"
