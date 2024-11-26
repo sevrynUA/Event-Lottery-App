@@ -277,95 +277,93 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/invitation_linear_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="20dp"
-                android:visibility="visible">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Congratulations!"
-                        android:textAlignment="center"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
-                        app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
-                        app:layout_constraintStart_toEndOf="@+id/imageViewQR"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout">
-
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:cropToPadding="true"
-                        android:padding="5dp"
-                        android:scaleType="fitXY"
-                        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
-                        app:layout_constraintStart_toStartOf="@+id/relativeLayout"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout"
-                        app:srcCompat="@drawable/checkmark" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:text="You have been selected to participate in this event! Please accept or decline this invitation within 24 hours to reserve your attendance!"
-                    android:textAlignment="textStart"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
-                    app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
-                    app:layout_constraintStart_toEndOf="@+id/imageViewQR"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout">
-
-                </TextView>
-
-                <android.widget.Button
-                    android:id="@+id/accept_invitation_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/login_user_type_button_selected"
-                    android:text="Accept"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="25sp" />
-
-                <android.widget.Button
-                    android:id="@+id/decline_invitation_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:background="@drawable/login_user_type_button_unselected"
-                    android:text="Decline"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textSize="25sp" /><![CDATA[
-
-                >
-            ]]>
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/invitation_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="20dp"
+        android:visibility="visible"
+
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Congratulations!"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+                app:layout_constraintStart_toEndOf="@+id/imageViewQR"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout">
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:cropToPadding="true"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+                app:srcCompat="@drawable/checkmark" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="You have been selected to participate in this event! Please accept or decline this invitation within 24 hours to reserve your attendance!"
+            android:textAlignment="textStart"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+            app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+            app:layout_constraintStart_toEndOf="@+id/imageViewQR"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout">
+
+        </TextView>
+
+        <android.widget.Button
+            android:id="@+id/accept_invitation_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_user_type_button_selected"
+            android:text="Accept"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="25sp" />
+
+        <android.widget.Button
+            android:id="@+id/decline_invitation_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@drawable/login_user_type_button_unselected"
+            android:text="Decline"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="25sp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/register_button"
