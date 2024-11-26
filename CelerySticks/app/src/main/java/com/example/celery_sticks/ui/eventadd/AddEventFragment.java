@@ -323,8 +323,6 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("accepted", new ArrayList<>());
         eventData.put("cancelled", new ArrayList<>());
 
-        eventData.put("admin", false); // admin false by default
-
         // store the values in the database
         db.collection("events").add(eventData)
                 .addOnSuccessListener(documentReference -> {
