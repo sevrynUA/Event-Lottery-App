@@ -48,6 +48,8 @@ public class BrowseImageViewFragment  extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.admin_browse_image_view_back);
         backButton.setOnClickListener(view -> {
+            Intent completedIntent = new Intent();
+            setResult(RESULT_OK, completedIntent);
             finish();
         });
 
@@ -78,6 +80,8 @@ public class BrowseImageViewFragment  extends AppCompatActivity {
 
             db.collection("users").document(id).update(userData)
                     .addOnSuccessListener(aVoid -> {
+                        Intent completedIntent = new Intent();
+                        setResult(RESULT_OK, completedIntent);
                         finish();
                     });
         } else {
@@ -87,6 +91,8 @@ public class BrowseImageViewFragment  extends AppCompatActivity {
 
             db.collection("events").document(id).update(eventData)
                     .addOnSuccessListener(aVoid -> {
+                        Intent completedIntent = new Intent();
+                        setResult(RESULT_OK, completedIntent);
                         finish();
                     });
         }
