@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.celery_sticks.GeolocationMap;
 import com.example.celery_sticks.Notification;
-import com.example.celery_sticks.Notifications;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.StartUpActivity;
 import com.example.celery_sticks.User;
@@ -65,7 +64,6 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 
     private ArrayList<String> selectedTracker = new ArrayList<String>();
 
-    private Notifications notifications = new Notifications(ManageEntrantsFragment.this);
 
 
     @Override
@@ -188,7 +186,6 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
 //                                    }
 //                                }
                                 initialize();
-                                notifications.sendNotifications(eventID); // Sends notifications to selected and non selected users.
                             }
                         }
                 );
