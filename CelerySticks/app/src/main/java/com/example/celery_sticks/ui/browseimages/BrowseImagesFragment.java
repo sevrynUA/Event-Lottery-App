@@ -2,9 +2,14 @@ package com.example.celery_sticks.ui.browseimages;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.celery_sticks.ui.myevents.EventDetailsViewModel;
 import com.example.celery_sticks.ui.myevents.EventQRCodeView;
+import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.os.Bundle;
@@ -24,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -57,9 +66,12 @@ public class BrowseImagesFragment extends Fragment {
         binding = FragmentAdminBrowseImagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        @SuppressLint("HardwareIds") String userID = Settings.Secure.getString(requireContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
                 refreshList();
+                updateUserImageNav(userID);
             }
         });
 
@@ -178,4 +190,47 @@ public class BrowseImagesFragment extends Fragment {
             }
         });
     }
+
+
+    /**
+     * updates the profile image in the nav sidebar
+     * @param userID is user to get the profile image from
+     */
+    public void updateUserImageNav(String userID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(userID);
+
+        ref.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    decodeImageNav(document.getString("encodedImage"));
+                }
+            }
+        });
+    }
+
+    /**
+     * decodes the image data into a usable asset
+     * @param imageData data to decode into an image
+     */
+    private void decodeImageNav(String imageData) {
+        System.out.println(imageData);
+        ImageView image = requireActivity().findViewById(R.id.nav_profile_image);
+        MaterialCardView rounder = requireActivity().findViewById(R.id.image_rounder_nav_profile);
+
+        if (imageData != null) {
+            if (!imageData.equals("")) {
+                rounder.setVisibility(View.VISIBLE);
+                byte[] decodedImage = Base64.decode(imageData, Base64.DEFAULT);
+
+                Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                // set qrImage to decoded bitmap
+                image.setImageBitmap(qrBitmap);
+            } else {
+                rounder.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
 }
