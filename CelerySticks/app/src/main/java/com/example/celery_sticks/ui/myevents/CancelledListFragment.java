@@ -48,7 +48,7 @@ public class CancelledListFragment extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.cancelled_list_back);
         browseListView = findViewById(R.id.cancelled_list_list);
-        browseAdapter = new UserArrayAdapter(this, browseList);
+        browseAdapter = new UserArrayAdapter(this, browseList, eventID, false);
         browseListView.setAdapter(browseAdapter);
 
         db.collection("events").document(eventID).get()

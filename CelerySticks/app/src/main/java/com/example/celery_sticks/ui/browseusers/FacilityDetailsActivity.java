@@ -10,10 +10,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.celery_sticks.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Represents the activity displayed when admin select "View Facility Details" on the details screen for an organizer they are viewing.
+ * It also provides the option to delete the facility.
+ */
 public class FacilityDetailsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String facilityID;
 
+    /**
+     * When the activity is created, this method retrieves the facility ID passed from the previous activity,
+     * loads facility details from the Firestore database, and sets up the UI with the facility information.
+     * @param savedInstanceState a bundle for a saved instance state from previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

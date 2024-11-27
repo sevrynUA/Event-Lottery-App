@@ -94,11 +94,10 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
         lotteryStatusText = findViewById(R.id.lottery_status);
 
         registrantListView = findViewById(R.id.waitlist_entrants);
-        registrantAdapter = new UserArrayAdapter(this, registrantList);
+        registrantAdapter = new UserArrayAdapter(this, registrantList, eventID, false);
         registrantListView.setAdapter(registrantAdapter);
 
         initialize();
-        //notifications.sendNotifications(eventID); wrong placement
 
         mapButton.setOnClickListener(view -> {
             Intent geoMap = new Intent(ManageEntrantsFragment.this, GeolocationMap.class);

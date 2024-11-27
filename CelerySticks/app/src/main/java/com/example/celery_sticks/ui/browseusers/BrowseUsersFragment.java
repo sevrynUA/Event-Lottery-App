@@ -71,7 +71,7 @@ public class BrowseUsersFragment extends Fragment {
         browseList.clear();
 
         browseListView = root.findViewById(R.id.users_browse_list);
-        browseAdapter = new UserArrayAdapter(getContext(), browseList);
+        browseAdapter = new UserArrayAdapter(getContext(), browseList, null, true);
         browseListView.setAdapter(browseAdapter);
 
         db.collection("users").get()
@@ -92,16 +92,6 @@ public class BrowseUsersFragment extends Fragment {
                                 }
                             }
                         });
-
-        // TODO deletion of users when clicked here
-        browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String clickedUserID = browseList.get(i).getUserID();
-                Intent intent = new Intent(getContext(), ProfileDetailsViewModel.class);
-                intent.putExtra("clickedUserID", clickedUserID);
-                userDetailsLauncher.launch(intent);
-            }
-        });
     }
 
     public interface DataCallback {
