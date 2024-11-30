@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.celery_sticks.Notification;
 import com.example.celery_sticks.R;
 import com.example.celery_sticks.User;
 import com.google.firebase.firestore.DocumentReference;
@@ -130,6 +131,7 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
                 DocumentReference eventDoc = db.collection("events").document(eventID);
                 eventDoc.get().addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
+                        String eventName = documentSnapshot.getString("name");
                         ArrayList<String> registrantsList = (ArrayList<String>) documentSnapshot.get("registrants");
                         ArrayList<String> selectedList = (ArrayList<String>) documentSnapshot.get("selected");
 
@@ -151,6 +153,11 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
                                 .addOnSuccessListener(aVoid -> {
                                     Toast.makeText(getContext(), "User has been removed.", Toast.LENGTH_SHORT).show();
                                 });
+                        String notificationMessage = "Your invitation to " + eventName + " has been cancelled. You did not accept the invitation in time.";
+                        ArrayList<String> removalID = new ArrayList<String>();
+                        removalID.add(user.getUserID());
+                        Notification cancelledNotification = new Notification("Your invitation to " + eventName + " has been cancelled." + eventName + " waitlist.", notificationMessage, removalID);
+                        cancelledNotification.newNotification();
                     }
                 });
             }
