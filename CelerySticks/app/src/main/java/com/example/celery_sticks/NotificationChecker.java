@@ -32,11 +32,10 @@ public class NotificationChecker {
 
     public void checkNotifications() {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        String channelID = "CelerySticksNotification";
+        CharSequence channelName = "Celery Sticks";
+        String channelDescription = "New Notification from Celery Sticks";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelID = "CelerySticksNotification";
-            CharSequence channelName = "Celery Sticks";
-            String channelDescription = "New Notification from Celery Sticks";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(channelID, channelName, importance);
             channel.setDescription(channelDescription);
@@ -56,7 +55,7 @@ public class NotificationChecker {
                                     String title = document.getString("title");
                                     String message = document.getString("message");
 
-                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "New Notification")
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
                                             .setSmallIcon(R.drawable.notification_icon)
                                             .setContentTitle(title)
                                             .setContentText(message)
