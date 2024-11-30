@@ -66,6 +66,8 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
                     recipients = (ArrayList<String>) documentSnapshot.get("selected");
                 } else if ("Chosen Only".equals(group)) {
                     recipients = (ArrayList<String>) documentSnapshot.get("accepted");
+                } else if ("Cancelled Only".equals(group)) {
+                    recipients = (ArrayList<String>) documentSnapshot.get("cancelled");
                 }
 
                 if (recipients != null && !recipients.isEmpty()) {
