@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class NotifyEntrantsActivity extends AppCompatActivity {
     private Button backButton;
+    private Button clearButton;
     private Button sendButton;
     private RadioGroup notifyOptionsGroup;
     private FirebaseFirestore db;
@@ -30,6 +31,7 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
         setContentView(R.layout.event_notify);
 
         backButton = findViewById(R.id.notify_back_button);
+        clearButton = findViewById(R.id.clear_button);
         sendButton = findViewById(R.id.send_button);
         notifyOptionsGroup = findViewById(R.id.notify_options_group);
 
@@ -38,7 +40,7 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
         eventID = getIntent().getStringExtra("eventID");
 
         backButton.setOnClickListener(view -> finish());
-
+        clearButton.setOnClickListener(view -> clearInputs());
         sendButton.setOnClickListener(view -> {
             int selectedOptionId = notifyOptionsGroup.getCheckedRadioButtonId();
             if (selectedOptionId == -1) {
@@ -86,6 +88,7 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
                     Notification notification = new Notification(title, message, recipients);
                     notification.newNotification();
                     Toast.makeText(this, "Notification sent successfully", Toast.LENGTH_SHORT).show();
+                    clearInputs();
                 } else {
                     Toast.makeText(this, "No recipients in the notified group", Toast.LENGTH_SHORT).show();
                 }
@@ -96,4 +99,12 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to fetch event details", Toast.LENGTH_SHORT).show();
         });
     }
+
+    private void clearInputs() {
+        ((com.google.android.material.textfield.TextInputEditText) findViewById(R.id.title_input)).setText("");
+        ((com.google.android.material.textfield.TextInputEditText) findViewById(R.id.description_input)).setText("");
+
+        notifyOptionsGroup.clearCheck();
+    }
+
 }
