@@ -241,8 +241,8 @@ public class ManageEntrantsFragment extends AppCompatActivity implements Lottery
                             public void onDataRecieved(ArrayList<String> data) {
                                 selectedCount++;
                                 selectedTracker.add(data.get(4)); // userID
-                                registrantList.add(new User(data.get(0), data.get(1), data.get(2), data.get(3), data.get(4)));
-                                registrantAdapter.notifyDataSetChanged();
+//                                registrantList.add(new User(data.get(0), data.get(1), data.get(2), data.get(3), data.get(4)));
+//                                registrantAdapter.notifyDataSetChanged();
                             }
                         });
                     }
