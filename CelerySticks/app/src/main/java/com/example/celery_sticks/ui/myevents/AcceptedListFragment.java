@@ -71,7 +71,7 @@ public class AcceptedListFragment extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.accepted_list_back);
         browseListView = findViewById(R.id.accepted_list_list);
-        browseAdapter = new UserArrayAdapter(this, browseList);
+        browseAdapter = new UserArrayAdapter(this, browseList, eventID, false);
         browseListView.setAdapter(browseAdapter);
 
         db.collection("events").document(eventID).get()

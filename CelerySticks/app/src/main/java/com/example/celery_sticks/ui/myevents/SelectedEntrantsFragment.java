@@ -69,7 +69,7 @@ public class SelectedEntrantsFragment extends AppCompatActivity {
         backButton = findViewById(R.id.selected_entrants_back_button);
 
         selectedListView = findViewById(R.id.waitlist_selected_list);
-        selectedAdapter = new UserArrayAdapter(this, selectedList);
+        selectedAdapter = new UserArrayAdapter(this, selectedList, eventID, false);
         selectedListView.setAdapter(selectedAdapter);
 
         initialize();
