@@ -153,10 +153,10 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
                                 .addOnSuccessListener(aVoid -> {
                                     Toast.makeText(getContext(), "User has been removed.", Toast.LENGTH_SHORT).show();
                                 });
-                        String notificationMessage = "You have been removed from the waitlist for " + eventName + ". You did not accept the invitation in time.";
+                        String notificationMessage = "Your invitation to " + eventName + " has been cancelled. You did not accept the invitation in time.";
                         ArrayList<String> removalID = new ArrayList<String>();
                         removalID.add(user.getUserID());
-                        Notification cancelledNotification = new Notification("You have been cancelled from the " + eventName + " waitlist.", notificationMessage, removalID);
+                        Notification cancelledNotification = new Notification("Your invitation to " + eventName + " has been cancelled." + eventName + " waitlist.", notificationMessage, removalID);
                         cancelledNotification.newNotification();
                     }
                 });
