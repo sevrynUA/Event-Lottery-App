@@ -134,7 +134,12 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         } else {
             eventAvailabilityText.setText(String.format("Availability - %s", intent.getStringExtra("availability")));
         }
-        eventPriceText.setText(intent.getStringExtra("price"));
+        if (intent.getStringExtra("price") == null || Objects.equals(intent.getStringExtra("price"), "")) {
+            eventPriceText.setText("Free");
+        } else {
+            eventPriceText.setText(intent.getStringExtra("price"));
+        }
+
 
         // change event_image_view to the image passed with intent.getStringExtra("image") here
         getEventImageData(eventID);

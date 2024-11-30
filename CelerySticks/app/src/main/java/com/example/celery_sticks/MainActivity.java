@@ -92,11 +92,6 @@ public class MainActivity extends AppCompatActivity {
         // Check if user exists in database
         checkUser();
 
-        // Check if user has notifications
-        NotificationChecker checker;
-        checker = new NotificationChecker(userID, MainActivity.this);
-        checker.checkNotifications();
-
         // explicitly pass userID to MyEventsFragment on app startup
         Bundle explicitBundle = new Bundle();
         explicitBundle.putString("userID", userID);
@@ -240,6 +235,11 @@ public class MainActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists() && document != null) {
                                 // User exists
+                                // Check if user has notifications
+                                NotificationChecker checker;
+                                checker = new NotificationChecker(userID, MainActivity.this);
+                                checker.checkNotifications();
+
                                 Log.d("MainActivity", "User found: " + document.getData());
                                 updateNameAndInitials(document.getString("firstName"), document.getString("lastName"), document.getString("userID"));
                                 if (document.getBoolean("admin") == true) {
