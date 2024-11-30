@@ -34,7 +34,7 @@ public class NotificationChecker {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelID = "CelerySticksNotification"
+            String channelID = "CelerySticksNotification";
             CharSequence channelName = "Celery Sticks";
             String channelDescription = "New Notification from Celery Sticks";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
