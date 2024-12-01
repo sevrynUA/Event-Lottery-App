@@ -18,10 +18,28 @@ import com.example.celery_sticks.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * ArrayAdapter for displaying images in the BrowseImages page for admins only
+ */
 public class ImageArrayAdapter extends ArrayAdapter<String[]> {
 
-    public ImageArrayAdapter(Context context, ArrayList<String[]> data) {super (context, 0, data); }
+    /**
+     * Constructor to setup ArrayAdapter
+     * @param context
+     * @param data
+     */
+    public ImageArrayAdapter(Context context, ArrayList<String[]> data) {
+        super (context, 0, data);
+    }
+
+
+    /**
+     * Get the view at a given position
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return view at the given position
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

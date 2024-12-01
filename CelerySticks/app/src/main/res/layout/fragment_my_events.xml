@@ -137,8 +137,8 @@
                 android:layout_marginBottom="15dp"
                 android:text="Temporary List of Events (Testing)"
                 android:textColor="#b4f0ee"
-                android:textSize="22sp">
-            </TextView>
+                android:textSize="22sp"
+                android:visibility="gone"></TextView>
 
             <ListView
                 android:id="@+id/temporary_list"
@@ -146,8 +146,8 @@
                 android:layout_height="0dp"
                 android:layout_marginBottom="20px"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="10dp">
-            </ListView>
+                android:dividerHeight="10dp"
+                android:visibility="gone"></ListView>
 
             <Space
                 android:layout_width="match_parent"

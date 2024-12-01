@@ -42,6 +42,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents list of entrants who accept their invitation to an event
+ */
 public class AcceptedListFragment extends AppCompatActivity {
     private FragmentBrowseUsersBinding binding;
     private ArrayList<User> browseList = new ArrayList<>();
@@ -64,6 +67,9 @@ public class AcceptedListFragment extends AppCompatActivity {
         initialize();
     }
 
+    /**
+     * Refreshes UI by clearing and re-filling arrayList with updated data from the database
+     */
     public void initialize() {
         browseList.clear();
         acceptedCounter = 0;
@@ -101,6 +107,9 @@ public class AcceptedListFragment extends AppCompatActivity {
         });
     }
 
+    /**
+     * Interface used for asynchronously accessing data for user details
+     */
     public interface DataCallback {
         /**
          * Function is run when asynchronous access of data has been completed
@@ -109,6 +118,11 @@ public class AcceptedListFragment extends AppCompatActivity {
         void onDataRecieved(ArrayList<String> data);
     }
 
+    /**
+     * Gets data from database for a given user
+     * @param userID indicates which user to get data for
+     * @param callback used for asynchronous data access, returns event data through .onDataRecieved
+     */
     public void getUserData(String userID, DataCallback callback) {
         final ArrayList<String>[] userData = new ArrayList[]{new ArrayList<>()};
         CollectionReference users = db.collection("users");
@@ -124,6 +138,10 @@ public class AcceptedListFragment extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function expands a dynamic list view for correct height, derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
+     * @param listView listView to expand
+     */
     public void expandListViewHeight(ListView listView) {
         ListAdapter viewAdapter = listView.getAdapter();
 

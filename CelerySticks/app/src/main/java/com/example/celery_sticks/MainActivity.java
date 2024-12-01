@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userID;
 
+    private NotificationChecker checker;
+
     private ActivityResultLauncher<Intent> startUpActivityLauncher;
 
     Menu menu;
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 idBundle.putString("userID", userID);
                 navController.navigate(R.id.browse_images, idBundle);
             }
+            checker.checkNotifications();
             drawer.closeDrawer(GravityCompat.START);
             return false;
         });
@@ -236,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
                             if (document.exists() && document != null) {
                                 // User exists
                                 // Check if user has notifications
-                                NotificationChecker checker;
                                 checker = new NotificationChecker(userID, MainActivity.this);
                                 checker.checkNotifications();
 

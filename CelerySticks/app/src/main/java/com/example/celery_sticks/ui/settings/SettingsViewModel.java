@@ -11,11 +11,18 @@ public class SettingsViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
+    /**
+     * Default construction for the Settings page
+     */
     public SettingsViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("Settings page");
     }
 
+    /**
+     * Returns default object construction text
+     * @return text set in default construction function
+     */
     public LiveData<String> getText() {
         return mText;
     }

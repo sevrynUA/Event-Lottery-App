@@ -19,6 +19,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents list of entrants who decline their invitation to an event (or are removed by the organizer)
+ */
 public class CancelledListFragment extends AppCompatActivity {
     private FragmentBrowseUsersBinding binding;
     private ArrayList<User> browseList = new ArrayList<>();
@@ -41,6 +44,9 @@ public class CancelledListFragment extends AppCompatActivity {
         initialize();
     }
 
+    /**
+     * Refreshes UI by clearing and re-filling arrayList with updated data from the database
+     */
     public void initialize() {
         browseList.clear();
         acceptedCounter = 0;
@@ -78,6 +84,9 @@ public class CancelledListFragment extends AppCompatActivity {
         });
     }
 
+    /**
+     * Interface used for asynchronously accessing data for user details
+     */
     public interface DataCallback {
         /**
          * Function is run when asynchronous access of data has been completed
@@ -86,6 +95,11 @@ public class CancelledListFragment extends AppCompatActivity {
         void onDataRecieved(ArrayList<String> data);
     }
 
+    /**
+     * Gets data from database for a given user
+     * @param userID indicates which user to get data for
+     * @param callback used for asynchronous data access, returns event data through .onDataRecieved
+     */
     public void getUserData(String userID, DataCallback callback) {
         final ArrayList<String>[] userData = new ArrayList[]{new ArrayList<>()};
         CollectionReference users = db.collection("users");
@@ -101,6 +115,10 @@ public class CancelledListFragment extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function expands a dynamic list view for correct height, derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
+     * @param listView listView to expand
+     */
     public void expandListViewHeight(ListView listView) {
         ListAdapter viewAdapter = listView.getAdapter();
 

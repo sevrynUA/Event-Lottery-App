@@ -38,6 +38,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Represents the BrowseUsers page of the app for admins only
+ */
 public class BrowseUsersFragment extends Fragment {
     private FragmentBrowseUsersBinding binding;
     private ArrayList<User> browseList = new ArrayList<>();
@@ -67,6 +70,10 @@ public class BrowseUsersFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Refreshes UI by clearing and re-filling arrayList with updated data from the database
+     * @param root used to get view IDs for updating UI
+     */
     public void initialize(View root) {
         browseList.clear();
 
@@ -94,6 +101,9 @@ public class BrowseUsersFragment extends Fragment {
                         });
     }
 
+    /**
+     * Interface used for asynchronously accessing data for user details
+     */
     public interface DataCallback {
         /**
          * Function is run when asynchronous access of data has been completed
@@ -102,6 +112,11 @@ public class BrowseUsersFragment extends Fragment {
         void onDataRecieved(ArrayList<String> data);
     }
 
+    /**
+     * Gets data from database for a given user
+     * @param userID indicates which user to get data for
+     * @param callback used for asynchronous data access, returns event data through .onDataRecieved
+     */
     public void getUserData(String userID, DataCallback callback) {
         final ArrayList<String>[] userData = new ArrayList[]{new ArrayList<>()};
         CollectionReference users = db.collection("users");
@@ -117,6 +132,10 @@ public class BrowseUsersFragment extends Fragment {
         });
     }
 
+    /**
+     * This function expands a dynamic list view for correct height, derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
+     * @param listView listView to expand
+     */
     public void expandListViewHeight(ListView listView) {
         ListAdapter viewAdapter = listView.getAdapter();
 

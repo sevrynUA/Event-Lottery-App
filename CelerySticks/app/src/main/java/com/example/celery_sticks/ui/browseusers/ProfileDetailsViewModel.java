@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.celery_sticks.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Represents profile details screen that opens when admin clicks on a user in BrowseUsers
+ */
 public class ProfileDetailsViewModel extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -58,7 +61,6 @@ public class ProfileDetailsViewModel extends AppCompatActivity {
                     phoneNumber.setText(document.getString("phoneNumber"));
 
                     initializeFacilityDetails();
-                    // TODO JEREMY can you plz make the "profilePicture" imageView be the user image here ty
                     // set image
                     String encodedProfileImage = document.getString("encodedImage");
 
@@ -85,6 +87,9 @@ public class ProfileDetailsViewModel extends AppCompatActivity {
         });
     }
 
+    /**
+     * Displays whether a user has a facility or not by checking for one in the database
+     */
     private void initializeFacilityDetails() {
         db.collection("facilities").document(viewingUserID).get()
                 .addOnSuccessListener(facilityDoc -> {
