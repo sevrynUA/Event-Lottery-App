@@ -20,6 +20,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * NotificationChecker will check the database for new notifications to display
+ */
 public class NotificationChecker {
     private FirebaseFirestore db;
     String userID;
@@ -27,9 +31,17 @@ public class NotificationChecker {
     private NotificationManager notificationManager;
 
 
+    /**
+     * Constructor to setup which user to check for, and context
+     * @param userID of user to check for new notifications
+     * @param context
+     */
     public NotificationChecker(String userID, Context context) {this.context = context; this.userID = userID;}
 
 
+    /**
+     * Check for new notifications
+     */
     public void checkNotifications() {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelID = "CelerySticksNotification";
@@ -63,7 +75,13 @@ public class NotificationChecker {
                                             .setAutoCancel(true);
 
                                     // Sends the notification using a unique ID based on the user's hash code
-                                    notificationManager.notify(userID.hashCode(), builder.build());
+                                    db.collection("users").document(userID).get()
+                                                    .addOnSuccessListener(userDocument -> {
+                                                        // Send notification ONLY IF they have the setting enabled
+                                                        if (userDocument.exists() && userDocument.getBoolean("notificationSetting") == true) {
+                                                            notificationManager.notify(userID.hashCode(), builder.build());
+                                                        }
+                                                    });
                                     recipients.remove(userID);
                                     DocumentReference notificationRef = db.collection("notifications").document(document.getId());
                                     notificationRef

@@ -12,6 +12,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Represents a notification
+ */
 public class Notification {
     private FirebaseFirestore db;
     ArrayList<String> recipients;
@@ -19,6 +22,12 @@ public class Notification {
     String title;
 
 
+    /**
+     * Constructor to setup title, message, and recipients
+     * @param title
+     * @param message
+     * @param recipients
+     */
     public Notification(String title, String message, ArrayList<String> recipients) {
         this.title = title;
         this.message = message;
@@ -26,6 +35,9 @@ public class Notification {
     }
 
 
+    /**
+     * Creates a new notification
+     */
     public void newNotification() {
 
         db = FirebaseFirestore.getInstance();

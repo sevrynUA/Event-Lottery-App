@@ -25,7 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-
+/**
+ * Represents the View for the BrowseImages page for admins only
+ */
 public class BrowseImageViewFragment  extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -72,6 +74,11 @@ public class BrowseImageViewFragment  extends AppCompatActivity {
     }
 
 
+    /**
+     * Delete image with a given user or event ID and type
+     * @param id is the user or event ID which contains the image depending on type
+     * @param type is the type of image (user image or event image)
+     */
     public void deleteImage(String id, String type) {
 
 
@@ -101,6 +108,11 @@ public class BrowseImageViewFragment  extends AppCompatActivity {
     }
 
 
+    /**
+     * Get an image with a given user or event ID and type
+     * @param id is the user or event ID which contains the image depending on type
+     * @param type is the type of image (user image or event image)
+     */
     public void getImage(String id, String type) {
         if (type.equals("Type: event poster")) {
             DocumentReference ref = db.collection("events").document(id);
@@ -130,6 +142,10 @@ public class BrowseImageViewFragment  extends AppCompatActivity {
     }
 
 
+    /**
+     * Load an image with given string data
+     * @param data is the string data for the image
+     */
     private void loadImage(String data) {
         if (data != null) {
 

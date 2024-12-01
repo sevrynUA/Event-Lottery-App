@@ -39,6 +39,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents the BrowseEvents page of the app for admins only
+ */
 public class BrowseEventsFragment extends Fragment {
     private FragmentBrowseEventsBinding binding;
     private ArrayList<Event> browseList = new ArrayList<>();
@@ -68,6 +71,10 @@ public class BrowseEventsFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Refreshes UI by clearing and re-filling arrayList with updated data from the database
+     * @param root used to get view IDs for updating UI
+     */
     public void initialize(View root) {
         browseList.clear();
 
@@ -108,11 +115,18 @@ public class BrowseEventsFragment extends Fragment {
         });
     }
 
+    /**
+     * Refreshes UI by calling .notifyDataSetChanged() on ArrayList
+     */
     public void refreshList() {
         browseAdapter.notifyDataSetChanged();
         expandListViewHeight(browseListView);
     }
 
+    /**
+     * This function expands a dynamic list view for correct height, derived from https://stackoverflow.com/questions/4984313/how-to-set-space-between-listview-items-in-android
+     * @param listView listView to expand
+     */
     public void expandListViewHeight(ListView listView) {
         ListAdapter viewAdapter = listView.getAdapter();
 
@@ -151,6 +165,9 @@ public class BrowseEventsFragment extends Fragment {
         listView.requestLayout();
     }
 
+    /**
+     * Interface used for asynchronously accessing data for event details
+     */
     public interface EventDataCallback {
         /**
          * Function is run when asynchronous access of data has been completed
@@ -159,6 +176,14 @@ public class BrowseEventsFragment extends Fragment {
         void onDataRecieved(Map<String, Object> eventData);
     }
 
+    /**
+     * Opens event details page when an event is clicked
+     * @param adapterView is the ListView in which an event was clicked
+     * @param view is the event which was clicked
+     * @param i is the index of the corresponding event object in the ArrayList
+     * @param l is the row index of the clicked item provided by the onItemClick function; not used here
+     * @param eventCategory is a string indicating which ArrayList contains the clicked event
+     */
     public void eventClicked(AdapterView<?> adapterView, View view, int i, long l, String eventCategory) {
         Intent intent = new Intent(getContext(), EventDetailsViewModel.class);
         Map<String, Object> eventData = new HashMap<>();
@@ -206,6 +231,12 @@ public class BrowseEventsFragment extends Fragment {
 
     }
 
+    /**
+     * Gets data from database for a given event
+     * @param eventID indicates which event to get data for
+     * @param callback used for asynchronous data access, returns event data through .onDataRecieved
+     * @return event data in case of .onDataRecieved failure
+     */
     public Map<String, Object> getEventData(String eventID, MyEventsFragment.EventDataCallback callback) {
         DocumentReference ref = db.collection("events").document(eventID);
         Map<String, Object> eventData = new HashMap<>();

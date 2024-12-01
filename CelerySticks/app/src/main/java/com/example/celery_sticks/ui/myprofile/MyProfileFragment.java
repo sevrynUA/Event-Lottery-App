@@ -56,7 +56,6 @@ import java.io.ByteArrayOutputStream;
 /**
  * Represents the MyProfile activity, used to change information about the user
  */
-// TODO: Input validation, make EditText fields TextView until an edit button is pressed.
 public class MyProfileFragment extends Fragment {
 
     private FragmentMyProfileBinding binding;

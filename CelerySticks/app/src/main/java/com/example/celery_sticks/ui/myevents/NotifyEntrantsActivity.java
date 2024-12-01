@@ -16,6 +16,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+
+/**
+ * Represents the Notify screen that the organizer can open through the "Manage Entrants" screen on their event
+ */
 public class NotifyEntrantsActivity extends AppCompatActivity {
     private Button backButton;
     private Button clearButton;
@@ -53,6 +57,10 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Create a notification for a given group
+     * @param group group to create the notification for
+     */
     private void createNotificationForGroup(String group) {
         if (eventID == null || eventID.isEmpty()) {
             Toast.makeText(this, "Invalid event ID", Toast.LENGTH_SHORT).show();

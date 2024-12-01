@@ -49,7 +49,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-
+/**
+ * Represents the BrowseImages page of the app for admins only
+ */
 public class BrowseImagesFragment extends Fragment {
 
     private FragmentAdminBrowseImagesBinding binding;
@@ -146,6 +148,9 @@ public class BrowseImagesFragment extends Fragment {
 
 
 
+    /**
+     * Refreshes UI by calling .notifyDataSetChanged() on ArrayList
+     */
     public void refreshList() {
         images.clear();
 
@@ -193,7 +198,7 @@ public class BrowseImagesFragment extends Fragment {
 
 
     /**
-     * updates the profile image in the nav sidebar
+     * Updates the profile image in the nav sidebar
      * @param userID is user to get the profile image from
      */
     public void updateUserImageNav(String userID) {
@@ -211,7 +216,7 @@ public class BrowseImagesFragment extends Fragment {
     }
 
     /**
-     * decodes the image data into a usable asset
+     * Decodes the image data into a usable asset
      * @param imageData data to decode into an image
      */
     private void decodeImageNav(String imageData) {

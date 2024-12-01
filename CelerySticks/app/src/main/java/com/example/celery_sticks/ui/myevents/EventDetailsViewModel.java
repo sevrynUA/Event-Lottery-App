@@ -212,6 +212,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
     }
 
+    /**
+     * Handles a user clicking on "Accept" or "Decline" for their invitation
+     * @param decisionArray holds whether they accepted or declined
+     */
     private void inviteDecision(String decisionArray) {
         if (invitationDecisionDebounce == false) {
             invitationDecisionDebounce = true;
