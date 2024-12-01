@@ -156,7 +156,7 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
                         String notificationMessage = "Your invitation to " + eventName + " has been cancelled. You did not accept the invitation in time.";
                         ArrayList<String> removalID = new ArrayList<String>();
                         removalID.add(user.getUserID());
-                        Notification cancelledNotification = new Notification("Your invitation to " + eventName + " has been cancelled." + eventName + " waitlist.", notificationMessage, removalID);
+                        Notification cancelledNotification = new Notification("Your invitation to " + eventName + " has been cancelled.", notificationMessage, removalID);
                         cancelledNotification.newNotification();
                     }
                 });
