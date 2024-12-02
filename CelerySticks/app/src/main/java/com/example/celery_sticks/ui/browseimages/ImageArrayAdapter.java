@@ -70,6 +70,9 @@ public class ImageArrayAdapter extends ArrayAdapter<String[]> {
         } else if(position % 5 == 4) {
             view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_red));
         }
+        else {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_purple));
+        }
 
         // set image to imageview here
         if (instance[3] != null) {
