@@ -256,6 +256,9 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 // User does not exist
                                 Log.d("MainActivity", "User not found, starting StartUpActivity");
+                                browseEvents.setVisible(false);
+                                browseUsers.setVisible(false);
+                                browseImages.setVisible(false);
                                 Intent intent = new Intent(getApplicationContext(), StartUpActivity.class);
                                 startUpActivityLauncher.launch(intent);
                             }
