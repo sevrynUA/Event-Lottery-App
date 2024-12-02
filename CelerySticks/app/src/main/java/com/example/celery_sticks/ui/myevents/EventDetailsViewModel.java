@@ -472,10 +472,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         db.collection("events").document(eventID)
                 .update("image", encodedEventImage)
                 .addOnSuccessListener(success -> {
-                    Toast.makeText(this, "upload successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT).show();
                     loadEventImage(encodedEventImage);
                 }).addOnFailureListener(failure -> {
-                    Toast.makeText(this, "upload failed (image too large)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Upload failed (image must be under 1MB)!", Toast.LENGTH_SHORT).show();
                     encodedEventImage = encodedEventImageArchive; // return to old image
                     loadEventImage(encodedEventImage);
                 });

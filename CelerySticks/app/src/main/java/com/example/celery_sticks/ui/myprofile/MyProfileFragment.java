@@ -282,9 +282,7 @@ public class MyProfileFragment extends Fragment {
         userData.put("lastName", lastName);
         userData.put("email", email);
         userData.put("encodedImage", encodedUserImage);
-        if (!TextUtils.isEmpty(phoneNumber)) {
-            userData.put("phoneNumber", phoneNumber);
-        }
+        userData.put("phoneNumber", phoneNumber);
 
         myProfileViewModel.updateUserData(userID, userData)
                 .addOnSuccessListener(aVoid -> {
