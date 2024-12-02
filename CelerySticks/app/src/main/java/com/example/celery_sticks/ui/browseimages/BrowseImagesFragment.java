@@ -93,9 +93,11 @@ public class BrowseImagesFragment extends Fragment {
                         String userID = document.getId();
                         String userImage = document.getString("encodedImage");
 
-                        if (!userImage.equals("")) {
-                            String[] entry = {"Type: user profile", title, userID, userImage};
-                            images.add(entry);
+                        if (userImage != null) {
+                            if (!userImage.equals("")) {
+                                String[] entry = {"Type: user profile", title, userID, userImage};
+                                images.add(entry);
+                            }
                         }
                     }
                     adapter.notifyDataSetChanged();
@@ -114,9 +116,11 @@ public class BrowseImagesFragment extends Fragment {
                         String eventID = document.getId();
                         String eventImage = document.getString("image");
 
-                        if (!eventImage.equals("")) {
-                            String[] entry = {"Type: event poster", title, eventID, eventImage};
-                            images.add(entry);
+                        if (eventImage != null) {
+                            if (!eventImage.equals("")) {
+                                String[] entry = {"Type: event poster", title, eventID, eventImage};
+                                images.add(entry);
+                            }
                         }
                     }
                     adapter.notifyDataSetChanged();
