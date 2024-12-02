@@ -381,8 +381,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/Geolocation_button_event_create_constraint"
                 android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="15dp"
-                android:layout_height="50dp">
+                android:layout_marginBottom="30dp">
 
                 <RelativeLayout
                     android:id="@+id/geolocation_button_event_create_background"
@@ -390,8 +391,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/login_user_type_button_selected"
                     app:layout_constraintEnd_toEndOf="@+id/Geolocation_button_event_create_constraint"
-                    app:layout_constraintStart_toStartOf="@+id/Geolocation_button_event_create_constraint">
-                </RelativeLayout>
+                    app:layout_constraintStart_toStartOf="@+id/Geolocation_button_event_create_constraint"></RelativeLayout>
 
 
                 <RelativeLayout
@@ -399,24 +399,22 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@drawable/checkmark"
+                    app:layout_constraintBottom_toBottomOf="@+id/Geolocation_button_event_create_constraint"
                     app:layout_constraintEnd_toEndOf="@+id/geolocation_button_event_create_background"
-                    app:layout_constraintTop_toTopOf="@+id/Geolocation_button_event_create_constraint"
-                    app:layout_constraintBottom_toBottomOf="@+id/Geolocation_button_event_create_constraint">
-                </RelativeLayout>
+                    app:layout_constraintTop_toTopOf="@+id/Geolocation_button_event_create_constraint"></RelativeLayout>
 
                 <android.widget.Button
                     android:id="@+id/geolocation_button_event_create"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
+                    android:paddingLeft="10dp"
                     android:text="Geolocation"
-                    android:paddingLeft = "10dp"
                     android:textAlignment="textStart"
                     android:textAllCaps="false"
                     android:textSize="20dp"
                     app:layout_constraintEnd_toEndOf="@+id/Geolocation_button_event_create_constraint"
-                    app:layout_constraintStart_toStartOf="@+id/Geolocation_button_event_create_constraint">
-                </android.widget.Button>
+                    app:layout_constraintStart_toStartOf="@+id/Geolocation_button_event_create_constraint"></android.widget.Button>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
