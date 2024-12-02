@@ -283,12 +283,14 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                                 users = oldUser;
                                             }
                                             else { users = new ArrayList<>();}
+
+                                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                                            locations.add(geoPoint);
+                                            users.add(userID);
                                         }
                                     }
                                 });
-                        GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                        locations.add(geoPoint);
-                        users.add(userID);
+
                         HashMap<String, Object> geolocationData = new HashMap<>();
                         geolocationData.put("location", locations);
                         geolocationData.put("user", users);
