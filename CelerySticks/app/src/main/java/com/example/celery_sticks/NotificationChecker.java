@@ -48,7 +48,7 @@ public class NotificationChecker {
         CharSequence channelName = "Celery Sticks";
         String channelDescription = "New Notification from Celery Sticks";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(channelID, channelName, importance);
             channel.setDescription(channelDescription);
             notificationManager.createNotificationChannel(channel);
@@ -71,7 +71,7 @@ public class NotificationChecker {
                                             .setSmallIcon(R.drawable.notification_icon)
                                             .setContentTitle(title)
                                             .setContentText(message)
-                                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)
                                             .setAutoCancel(true);
 
                                     // Sends the notification using a unique ID based on the user's hash code
