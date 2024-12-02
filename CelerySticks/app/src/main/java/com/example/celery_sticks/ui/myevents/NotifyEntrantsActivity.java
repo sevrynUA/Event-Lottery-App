@@ -108,6 +108,9 @@ public class NotifyEntrantsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Clears the input fields
+     */
     private void clearInputs() {
         ((com.google.android.material.textfield.TextInputEditText) findViewById(R.id.title_input)).setText("");
         ((com.google.android.material.textfield.TextInputEditText) findViewById(R.id.description_input)).setText("");
