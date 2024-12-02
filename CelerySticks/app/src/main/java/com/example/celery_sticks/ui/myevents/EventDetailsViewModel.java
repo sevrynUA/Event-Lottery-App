@@ -64,8 +64,6 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     public String eventID = null;
     private FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
-    private ArrayList<GeoPoint> locations;
-    private ArrayList<String> users;
 
     public Boolean geolocation = false;
     private String encodedEventImage;
@@ -272,6 +270,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                         if (task.isSuccessful()) {
 
                                             DocumentSnapshot document = task.getResult();
+                                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                                            DocumentReference geoRef = db.collection("geolocation").document(eventID);
+                                            ArrayList<GeoPoint> locations;
+                                            ArrayList<String> users;
                                             ArrayList<GeoPoint> oldLocation = (ArrayList<GeoPoint>) document.get("location");
                                             if(oldLocation != null){
                                                 locations = oldLocation;
@@ -282,15 +284,14 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                                 users = oldUser;
                                             }
                                             else { users = new ArrayList<>();}
+
+                                            locations.add(geoPoint);
+                                            users.add(userID);
+                                            geoRef.update("location", locations);
+                                            geoRef.update("user", users);
                                         }
                                     }
                                 });
-                        GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                        DocumentReference geoRef = db.collection("geolocation").document(eventID);
-                        locations.add(geoPoint);
-                        users.add(userID);
-                        geoRef.update("location", locations);
-                        geoRef.update("user", users);
                     }
                 });
             }
