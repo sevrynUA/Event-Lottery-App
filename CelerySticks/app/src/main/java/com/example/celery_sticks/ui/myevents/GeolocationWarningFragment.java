@@ -40,6 +40,7 @@ public class GeolocationWarningFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof GeolocationDialogueListener) {
+            if(!checkPermissions()) { requestPermissions(); }
             listener = (GeolocationDialogueListener) context;
         } else {
             throw new RuntimeException(context + "must implement GeolocationDialogueListener");
@@ -69,7 +70,6 @@ public class GeolocationWarningFragment extends DialogFragment {
                 .setTitle("Warning")
                 .setNegativeButton("Go back", null)
                 .setPositiveButton("Register", (dialog, which) -> {
-                    if(!checkPermissions()) { requestPermissions(); }
                     listener.register();
                 })
                 .create();
