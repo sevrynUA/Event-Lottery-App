@@ -129,9 +129,6 @@ public class FacilityInformationFragment extends Fragment {
         facilityData.put("facilityName", facilityName);
         facilityData.put("email", email);
         facilityData.put("phoneNumber", phoneNumber);
-        if (TextUtils.isEmpty(phoneNumber)) {
-            facilityData.remove("phoneNumber");
-        }
 
         if (facilityInformationViewModel.getFacility(ownerID).getValue() == null) {
             // Create new facility if it doesn't exist
