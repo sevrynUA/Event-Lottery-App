@@ -69,6 +69,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
     public Boolean geolocation = false;
     private String encodedEventImage;
+    private String encodedEventImageArchive = "";
     private ImageView eventImage;
     private final MutableLiveData<String> loadedImageData = new MutableLiveData<>();
 
@@ -210,6 +211,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
 
         uploadButton.setOnClickListener(view -> {
+            encodedEventImageArchive = encodedEventImage;
             getPicture();
         });
 
@@ -474,7 +476,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                     loadEventImage(encodedEventImage);
                 }).addOnFailureListener(failure -> {
                     Toast.makeText(this, "upload failed (image too large)", Toast.LENGTH_SHORT).show();
-                    encodedEventImage = "";
+                    encodedEventImage = encodedEventImageArchive; // return to old image
                     loadEventImage(encodedEventImage);
                 });
     }
