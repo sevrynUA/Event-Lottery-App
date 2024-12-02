@@ -270,6 +270,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.isSuccessful()) {
+
                                             DocumentSnapshot document = task.getResult();
                                             ArrayList<GeoPoint> oldLocation = (ArrayList<GeoPoint>) document.get("location");
                                             if(oldLocation != null){
@@ -285,12 +286,11 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                     }
                                 });
                         GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                        DocumentReference geoRef = db.collection("geolocation").document(eventID);
                         locations.add(geoPoint);
                         users.add(userID);
-                        HashMap<String, Object> geolocationData = new HashMap<>();
-                        geolocationData.put("location", locations);
-                        geolocationData.put("user", users);
-                        db.collection("geolocation").document(eventID).set(geolocationData);
+                        geoRef.update("location", locations);
+                        geoRef.update("user", users);
                     }
                 });
             }
