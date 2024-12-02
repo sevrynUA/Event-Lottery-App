@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -63,8 +64,8 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     public String eventID = null;
     private FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
-    private ArrayList<GeoPoint> locations = new ArrayList<>();
-    private ArrayList<String> users = new ArrayList<>();
+    private ArrayList<GeoPoint> locations;
+    private ArrayList<String> users;
 
     public Boolean geolocation = false;
     private String encodedEventImage;
@@ -270,12 +271,16 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
-                                            if(document.get("location") != null){
-                                                locations = (ArrayList<GeoPoint>) document.get("location");
+                                            ArrayList<GeoPoint> oldLocation = (ArrayList<GeoPoint>) document.get("location");
+                                            if(oldLocation != null){
+                                                locations = oldLocation;
                                             }
-                                            if(document.get("user") != null){
-                                                users = (ArrayList<String>) document.get("user");
+                                            else { locations = new ArrayList<>();}
+                                            ArrayList<String> oldUser = (ArrayList<String>) document.get("user");
+                                            if(oldUser != null){
+                                                users = oldUser;
                                             }
+                                            else { users = new ArrayList<>();}
                                         }
                                     }
                                 });
