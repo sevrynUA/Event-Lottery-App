@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CelerySticks"
         tools:targetApi="31">
-        <!-- <meta-data android:name="com.google.android.geo.API_KEY" android:value="${MAPS_API_KEY}" /> -->
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="${MAPS_API_KEY}" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,18 +34,42 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         </activity>
-        <activity android:name=".ui.myevents.EventDetailsViewModel"></activity>
-        <activity android:name=".ui.eventadd.AddEventFragment"></activity>
-        <activity android:name=".ui.myevents.EventQRCodeView"></activity>
-        <activity android:name=".ui.myevents.ManageEntrantsFragment"></activity>
-        <activity android:name=".GeolocationMap"></activity>
-        <activity android:name=".ui.myevents.SelectedEntrantsFragment"></activity>
-        <activity android:name=".ui.browseusers.ProfileDetailsViewModel"></activity>
-        <activity android:name=".ui.browseusers.FacilityDetailsActivity"></activity>
-        <activity android:name=".ui.browseimages.BrowseImageViewFragment"></activity>
-        <activity android:name=".ui.myevents.AcceptedListFragment"></activity>
-        <activity android:name=".ui.myevents.CancelledListFragment"></activity>
-        <activity android:name=".ui.myevents.NotifyEntrantsActivity" />
+        <activity
+            android:name=".ui.myevents.EventDetailsViewModel"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.eventadd.AddEventFragment"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.myevents.EventQRCodeView"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.myevents.ManageEntrantsFragment"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".GeolocationMap"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.myevents.SelectedEntrantsFragment"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.browseusers.ProfileDetailsViewModel"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.browseusers.FacilityDetailsActivity"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.browseimages.BrowseImageViewFragment"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.myevents.AcceptedListFragment"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.myevents.CancelledListFragment"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"></activity>
+        <activity
+            android:name=".ui.myevents.NotifyEntrantsActivity"
+            android:theme="@style/Theme.CelerySticks.NoActionBar"/>
     </application>
 
 </manifest>
