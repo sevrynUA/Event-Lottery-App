@@ -36,49 +36,47 @@
         android:layout_height="170dp"
         android:layout_gravity="center">
 
-
-        <RelativeLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/profile_relativeLayout3"
             android:layout_width="145dp"
             android:layout_height="145dp"
-            android:layout_alignTop="@+id/profile_details_icon_initials"
-            android:layout_alignBottom="@+id/profile_details_icon_initials"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/rounded_rectangle_filled"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_details_icon_initials"
-            app:layout_constraintEnd_toEndOf="@+id/profile_details_icon_initials"
-            app:layout_constraintHorizontal_bias="0.483"
-            app:layout_constraintStart_toStartOf="@+id/profile_details_icon_initials"
-            app:layout_constraintTop_toTopOf="@+id/profile_details_icon_initials">
-
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/profile_details_icon_initials"
-            android:layout_width="145dp"
-            android:layout_height="123dp"
-            android:padding="5sp"
-            android:scaleType="fitXY"
-            android:text=""
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="80sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:cardCornerRadius="30dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/profile_details_user_image_profile_screen"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_relativeLayout3"
-            app:layout_constraintEnd_toEndOf="@+id/profile_relativeLayout3"
-            app:layout_constraintStart_toStartOf="@+id/profile_relativeLayout3"
-            app:layout_constraintTop_toTopOf="@+id/profile_relativeLayout3"/>
+
+            <RelativeLayout
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:layout_alignTop="@+id/profile_details_icon_initials"
+                android:layout_alignBottom="@+id/profile_details_icon_initials"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/rounded_rectangle_filled">
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/profile_details_icon_initials"
+                android:layout_width="145dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="10dp"
+                android:padding="5sp"
+                android:scaleType="fitXY"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="80sp"/>
+
+            <ImageView
+                android:id="@+id/profile_details_user_image_profile_screen"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
