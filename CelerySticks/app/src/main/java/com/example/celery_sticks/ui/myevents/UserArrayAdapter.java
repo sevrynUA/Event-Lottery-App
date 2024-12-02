@@ -61,7 +61,6 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         }
         User user = getItem(position);
         TextView entrantNameText = view.findViewById(R.id.entrant_name_text);
-        TextView entrantLocationText = view.findViewById(R.id.entrant_location_text);
         ImageView image = view.findViewById(R.id.entrant_image);
         ImageView acceptedImage = view.findViewById(R.id.entrant_accepted);
         ImageView cancelledImage = view.findViewById(R.id.entrant_cancelled);
@@ -72,9 +71,6 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         String lastName = user.getLastName();
 
         entrantNameText.setText(String.format("%s %s", firstName, lastName));
-        // TODO set location with geolocation here
-        // TODO set image here
-
 
         // set color here
         if (position % 5 == 1) {
