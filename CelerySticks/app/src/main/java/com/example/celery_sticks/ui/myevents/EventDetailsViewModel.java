@@ -471,13 +471,12 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                 .update("image", encodedEventImage)
                 .addOnSuccessListener(success -> {
                     Toast.makeText(this, "upload successful", Toast.LENGTH_SHORT).show();
+                    loadEventImage(encodedEventImage);
                 }).addOnFailureListener(failure -> {
                     Toast.makeText(this, "upload failed (image too large)", Toast.LENGTH_SHORT).show();
                     encodedEventImage = "";
                     loadEventImage(encodedEventImage);
                 });
-
-        loadEventImage(encodedEventImage);
     }
 
     /**
