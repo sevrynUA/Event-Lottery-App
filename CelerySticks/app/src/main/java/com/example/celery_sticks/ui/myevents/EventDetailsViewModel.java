@@ -467,6 +467,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                 .addOnSuccessListener(success -> {
                     Toast.makeText(this, "upload successful", Toast.LENGTH_SHORT).show();
                 });
+
         loadEventImage(encodedEventImage);
     }
 
