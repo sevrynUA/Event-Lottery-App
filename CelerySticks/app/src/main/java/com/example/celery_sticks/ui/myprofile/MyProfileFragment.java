@@ -61,6 +61,7 @@ public class MyProfileFragment extends Fragment {
     private FragmentMyProfileBinding binding;
     private MyProfileViewModel myProfileViewModel;
     private String encodedUserImage;
+    private String encodedUserImageArchive;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class MyProfileFragment extends Fragment {
                 binding.editLastName.setText(user.getLastName());
                 binding.editEmail.setText(user.getEmail());
                 encodedUserImage = user.getEncodedImage();
+                encodedUserImageArchive = encodedUserImage;
                 loadUserImage(encodedUserImage);
 
                 String initials = "";
@@ -301,11 +303,14 @@ public class MyProfileFragment extends Fragment {
                     sidebar_icon_initials.setText(initials.toUpperCase());
                     binding.iconInitials.setText(initials.toUpperCase());
                     updateUserImageNav(userID);
+                    encodedUserImageArchive = encodedUserImage;
 
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to save changes", Toast.LENGTH_SHORT).show();
                     Log.e("MyProfileFragment", "Profile update failed for userID (max image size is 1 Mb): " + userID, e);
+                    encodedUserImage = encodedUserImageArchive;
+                    loadUserImage(encodedUserImageArchive);
                 });
     }
 
