@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,9 @@ import java.util.Date;
  * Adapter which manages the ListView displaying the events in the MyEvents activity
  */
 public class EventsArrayAdapter extends ArrayAdapter<Event> {
+    private Random rand = new Random();
+    private int colorStart = rand.nextInt(5);
+
     public EventsArrayAdapter(Context context, ArrayList<Event> events) {super (context, 0, events); }
     @NonNull
     @Override
@@ -56,13 +60,13 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         location.setText(event.getLocation());
 
         // set color here
-        if (position % 5 == 1) {
+        if ((position + colorStart) % 5 == 1) {
             view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_blue));
-        } else if(position % 5 == 2) {
+        } else if((position + colorStart) % 5 == 2) {
             view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_orange));
-        } else if(position % 5 == 3) {
+        } else if((position + colorStart) % 5 == 3) {
             view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_green));
-        } else if(position % 5 == 4) {
+        } else if((position + colorStart) % 5 == 4) {
             view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_red));
         }
 

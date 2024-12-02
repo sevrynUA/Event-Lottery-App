@@ -7,9 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -24,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.celery_sticks.R;
-import com.example.celery_sticks.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,10 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -269,7 +263,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     /**
      * decodes image to a base 64 string
      */
-    private void loadUserImage(String data) {
+    private void loadEventImage(String data) {
         if (data != null) {
             if (data.equals("")) {
                 Drawable image = getResources().getDrawable(R.drawable.landscape_event_placeholder_image, getTheme());
@@ -362,7 +356,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                 .addOnSuccessListener(success -> {
                     Toast.makeText(this, "upload successful", Toast.LENGTH_SHORT).show();
                 });
-        loadUserImage(encodedEventImage);
+        loadEventImage(encodedEventImage);
     }
 
     /**
@@ -375,7 +369,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    loadUserImage(document.getString("image"));
+                    loadEventImage(document.getString("image"));
                 }
             }
         });
