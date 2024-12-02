@@ -71,6 +71,17 @@ public class FacilityInformationFragment extends Fragment {
                 binding.editEmail.setText(facility.getFacilityEmail());
                 binding.editPhoneNumber.setText(facility.getFacilityPhoneNumber());
                 binding.facilityButton.setText("Save Changes");
+
+                String initials = "";
+                String facilityName = facility.getFacilityName();
+                if (!TextUtils.isEmpty(facilityName)) {
+                    String[] words = facilityName.split("\\s+");
+                    for (String word : words) {
+                        initials += word.charAt(0);
+                    }
+                }
+                binding.iconInitials.setText(initials.toUpperCase());
+
                 if (!TextUtils.isEmpty(facility.getFacilityPhoneNumber())) {
                     binding.editPhoneNumber.setText(facility.getFacilityPhoneNumber());
                 }
