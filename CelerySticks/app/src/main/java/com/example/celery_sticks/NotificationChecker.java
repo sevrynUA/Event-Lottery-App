@@ -19,6 +19,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.app.PendingIntent;
+import android.content.Intent;
 
 
 /**
@@ -67,12 +69,23 @@ public class NotificationChecker {
                                     String title = document.getString("title");
                                     String message = document.getString("message");
 
+                                    Intent intent = new Intent(context, MainActivity.class); // Change to your desired activity
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(
+                                            context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+
+                                    PendingIntent fullScreenIntent = PendingIntent.getActivity(
+                                            context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
                                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
                                             .setSmallIcon(R.drawable.notification_icon)
                                             .setContentTitle(title)
                                             .setContentText(message)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                            .setAutoCancel(true);
+                                            .setAutoCancel(true)
+                                            .setContentIntent(pendingIntent)
+                                            .setFullScreenIntent(fullScreenIntent, true);
 
                                     // Sends the notification using a unique ID based on the user's hash code
                                     db.collection("users").document(userID).get()
