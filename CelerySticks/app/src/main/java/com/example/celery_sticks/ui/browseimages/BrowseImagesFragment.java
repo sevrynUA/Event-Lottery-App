@@ -168,7 +168,7 @@ public class BrowseImagesFragment extends Fragment {
                         String userID = document.getId();
                         String userImage = document.getString("encodedImage");
 
-                        if (!userImage.equals("")) {
+                        if (userImage != null && !userImage.equals("")) {
                             String[] entry = {"Type: user profile", title, userID, userImage};
                             images.add(entry);
                         }
@@ -189,7 +189,7 @@ public class BrowseImagesFragment extends Fragment {
                         String eventID = document.getId();
                         String eventImage = document.getString("image");
 
-                        if (!eventImage.equals("")) {
+                        if (eventImage != null && !eventImage.equals("")) {
                             String[] entry = {"Type: event poster", title, eventID, eventImage};
                             images.add(entry);
                         }
