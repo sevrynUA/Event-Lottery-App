@@ -52,6 +52,7 @@ public class AddEventFragment extends AppCompatActivity {
     private EditText cost;
     private EditText description;
     private Button geolocationButton;
+    private String eventID;
 
     private Button openDateMonthButton;
     private Button openDateTimeButton;
@@ -431,13 +432,18 @@ public class AddEventFragment extends AppCompatActivity {
         // store the values in the database
         db.collection("events").add(eventData)
                 .addOnSuccessListener(documentReference -> {
-                    String eventID = documentReference.getId();
+                    eventID = documentReference.getId();
 
                     // generate QR code for the event and store it
                     QRCodeGenerator generator;
                     String qrCode;
                     generator = new QRCodeGenerator(eventID);
                     qrCode = generator.generate();
+                    HashMap<String, Object> geolocationData = new HashMap<>();
+                    geolocationData.put("location", new ArrayList<>());
+                    geolocationData.put("user", new ArrayList<>());
+                    db.collection("geolocation").document(eventID)
+                            .set(geolocationData);
                     DocumentReference eventRef = db.collection("events").document(eventID);
                     eventRef
                             .update("qrcode", qrCode)
