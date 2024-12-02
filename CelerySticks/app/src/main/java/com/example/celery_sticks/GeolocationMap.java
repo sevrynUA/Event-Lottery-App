@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -58,16 +59,17 @@ public class GeolocationMap extends AppCompatActivity implements OnMapReadyCallb
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    Map<String, Object> map = document.getData();
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        GeoPoint geoPoint = document.getGeoPoint(entry.getKey());
+                    ArrayList<GeoPoint> locations = (ArrayList<GeoPoint>) document.get("location");
+                    ArrayList<String> users = (ArrayList<String>) document.get("user");
+                    int i;
+                    for (i = 0; i < locations.size(); i++) {
+                        GeoPoint geoPoint = locations.get(i);
                         LatLng location = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-                        googleMap.addMarker(new MarkerOptions().position(location).title(entry.getKey()));
+                        googleMap.addMarker(new MarkerOptions().position(location).title(users.get(i)));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-                        entry.getValue().toString();
+                        }
                     }
-
-                } else {
+                else {
                     Log.d("Map", "get failed with ", task.getException());
                 }
             }

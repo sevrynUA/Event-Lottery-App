@@ -1,13 +1,21 @@
 package com.example.celery_sticks.ui.myevents;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -19,21 +27,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
 
+import android.Manifest;
 import com.example.celery_sticks.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -44,6 +61,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
 
     public String userID = null;
     public String eventID = null;
+    private FusedLocationProviderClient mFusedLocationClient;
+    int PERMISSION_ID = 44;
+    private ArrayList<GeoPoint> locations = new ArrayList<>();
+    private ArrayList<String> users = new ArrayList<>();
 
     public Boolean geolocation = false;
     private String encodedEventImage;
@@ -61,6 +82,7 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         userID = intent.getStringExtra("userID");
         eventID = intent.getStringExtra("eventID");
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         Button uploadButton = findViewById(R.id.upload_event_image_button);
         Button deleteButton = findViewById(R.id.delete_event_image_button);
@@ -229,6 +251,91 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private void getLastLocation() {
+        // check if permissions are given
+        if (checkPermissions()) {
+            // check if location is enabled
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        }
+                        db.collection("geolocation").document(eventID)
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if(document.get("location") != null){
+                                                locations = (ArrayList<GeoPoint>) document.get("location");
+                                            }
+                                            if(document.get("user") != null){
+                                                users = (ArrayList<String>) document.get("user");
+                                            }
+                                        }
+                                    }
+                                });
+                        GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                        locations.add(geoPoint);
+                        users.add(userID);
+                        HashMap<String, Object> geolocationData = new HashMap<>();
+                        geolocationData.put("location", locations);
+                        geolocationData.put("user", users);
+                        db.collection("geolocation").document(eventID).set(geolocationData);
+                    }
+                });
+            }
+        } else {
+            // if permissions aren't available,
+            // request for permissions
+            requestPermissions();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+
+        // Initializing LocationRequest
+        // object with appropriate methods
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(5);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        // setting LocationRequest
+        // on FusedLocationClient
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+        }
+    };
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+
     /**
      * encodes image to a base 64 string
      */
@@ -342,6 +449,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                 .addOnSuccessListener(success -> {
                     Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show();
                 });
+        if (geolocation) {
+            getLastLocation();
+        }
+
         Intent completedIntent = new Intent();
         setResult(RESULT_OK, completedIntent);
         finish();

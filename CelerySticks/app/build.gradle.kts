@@ -43,6 +43,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("androidx.test:rules:1.5.0")
+    implementation("com.google.android.gms:play-services-location:18.0.0")
     implementation("androidx.test.espresso:espresso-contrib:3.5.1"){
         exclude(module = "proto-google-common-protos")
         exclude(module = "protolite-well-known-types")
