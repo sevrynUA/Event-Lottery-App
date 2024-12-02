@@ -41,8 +41,8 @@
 
     <ImageView
         android:id="@+id/entrant_image"
-        android:layout_width="75dp"
-        android:layout_height="80dp"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
         android:layout_marginRight="20dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
@@ -54,8 +54,8 @@
 
     <ImageView
         android:id="@+id/entrant_accepted"
-        android:layout_width="75dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginRight="20dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
@@ -67,8 +67,8 @@
 
     <ImageView
         android:id="@+id/entrant_cancelled"
-        android:layout_width="75dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginRight="20dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
@@ -80,8 +80,8 @@
 
     <ImageButton
         android:id="@+id/delete_user_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:contentDescription="Delete User"
@@ -91,7 +91,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/entrant_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
