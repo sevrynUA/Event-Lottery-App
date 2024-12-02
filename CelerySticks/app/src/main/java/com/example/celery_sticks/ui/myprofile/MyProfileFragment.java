@@ -156,11 +156,12 @@ public class MyProfileFragment extends Fragment {
      * @param path to image
      */
     private void loadUserImage(String path) {
+        // set qrImage to decoded bitmap
+        ImageView userImage = binding.userImageProfileScreen;
         byte[] decodedImage = Base64.decode(encodedUserImage, Base64.DEFAULT);
 
         Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
         // set qrImage to decoded bitmap
-        ImageView userImage = binding.userImageProfileScreen;
         userImage.setImageBitmap(qrBitmap);
     }
 
@@ -220,7 +221,6 @@ public class MyProfileFragment extends Fragment {
      * @param imageData data to decode into an image
      */
     private void decodeImageNav(String imageData) {
-        System.out.println(imageData);
         ImageView image = requireActivity().findViewById(R.id.nav_profile_image);
         MaterialCardView rounder = requireActivity().findViewById(R.id.image_rounder_nav_profile);
 

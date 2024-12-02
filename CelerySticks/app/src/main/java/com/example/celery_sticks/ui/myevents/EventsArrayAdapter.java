@@ -55,6 +55,17 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         date.setText(String.format("%s %s", monthName, dayNum));
         location.setText(event.getLocation());
 
+        // set color here
+        if (position % 5 == 1) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_blue));
+        } else if(position % 5 == 2) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_orange));
+        } else if(position % 5 == 3) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_green));
+        } else if(position % 5 == 4) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_red));
+        }
+
         // set image to imageview here
         String imageData = event.getPosterImage();
         if (imageData != null) {

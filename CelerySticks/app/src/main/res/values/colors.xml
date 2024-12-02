@@ -19,4 +19,11 @@
     <color name="unSelectedRed">#6e303d</color>
     <color name="defaultGray">#808080</color>
     <color name="lighter_gray_hint">#C0C0C0</color>
+
+    <color name="list_purple">#bf83c7</color>
+    <color name="list_blue">#94DBFB</color>
+    <color name="list_orange">#FF955B</color>
+    <color name="list_green">#B6F36A</color>
+    <color name="list_red">#FF386A</color>
+
 </resources>

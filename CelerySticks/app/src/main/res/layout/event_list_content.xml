@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="@drawable/rounded_rectangle_filled"
-    android:backgroundTint="#bf83c7">
+    android:backgroundTint="@color/list_purple">
 
     <TextView
         android:id="@+id/event_date_text"
