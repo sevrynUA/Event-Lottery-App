@@ -42,15 +42,46 @@
                     app:cardCornerRadius="20dp">
 
                     <ImageView
-                        android:id="@+id/entrant_image"
+                        android:id="@+id/event_create_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/place_holder_image_event"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/landscape_event_placeholder_image"/>
                 </com.google.android.material.card.MaterialCardView>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/image_buttons_event_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/delete_event_image_button_create"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="left"
+                    android:text="Delete"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/upload_event_image_button_create"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right"
+                    android:text="upload"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                </Button>
+            </FrameLayout>
 
             <EditText
                 android:id="@+id/event_title_input"

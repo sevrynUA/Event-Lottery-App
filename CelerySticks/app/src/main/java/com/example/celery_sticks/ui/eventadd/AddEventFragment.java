@@ -2,36 +2,39 @@ package com.example.celery_sticks.ui.eventadd;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.telecom.Call;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.celery_sticks.QRCodeGenerator;
 import com.example.celery_sticks.R;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.Blob;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.DateFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,6 +77,11 @@ public class AddEventFragment extends AppCompatActivity {
     private Button cancelButton;
     private RelativeLayout geolocationButtonBackground;
     private RelativeLayout geolocationButtonIcon;
+
+    private Button imageDeleteButton;
+    private Button imageUploadButton;
+    private ImageView imageView;
+    private String encodedEventImage;
 
     private FirebaseFirestore db;
 
@@ -122,6 +130,9 @@ public class AddEventFragment extends AppCompatActivity {
         geolocationButtonBackground = findViewById(R.id.geolocation_button_event_create_background);
         geolocationButtonIcon = findViewById(R.id.geolocation_button_event_create_icon);
 
+        imageDeleteButton = findViewById(R.id.delete_event_image_button_create);
+        imageUploadButton = findViewById(R.id.upload_event_image_button_create);
+        imageView = findViewById(R.id.event_create_image);
 
         // firebase database
         db = FirebaseFirestore.getInstance();
@@ -175,6 +186,100 @@ public class AddEventFragment extends AppCompatActivity {
             timeButtonPressed(closeDateTimeButton, closeDateMonthButton, closeDateTime, closeDateConfirmButton);
         });
 
+        imageUploadButton.setOnClickListener(view -> {
+            getPicture();
+        });
+
+        imageDeleteButton.setOnClickListener(view -> {
+            encodedEventImage = "";
+            loadEventImage(encodedEventImage);
+        });
+    }
+
+
+
+
+
+
+    /**
+     * encodes image to a base 64 string
+     */
+    private String encodeImage(Uri imageUri) {
+
+        try {
+            InputStream stream = getApplicationContext().getContentResolver().openInputStream(imageUri);
+
+            ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+
+            int len = 0;
+            while ((len = stream.read(buffer)) != -1) {
+                byteBuffer.write(buffer, 0, len);
+            }
+
+            stream.close();
+            byteBuffer.close();
+
+            String image = Base64.encodeToString(byteBuffer.toByteArray(), Base64.DEFAULT);
+            return image;
+
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * decodes image to a base 64 string
+     */
+    private void loadEventImage(String data) {
+        if (data != null) {
+            if (data.equals("")) {
+                Drawable image = getResources().getDrawable(R.drawable.landscape_event_placeholder_image, getTheme());
+                imageView.setImageDrawable(image);
+            }
+            else {
+                byte[] decodedImage = Base64.decode(data, Base64.DEFAULT);
+
+                Bitmap qrBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                // set qrImage to decoded bitmap
+                imageView.setImageBitmap(qrBitmap);
+            }
+        }
+    }
+
+    /**
+     * User popup to access their gallery
+     */
+    private void getPicture() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    /**
+     * Once the user has selected their image, this function invokes to set the attributes and update the image view
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     *
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null) {
+            Uri userImageUri = data.getData();
+            encodedEventImage = encodeImage(userImageUri);
+            loadEventImage(encodedEventImage);
+        }
     }
 
     /**
@@ -308,7 +413,7 @@ public class AddEventFragment extends AppCompatActivity {
         eventData.put("close", stampCloseDate);
         eventData.put("date", stampDate);
         eventData.put("description", description);
-        eventData.put("image", "");
+        eventData.put("image", encodedEventImage);
         eventData.put("location", location);
         eventData.put("name", title);
         eventData.put("open", stampOpenDate);
