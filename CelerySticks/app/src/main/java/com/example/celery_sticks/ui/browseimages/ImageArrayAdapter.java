@@ -59,6 +59,18 @@ public class ImageArrayAdapter extends ArrayAdapter<String[]> {
         type.setText(instance[0]);
         title.setText(instance[1]);
 
+
+        // set color here
+        if (position % 5 == 1) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_blue));
+        } else if(position % 5 == 2) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_orange));
+        } else if(position % 5 == 3) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_green));
+        } else if(position % 5 == 4) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_red));
+        }
+
         // set image to imageview here
         if (instance[3] != null) {
             if (!instance[3].equals("")) {

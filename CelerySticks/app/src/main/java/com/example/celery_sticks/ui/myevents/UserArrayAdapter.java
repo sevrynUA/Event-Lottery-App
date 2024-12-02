@@ -75,6 +75,18 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         // TODO set location with geolocation here
         // TODO set image here
 
+
+        // set color here
+        if (position % 5 == 1) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_blue));
+        } else if(position % 5 == 2) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_orange));
+        } else if(position % 5 == 3) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_green));
+        } else if(position % 5 == 4) {
+            view.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.list_red));
+        }
+
         deleteButton.setVisibility(View.VISIBLE); // Set default for delete user button
         deleteButton.setEnabled(true);
 

@@ -220,7 +220,7 @@ public class AddEventFragment extends AppCompatActivity {
 
         // store the results once the confirm button is pressed
         confirm.setOnClickListener(view -> {
-            String time = selected.getHour() + ":" + selected.getMinute();
+            String time = selected.getHour() + ":" + convertToSingleDigit(selected.getMinute());
             pressed.setText(time);
 
             // revert visibilities
