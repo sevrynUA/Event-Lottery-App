@@ -127,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 idBundle.putString("userID", userID);
                 navController.navigate(R.id.browse_images, idBundle);
             }
-            checker.checkNotifications();
+            if (checker != null) {
+                checker.checkNotifications();
+            }
             drawer.closeDrawer(GravityCompat.START);
             return false;
         });
