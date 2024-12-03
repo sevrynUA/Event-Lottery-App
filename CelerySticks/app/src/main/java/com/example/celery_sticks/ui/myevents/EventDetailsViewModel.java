@@ -64,8 +64,6 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
     public String eventID = null;
     private FusedLocationProviderClient mFusedLocationClient;
     int PERMISSION_ID = 44;
-    private ArrayList<GeoPoint> locations;
-    private ArrayList<String> users;
 
     public Boolean geolocation = false;
     private String encodedEventImage;
@@ -273,6 +271,10 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
+                                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                                            DocumentReference geoRef = db.collection("geolocation").document(eventID);
+                                            ArrayList<GeoPoint> locations;
+                                            ArrayList<String> users;
                                             ArrayList<GeoPoint> oldLocation = (ArrayList<GeoPoint>) document.get("location");
                                             if(oldLocation != null){
                                                 locations = oldLocation;
@@ -283,18 +285,13 @@ public class EventDetailsViewModel extends AppCompatActivity implements Geolocat
                                                 users = oldUser;
                                             }
                                             else { users = new ArrayList<>();}
-
-                                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
                                             locations.add(geoPoint);
                                             users.add(userID);
+                                            geoRef.update("location", locations);
+                                            geoRef.update("user", users);
                                         }
                                     }
                                 });
-
-                        HashMap<String, Object> geolocationData = new HashMap<>();
-                        geolocationData.put("location", locations);
-                        geolocationData.put("user", users);
-                        db.collection("geolocation").document(eventID).set(geolocationData);
                     }
                 });
             }
