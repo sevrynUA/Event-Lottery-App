@@ -5,7 +5,7 @@
  - Creating/Joining events
  - Customizing your profile
  - Lottery system to select entrants
- - Viewing registrants location if geolocation if enabled
+ - Viewing registrants location if geolocation is enabled
  - QR Code scanning to sign up for events
  - Admin capabilities
  - Notification system to notify users
